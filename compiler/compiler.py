@@ -31,8 +31,6 @@ except Exception, e:
 #Define the project directory
 CURRENT_DIR = ((os.getcwd()).replace("web", "compiler") + "/")
 
-if(DEBUG): print ("[COMPILER] current dir:" + str(CURRENT_DIR))
-
 def main():
 
     #Get the file to compile
@@ -51,9 +49,15 @@ def main():
 
             item = item.replace(CURRENT_DIR, '')
 
-            if (DEBUG): print ("[COMPILER] item: " + str(item))
-
-            global FILE_USER_IN, FILE_USER_COMPILED, FILE_USER_OUT, FILE_USER_IN_ORIGIN, FILE_USER_IN_JUDGED_DEST, FILE_USER_IN_NO_JUDGED_DEST, INPUT_DIR_EXERCISE_FILE, OUTPUT_DIR_EXERCISE_FILE, FILE_USER_ANSWER_OUT
+            global FILE_USER_IN
+            global FILE_USER_COMPILED
+            global FILE_USER_OUT
+            global FILE_USER_IN_ORIGIN
+            global FILE_USER_IN_JUDGED_DEST
+            global FILE_USER_IN_NO_JUDGED_DEST
+            global INPUT_DIR_EXERCISE_FILE
+            global OUTPUT_DIR_EXERCISE_FILE
+            global FILE_USER_ANSWER_OUT
 
             #Define the user code to run
             FILE_USER_IN = item
@@ -343,7 +347,8 @@ def compareFiles(generateOutput):
 
         result = checkStatus24(OUTPUT_DIR_EXERCISE_FILE, FILE_USER_ANSWER_OUT)
 
-        if(generateOutput == True): #Generate the output file containing all tests
+        #Generate the output file containing all tests
+        if(generateOutput == True): 
 
             fileOut = open(FILE_USER_OUT, 'a')
 
