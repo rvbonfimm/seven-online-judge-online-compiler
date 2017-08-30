@@ -1,0 +1,39 @@
+{% extends 'base_index.html' %}
+    
+{% block content %}
+    
+    <form action="{{ url_for('newUser') }}" method=POST>
+            
+        <div class ="divMain">
+                
+        <p class="labelTitle">Criar uma Nova Conta</p>
+
+            <label for="nameField">Nome</label><br>
+            <input class = "textRegister" type="text" name="nameField" autofocus required><br><br>
+
+            <label for="lastnameField">Sobrenome</label><br>
+            <input class = "textRegister" type="text" name="lastnameField" required><br><br>
+
+            <label for="emailField">E-mail</label><br>
+            <input class = "textRegister" type="text" name="emailField" required><br><br>
+
+            <label for="usernameField">Usuário</label><br>
+            <input class = "textRegister" type="text" name="usernameField" required><br><br>
+
+            <label for="passwordField">Senha</label><br>
+            <input class = "textRegister" type="password" name="passwordField" required><br><br>   
+
+            <label for="gender">Gênero:</label>
+            <input type="radio" name="gender" value="male">Masculino
+
+            <input type="radio" name="gender" value="female">Feminino<br><br>  
+
+            <input class="buttonRegister" type="submit" name="enter" value="Cadastrar"><br><br>
+
+        </div>
+
+        <br><br>
+
+    </form>
+
+{% endblock %}

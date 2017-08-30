@@ -1,43 +1,33 @@
-<!DOCTYPE html>
+{% extends 'base_main.html' %}
 
-<html lang="pt-br">
+{% block content %}
 
-    <head>
-	
-		<title>.:: Seven Online Judge ::.</title>
+	{% if message %}
 
-		<meta charset="UTF-8">
+		<div class="myFlashInfoMessage">
+ 
+	        <a>{{ message }}</a>
 
-		<link rel="stylesheet" type="text/css" href="static/style.css">
+    	</div>
 
-    <head>
+    	<br><br>
 
-    <body>
+	{% endif %}
 
-    	<form action="" methods="POST">
+    <div class="divMainBoard">
 
-    		<div>
+	    <h1>Seven Online Judge!</h1>
 
-    			<label>Usuário</label><br>
+	    <h3>Seja bem-vindo!</h3>
 
-	    		<input type="text" value="" name="username"><br>
+	    <hr>
 
-	    		<label>Senha</label><br>
+	    <br><br>
 
-	    		<input type="password" value="" name="password"><br>
+    	<a href="{{ url_for('exercises') }}" class="buttonMain">Enviar Submissão</a>
 
-	    		<input type="submit" value="Entrar" name="login"><br>
+    	<br><br>
 
-	    		<label>Ou, clique em Registrar-se!</label><br>
+	</div>
 
-	    		<input type="submit" value="Registrar" name="register"><br>
-
-    		</div>
-
-    	</form>
-
-		<a href="{{ url_for('dashboard') }}">Enviar Submissão</a>
-
-    <body>
-
-</html>
+{% endblock %}

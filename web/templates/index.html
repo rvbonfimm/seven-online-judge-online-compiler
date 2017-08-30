@@ -1,24 +1,48 @@
-<!DOCTYPE html>
+{% extends 'base_index.html' %}
+{% block content %}
 
-<html>
+    {% if message %}
 
-    <head>
-	
-	<title>.:: Seven Online Judge ::.</title>
-	<meta charset="UTF-8">
+        <div class="myFlashInfoMessage">
 
-    <head>
+            <a> {{ message }}  </a>
 
-    <body>
-		
-    	<h1>Seven Online Judge!</h1>
+        </div>
 
-    	<h3>Seja bem-vindo!</h3>
+        <br><br><
 
-    	<hr>
+    {% endif %}
 
-		<a href=" {{ url_for('register') }} ">Cadastrar seu Código!<a/>
+    <div class="divMain">
 
-    <body>
+        <h1 class="labelTitle">Seven Online Judge!</h1>
+        
+        <hr>
 
-</html>
+        <form action="{{ url_for('login') }}" method=POST>
+
+            <br>
+
+            <label>Usuário</label><br>
+            <input class="textMain" type="text" name="loginField" autofocus required><br><br>
+
+            <label>Senha</label><br>
+            <input class="textMain" type="password" name="passwordField" required><br><br>            
+
+            <input class="buttonMain" type="submit" name="enter" value="Entrar"><br><br>
+
+            <hr>
+
+            <br>
+
+        </form>
+    
+        <label>Ainda não tem uma conta?</label><br><br><br>
+
+        <a href="{{ url_for('register') }}" class="buttonMain" >Criar uma nova conta<a><br><br>
+
+        <br>
+
+    </div>
+
+{% endblock %}  

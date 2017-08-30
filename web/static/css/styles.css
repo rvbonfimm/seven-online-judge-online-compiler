@@ -1,0 +1,262 @@
+*{
+
+	font-family: sans-serif;
+
+}
+
+body {
+
+    background-image: url("../images/image_background_2.png");
+	
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-attachment: fixed;
+	background-size: cover;
+
+}
+
+ul {
+
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	background-color: #333;
+
+}
+
+li {
+
+	float: left;
+
+}
+
+li a {
+
+	display: block;
+	color: white;
+	text-align: center;
+	padding: 10px 10px;
+	text-decoration: none;
+
+}
+
+li a:hover {
+
+	background-color: #111;
+
+}
+
+.divMain{
+
+	background-color: #ffffff;
+
+	margin: auto;
+
+	width: 30%;
+
+    border: 0px solid black;
+
+    border-radius: 10px;
+
+    padding: 20px;
+
+    text-align: center;
+
+}
+
+.divMainBoard{
+
+	background-color: #ffffff;
+
+	margin: auto;
+
+	width: 90%;
+
+    border: 0px solid black;
+
+    border-radius: 10px;
+
+    padding: 20px;
+
+    text-align: center;
+
+}
+
+.divJudgeMain{
+
+	background-color: #ffffff;
+	
+	margin: auto;
+
+	width: 35%;
+
+    border: 0px solid black;
+
+    border-radius: 10px;
+
+    padding: 20px;
+
+}
+
+.judgeParams{
+
+	width: auto;
+
+	margin: auto;
+
+	border: 0px solid black;
+
+	padding: 10px;
+
+	text-align: center;
+
+}
+
+.divJudge{
+
+	margin: auto;
+
+	width: auto;
+
+	border: 0px solid black;
+
+	padding: 10px;
+
+	text-align: center;
+
+}
+
+.textMain{
+
+	width: 50%;
+
+	padding: 5px;
+
+	font-family: sans-serif;
+
+}
+
+.textRegister{
+
+	width: 70%;
+
+	margin: 8px 0;
+
+	padding: 10px;
+
+	font-size: 17px;
+
+}
+
+.labelTitle{
+
+	font-size: 30px;
+
+	color: black;
+
+}
+
+.buttonMain{
+
+	width: 54%;
+
+	padding: 10px;
+
+	margin: 10px;
+
+	background-color: #6495ED;
+
+	border: 1px solid black;
+
+	border-radius: 2px;
+
+	font-size: 20px;
+
+	color: black;
+
+	text-decoration: none;
+
+}
+
+.buttonJudge{
+
+	width: 68%;
+
+	padding: 10px;
+
+	margin: 10px;
+
+	background-color: #6495ED;
+
+	border: 1px solid black;
+
+	border-radius: 2px;
+
+	font-size: 20px;
+
+	color: black;
+
+	text-decoration: none;
+
+}
+
+.buttonRegister{
+
+	width: 75%;
+
+	padding: 10px;
+
+	margin: 10px;
+
+	background-color: #6495ED;
+
+	border: 1px solid black;
+
+	border-radius: 2px;
+
+	font-size: 20px;
+
+	color: black;
+
+	text-decoration: none;
+
+}
+
+.myFlashInfoMessage{
+
+	color: black;
+
+	margin: auto;
+
+	width: 31%;
+
+	border: 0px solid black;
+
+	border-radius: 5px;
+
+	padding: 10px;
+
+	background-color: #6495ED;
+
+	text-align: center;
+
+}
+
+.myFlashWarningMessage{
+
+	
+
+}
+
+.myFlashErrorMessage{
+
+	
+
+}
+
+.myFlashQuestionMessage{
+
+	
+
+}

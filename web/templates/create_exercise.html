@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+
+<html lan="pt-br">
+
+    <head>
+
+    	<meta charset="utf-8">
+
+    	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
+
+    </head>
+
+    <body>
+
+        <br><br><br><br>
+
+        <div class="divMain">
+
+        	<h3>Cadastro de Novos Exercícios</h3>
+
+        	<hr><br>
+
+        	<form method="POST" action="{{ url_for('registerExercise') }}">
+
+                <label>Number</label><br>
+                <input class="textMain" type="text" name="exercise_number" autofocus required><br><br>
+
+        		<label>Name</label><br>
+        		<input class="textMain" type="text" name="name" required><br><br>
+
+        		<label>Description</label><br>
+    	    	<input class="textMain" type="text" name="description" required><br><br>
+
+    	    	<label>Level</label><br>
+    	    	<input class="textMain" type="text" name="level" required><br><br>
+
+    	    	<label>Input</label><br>
+    	    	<input class="textMain" type="text" name="input" required><br><br>
+
+    	    	<label>Output</label><br>
+    	    	<input class="textMain" type="text" name="output" required><br><br>
+
+    	    	<input class="buttonMain" type="submit" name="register"><br><br>
+        			
+        	</form>
+
+        	<hr><br>
+
+        </div>
+
+        <br><br><br>
+
+    </body>
+
+</html>

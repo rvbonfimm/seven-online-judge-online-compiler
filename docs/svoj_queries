@@ -1,0 +1,87 @@
+CREATE TABLE users(
+
+    id INT NOT NULL AUTO_INCREMENT,
+    username VARCHAR(40) NOT NULL,
+    password VARCHAR(200) NOT NULL,
+    name VARCHAR(50) NOT NULL,
+    lastname VARCHAR(50) NOT NULL,
+    email VARCHAR(200) NOT NULL,
+    gender VARCHAR(10) NOT NULL,
+    date_created TIMESTAMP DEFAULT NOW(),
+
+    INDEX(id),
+
+    PRIMARY KEY(id)
+
+)ENGINE=INNODB;
+
+
+------------------------------------------------
+
+CREATE TABLE exercises(
+
+    id INT NOT NULL AUTO_INCREMENT,
+    exercise_number INT,
+    name VARCHAR(30) NOT NULL,
+    description VARCHAR(500),
+    level VARCHAR(10),
+    input VARCHAR(100) NOT NULL,
+    output VARCHAR(100) NOT NULL,
+    date_created TIMESTAMP DEFAULT NOW(),
+
+    PRIMARY KEY(id),
+
+    INDEX(id)
+
+)ENGINE=INNODB;
+
+------------------------------------------------
+
+CREATE TABLE attempts(
+
+    counter INT NOT NULL,
+    number_judges INT NOT NULL,
+    id_exercise INT,
+
+    INDEX(id_exercise),
+
+    FOREIGN KEY (id_exercise)
+      REFERENCES exercises(id)
+
+)ENGINE=INNODB;
+
+------------------------------------------------
+
+CREATE TABLE judges(
+
+    id INT NOT NULL AUTO_INCREMENT,
+    code TEXT NOT NULL,
+    language VARCHAR(15) NOT NULL,
+    id_exercise INT,
+    id_user INT,
+
+    PRIMARY KEY(id),
+
+    INDEX(id, id_user),
+
+    FOREIGN KEY (id_exercise)
+      REFERENCES exercises(id),    
+
+    FOREIGN KEY (id_user)
+      REFERENCES users(id)	
+
+)ENGINE=INNODB;
+
+------------------------------------------------
+
+CREATE TABLE session(
+	
+    user_logged VARCHAR(50) NOT NULL,
+    user_ip VARCHAR(20) NOT NULL,
+    session_timer TIMESTAMP DEFAULT NOW(),
+    id_user INT,
+
+    FOREIGN KEY (id_user)
+      REFERENCES users(id)
+
+)ENGINE=INNODB;
