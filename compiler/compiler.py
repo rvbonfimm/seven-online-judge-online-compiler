@@ -1,574 +1,349 @@
 #!/usr/bin/env python
 
+import os
 import subprocess
 import pexpect
 import sys
-import os
-import shutil
-import filecmp
+import py_compile
 
-from pexpect import *
-from os import listdir
-from os.path import isfile, join
 from subprocess import Popen, PIPE
+from pexpect import *
 
-try:
 
-    aux = str(sys.argv[1:])
+# Set the Debug Mode On or Off
+if (str(sys.argv).find('-d') != -1): 
 
-    if (aux.find('-d') != -1): 
+    DEBUG = True
 
-        DEBUG = True
-
-    else:
-
-        DEBUG = False
-
-except Exception, e:
+else: 
 
     DEBUG = False
 
-#Define the project directory
-CURRENT_DIR = ((os.getcwd()).replace("web", "compiler") + "/")
 
 def main():
 
-    #Get the file to compile
-    files = searchFilesToCompile()
+    MAIN_DIR = ((os.getcwd()).replace("web", "compiler") + "/")
 
-    if files == [] or files == False: 
+    FILE_USER_IN_DIR = str(sys.argv[1])
 
-        if(DEBUG): print ("No files to compile was found at " + CURRENT_DIR)
+    JUDGE_DIR = MAIN_DIR + "tojudge/"
 
-        return (False)
+    JUDGED_FILE_DIR = MAIN_DIR + "judged/"
 
-    else:
+    TEMP_DIR = JUDGE_DIR + "temp/"
 
-        #Loop through each .c files to compile
-        for item in files: 
+    FILE_USER_IN = FILE_USER_IN_DIR.replace(JUDGE_DIR,"")
 
-            item = item.replace(CURRENT_DIR, '')
+    EXERCISES_DIR = MAIN_DIR + "exercises/"
 
-            global FILE_USER_IN
-            global FILE_USER_COMPILED
-            global FILE_USER_OUT
-            global FILE_USER_IN_ORIGIN
-            global FILE_USER_IN_JUDGED_DEST
-            global FILE_USER_IN_NO_JUDGED_DEST
-            global INPUT_DIR_EXERCISE_FILE
-            global OUTPUT_DIR_EXERCISE_FILE
-            global FILE_USER_ANSWER_OUT
+    EXERCISE_NUMBER = FILE_USER_IN[:4]
 
-            #Define the user code to run
-            FILE_USER_IN = item
+    EXERCISE_IN = EXERCISES_DIR + "input/" + EXERCISE_NUMBER + ".exercisein" 
 
-            #Define the user compiled code
-            FILE_USER_COMPILED = item.split('.')[0] + ".tempuserout"
+    EXERCISE_OUT = EXERCISES_DIR + "output/" + EXERCISE_NUMBER + ".exerciseout"
 
-            #Define the user output file that will contain the results
-            FILE_USER_OUT = CURRENT_DIR + "judged/" + item.split('.')[0] + ".judged"
+    FILE_USER_ANSWER_OUT = TEMP_DIR + FILE_USER_IN.split('.')[0] + ".useranswerout"
 
-            #Get the exercise number to take the corresponding files .exercisein and .exerciseout
-            EXERCISE_NUMBER = item[:4]
+    FILE_USER_JUDGED_RESULT = TEMP_DIR + FILE_USER_IN.split('.')[0] + ".judgeresult"
 
-            #Define the .in file to test with the user code 
-            INPUT_DIR_EXERCISE_FILE = CURRENT_DIR + "inputs/" + EXERCISE_NUMBER + ".exercisein" 
+    WITHDETAIL = True
+    
+    #Search for the language choose
+    if DEBUG: print("[DEBUG] Language selected: " + str(FILE_USER_IN.split('.')[1]) + "\n")
 
-            #Define the .out file to test with the user code output
-            OUTPUT_DIR_EXERCISE_FILE = CURRENT_DIR + "outputs/" + EXERCISE_NUMBER + ".exerciseout" 
+    if (FILE_USER_IN.split('.')[1] == 'c'):
 
-            #Define the .userout file containing the output from user code
-            FILE_USER_ANSWER_OUT = CURRENT_DIR + "temp/" + FILE_USER_IN.split('.')[0] + ".userout" 
+        LANGUAGE = 'c'
 
-            FILE_USER_IN_ORIGIN = CURRENT_DIR + FILE_USER_IN
-            FILE_USER_IN_JUDGED_DEST = CURRENT_DIR + "judged/" + FILE_USER_IN
-            FILE_USER_IN_NO_JUDGED_DEST = CURRENT_DIR + "nojudged/" + FILE_USER_IN
+        FILE_USER_COMPILED = FILE_USER_IN.split('.')[0] + ".gcctemp"
 
-            if(DEBUG): print ("Running the file " + FILE_USER_IN + ":----------------------------------------------------\n")
+    elif(FILE_USER_IN.split('.')[1] == 'py'):
 
-            #Calling module compileUserFile to check and compile the user code
-            #if (compileUserFile(FILE_USER_IN, FILE_USER_COMPILED) == True): 
-            if (compileUserFile(FILE_USER_IN_ORIGIN, FILE_USER_COMPILED) == True): 
+        LANGUAGE = 'python'
 
-                if(DEBUG): print("Compile the file " + str(FILE_USER_IN) + ": ok.\n")
+        FILE_USER_COMPILED = JUDGE_DIR + FILE_USER_IN.split('.')[0] + ".pyc"
 
-            else:
+    if DEBUG: print("[DEBUG] Starting 'Status 1' treatment\n")
+    
+    #Search for Status 1
+    status = firstStatus(LANGUAGE, FILE_USER_IN_DIR, FILE_USER_COMPILED)
 
-                writeFinal("1", False)
+    moveFile(FILE_USER_IN_DIR, JUDGED_FILE_DIR)
 
-                if(DEBUG): print("-------------------------------------\n")
+    if DEBUG: print("[DEBUG] Status 1: " + str(status) + "\n")
 
-                if(DEBUG): print ("Status 1: An error occurred in the file " + str(FILE_USER_IN) + ".\n")
+    if(status):
 
-                if(DEBUG): print("-------------------------------------\n")
-
-                moveFiles("nojudged")
-
-                continue;
-
-            # Call the module testUserFile to test the output user code with our values in .in file, and later compare the user out with our .out file
-            checkTestUser = testUserFile()
-
-            if(checkTestUser == True):
-
-                if(DEBUG): print("Test the file " +  str(FILE_USER_IN) + ": ok.\n")
-
-            else:
-
-                if(checkTestUser == "Status 3"):
-
-                    if(DEBUG): print("-------------------------------------\n")
-
-                    if(DEBUG): print ("Status 3: Timeout in the file " + str(FILE_USER_IN) + ".\n")
-
-                    if(DEBUG): print("-------------------------------------\n")
-
-                elif(checkTestUser == "Status 4"):
-
-                    if(DEBUG): print("-------------------------------------\n")
-
-                    if(DEBUG): print("Status 4: Presentation error in the file " + str(FILE_USER_IN) + ".\n")
-
-                    if(DEBUG): print("-------------------------------------\n")                    
-
-                moveFiles("nojudged")
-
-                deleteFile(FILE_USER_COMPILED)  
-
-                continue;
-
-            #Check the difference between our expected output with the user code output
-            checkCompareFiles = compareFiles(True)
-
-            if(checkCompareFiles == "Status 2"): 
-
-                moveFiles("nojudged")
-
-                deleteFile(FILE_USER_COMPILED)
-
-                if(DEBUG): print("-------------------------------------\n")
-
-                if(DEBUG): print("Status 2: The user code output is not equal with our expected output.\n")
-
-                if(DEBUG): print("-------------------------------------\n")
-
-                continue;
-
-            elif(checkCompareFiles == "Status 4"):
-
-                moveFiles("nojudged")
-
-                deleteFile(FILE_USER_COMPILED)
-
-                if(DEBUG): print("-------------------------------------\n")
-
-                if(DEBUG): print("Status 4: Presentation error in the file " + str(FILE_USER_IN) + ".\n")
-
-                if(DEBUG): print("-------------------------------------\n")
-
-                continue;
-
-            moveFiles("judged")
-
-            deleteFile(FILE_USER_COMPILED)
-            
-            if(DEBUG): print("-------------------------------------\n")
-
-            if(DEBUG): print("Status 5: The file " + FILE_USER_IN + " was accepted succesfully.\n")
-
-            if(DEBUG): print("-------------------------------------\n")
-
-        return (True)
-
-
-def searchFilesToCompile():
-
-    try:
-
-        files = []
-
-        for arg in sys.argv:
-
-            if(arg.find('.c') != -1): #Try to find .c files at command line parameters
-
-                files.append(arg)
-
-        if(files != []):
-
-            if(DEBUG): print("Search files from command line: ok.\n")
-
-        else:
-
-            files = [f for f in listdir(CURRENT_DIR) if isfile(join(CURRENT_DIR, f)) if f.split('.')[1] == 'c']
-
-        if(DEBUG): print("Search files to compile: ok.\n")
-
-        return files
-
-    except Exception, e:
-
-        if(str(e) == 'list index out of range'): 
-
-            for trashItem in f:
-
-                # Move the file without extension to trash dir
-                origin = CURRENT_DIR + trashItem
-
-                dest = CURRENT_DIR + "trash/" + trashItem
-
-                shutil.move(origin, dest)
-            
-            if(DEBUG): print("Problems when search the files to compile.------------------------------------------\n")
-
-            return (False)
-
-def compileUserFile(fileToCompile, fileCompiled):
-
-    #Prepare the command to compile the user code, generating the FILEUSEROUT (c executable)
-    compileFile = ["gcc", fileToCompile, "-o", fileCompiled]
-
-    # Running the compileFile command
-    process = subprocess.Popen(compileFile, shell=False, stdout=subprocess.PIPE)
-
-    #Wait the end of process
-    process.wait()
-
-    # Get the output/errors from process
-    process.communicate()[0]
-
-    #Check if any error occurred when run the user code
-    if(process.returncode == 1):
+        deleteFile(FILE_USER_COMPILED)
 
         return "Status 1"
 
-    return (True)
+    if DEBUG: print("[DEBUG] Starting 'Status 2, 3 and 4' treatment\n")
 
-def testUserFile():
+    #Search for Status 2, 3 or 4
+    userCodeStatus = testUserCode(LANGUAGE, EXERCISE_IN, EXERCISE_OUT, FILE_USER_COMPILED, FILE_USER_ANSWER_OUT)
+    
+    deleteFile(FILE_USER_COMPILED)
 
-    arrayAnswerOut = []
+    if(userCodeStatus == "Status 3" or userCodeStatus == "Status 4"):
 
-    with open(INPUT_DIR_EXERCISE_FILE, 'r') as fileInReaded:
-
-        fileInRows = fileInReaded.read().splitlines()
-
-        fileInReaded.close
-
-    with open(OUTPUT_DIR_EXERCISE_FILE, 'r') as fileOutReaded:
-
-        fileOutRows = fileOutReaded.read().splitlines()
-
-        fileOutReaded.close
-
-    for line in fileInRows:
-
-        splitter = line.split(' ')
-
-        #Execute the .tempuserout file and pass the arguments
-        userCodeOut = pexpect.spawn('./' + FILE_USER_COMPILED, timeout=5)
-
-        for i in splitter: 
-
-            userCodeOut.sendline(i)
-
-        checkExpectOut = userCodeOut.expect([pexpect.EOF, pexpect.TIMEOUT])
-
-        if(checkExpectOut == 1 ):
-
-            writeFinal("3", False)
-
-            return "Status 3"
-
-        splitStr = userCodeOut.before.split('\n')
-
-        if(splitStr[len(splitStr)-1].replace('\r','') != ""):
-
-            writeFinal("4", False)
-
-            return "Status 4"
-
-        else:
-
-            finalStrOut = splitStr[len(splitStr)-2].replace('\r','')
-
-        arrayAnswerOut.append(finalStrOut)
-
-        userCodeOut.close()
-
-    if(writeFileOut(arrayAnswerOut, FILE_USER_ANSWER_OUT) == True):
-
-        deleteFile(FILE_USER_ANSWER_OUT)
-
-        return (True)
+        return userCodeStatus
 
     else:
 
-        if(DEBUG): print("Problems when write the user output result to output temp file.\n")
+        status = compareValues(EXERCISE_OUT, FILE_USER_ANSWER_OUT, WITHDETAIL)
 
-        return (False)
+        deleteFile(FILE_USER_ANSWER_OUT)
 
-def writeFileOut(dataInput, fileToWrite):
+        if(status == "Status 5"):
+
+            if DEBUG: print("[DEBUG] Status 2, 3 and 4: any problem was found.\n")
+
+            if DEBUG: print("[DEBUG] The user code was succesfully accepted.\n")
+
+        return status
+
+
+def firstStatus(language, fileInput, fileCompiled):
+
+    if DEBUG: print("[DEBUG] Compiling the file: " + str(fileInput) + "\n")
+
+    if(language == "c"):
+
+        if DEBUG: print("[DEBUG] Printing the .c file in: " + str(fileInput) + "\n")
+
+        cmd = ["gcc", fileInput, "-o", fileCompiled]
+
+        if DEBUG: print("[DEBUG] Printing the .c file out: " + str(fileCompiled) + "\n")
+
+    elif(language == "python"):
+
+        if DEBUG: print("[DEBUG] Printing the .py file in: " + str(fileInput) + "\n")
+
+        cmd = ["python", "-m", "py_compile", fileInput]        
+
+        if DEBUG: print("[DEBUG] Printing the .py file out: " + str(fileCompiled) + "\n")
+
+    if DEBUG: print("[DEBUG] Printing the command: " + str(cmd) + "\n")
 
     try:
 
-        generateOutFile = open(fileToWrite, 'a') #Create and write at the file - not truncate
+        subprocess.check_call(cmd)
 
-        for item in dataInput:
-            generateOutFile.write(str(item) + "\n")
+        return False
 
-        generateOutFile.close
+    except subprocess.CalledProcessError, c:
 
-        if(DEBUG): print("Write at the file " + fileToWrite + ": ok.\n")
+        if DEBUG: print("[DEBUG - EXCEPTION] " + str(c) + "\n")
 
-        return (True)
+        return True
+
+    except py_compile.PyCompileError, p:
+
+        if DEBUG: print("[DEBUG - EXCEPTION] " + str(p) + "\n")
+
+        return True
 
     except Exception, e:
 
-        if(DEBUG): print(e)
+        if DEBUG: print("[DEBUG - EXCEPTION] " + str(e) + "\n")
 
-        if(DEBUG): print("Problems when write file out.\n")
+        return True
 
-        return (False)
 
-def compareFiles(generateOutput):
-
-    if(DEBUG): print("Compare the files:\n")
+def testUserCode(language, exercise_in, exercise_out, compiledFile, fileUserAnswerOut):
 
     try:
 
-        booleanResult = filecmp.cmp(OUTPUT_DIR_EXERCISE_FILE, FILE_USER_ANSWER_OUT)
+        with open(exercise_in, 'r') as fileInReaded:
 
-        if(booleanResult == True):
+            fileInRows = fileInReaded.read().splitlines()
 
-            if(DEBUG): print("Diff result: equal.\n")
+        fileInReaded.close
 
-        else:
+        answerOut = []
 
-            if(DEBUG): print("Diff result: not equal.\n")                
-
-        result = checkStatus24(OUTPUT_DIR_EXERCISE_FILE, FILE_USER_ANSWER_OUT)
-
-        #Generate the output file containing all tests
-        if(generateOutput == True): 
-
-            fileOut = open(FILE_USER_OUT, 'a')
-
-            fileOut.write(str(result) + "\n")
-
-            fileOut.close    
-
-        if(str(result).find('Status 2') != -1):
-
-            writeFinal("2", False)
-
-            return "Status 2"
-
-        elif(str(result).find('Status 4') != -1 ):
-
-            writeFinal("4", False)
-
-            return "Status 4"    
-    
-        writeFinal("5", True)
-
-        if(DEBUG): print("Compare the files: ok.\n")
-
-        return (True)
-
-    except Exception, e:
-
-        if(DEBUG): print(e)
-
-        if(DEBUG): print("Problems when comparing the output files.\n")
-
-        return (False)
-
-def moveFiles(judgedOrNot):
-
-    try:
-        
-        if(judgedOrNot == "judged"):
-
-            shutil.move(FILE_USER_IN_ORIGIN, FILE_USER_IN_JUDGED_DEST)
-
-        elif(judgedOrNot == "nojudged"):
-
-            shutil.move(FILE_USER_IN_ORIGIN, FILE_USER_IN_NO_JUDGED_DEST)
-
-        if(DEBUG): print("Move the file " +  FILE_USER_IN_ORIGIN + ": ok.\n")
-
-        return (True)
-
-    except Exception, e:
-
-        if(DEBUG): print(e)
-
-        if(DEBUG): print ("Problems when move the judged files.\n")
-
-        return (False)
-
-def deleteFile(fileToDelete):
-
-    try:
-
-        prepareCmdOut = ["rm", fileToDelete];
-
-        getCompilerOutput = subprocess.Popen(prepareCmdOut, shell=False);
-
-        if(DEBUG): print("Delete the file " + fileToDelete + ": ok.\n")
-
-        return (True)
-
-    except Exception, e:
-    
-        if(DEBUG): print(e)
-
-        if(DEBUG): print ("Problems when delete the judged files.\n")
-
-        return (False)
-
-def writeFinal(case, boolean):
-
-    CASE_1_OK = "1: ACCEPTED"
-    CASE_2_OK = "2: ACCEPTED"
-    CASE_3_OK = "3: ACCEPTED"
-    CASE_4_OK = "4: ACCEPTED"
-    CASE_5_OK = "5: ACCEPTED"
-
-    CASE_1_NOK = "1: ERROR"
-    CASE_2_NOK = "2: ERROR"
-    CASE_3_NOK = "3: ERROR"
-    CASE_4_NOK = "4: ERROR"
-    CASE_5_NOK = "5: ERROR"
-
-    try:
-
-        generateOutFile = open(FILE_USER_OUT, 'a') #Truncate the file out and write
-
-        if(boolean == True):
-
-            if(case == "1"): 
-
-                generateOutFile.write(CASE_1_OK + "\n")
-
-            elif(case == "2") :
-
-                generateOutFile.write(CASE_2_OK + "\n")
-
-            elif(case == "3") :
-
-                generateOutFile.write(CASE_3_OK + "\n")
-
-            elif(case == "4"): 
-
-                generateOutFile.write(CASE_4_OK + "\n")
-
-            elif(case == "5"): 
-
-                generateOutFile.write(CASE_5_OK + "\n")
-
-        else:
-
-            if(case == "1"): 
-
-                generateOutFile.write(CASE_1_NOK + "\n")
-
-            elif(case == "2") :
-
-                generateOutFile.write(CASE_2_NOK + "\n")
-
-            elif(case == "3") :
-
-                generateOutFile.write(CASE_3_NOK + "\n")
-
-            elif(case == "4"):
-
-                generateOutFile.write(CASE_4_NOK + "\n")
-
-            elif(case == "5"): 
-
-                generateOutFile.write(CASE_5_NOK + "\n")
+        #Each line is a case to test with the user code
+        for line in fileInRows:
             
-        generateOutFile.close
+            splitter = line.split(' ')
 
-        return (True)
+            if(language == 'c'):
+
+                cmd = ('./' + compiledFile)
+
+            elif(language == 'python'):
+
+                cmd = ('python ' + compiledFile)
+
+            userCodeOut = pexpect.spawn(cmd, timeout=4)
+
+            for item in splitter:
+
+                userCodeOut.sendline(item)
+
+            checkExpectOut = userCodeOut.expect([pexpect.EOF, pexpect.TIMEOUT])
+
+            if(checkExpectOut == 1 ):
+
+                return "Status 3"
+
+            splitOut = userCodeOut.before.split('\n')
+
+            if(language == 'c'):
+
+                searchForNewLine = splitOut[len(splitOut)-1]
+
+            elif(language == 'python'):            
+
+                if(splitOut[len(splitOut)-2] == '\r'):
+
+                    return "Status 4" #\n at print function
+
+                searchForNewLine = splitOut[len(splitOut)-1]
+
+            if(searchForNewLine != ""):
+
+                return "Status 4"
+
+            userCodeOut.close()
+
+            finalOut = splitOut[len(splitOut)-2].replace('\r','')
+
+            answerOut.append(finalOut)
+
+        generateFileOut = open(fileUserAnswerOut, 'w')
+
+        for item in answerOut:
+
+            generateFileOut.write(item + "\n")
+
+        generateFileOut.close
+
+        return True
 
     except Exception, e:
 
-        print(e)
+        if DEBUG: print("[DEBUG - EXCEPTION] " + str(e) + "\n")
 
-        return (False)
+        return False
 
-def checkStatus24(expectedOutput, userOutput):
+
+def compareValues(exercise_out, fileUserAnswerOut, withDetail):
 
     try:
 
-        with open(expectedOutput, 'r') as expectedAlias:
-            expectedOut = expectedAlias.read().splitlines()
-        expectedAlias.close
+        if DEBUG: print("[DEBUG] Comparing the files: " + str(exercise_out) + "\nwith: " + str(fileUserAnswerOut) + "\n")
 
-        with open(userOutput, 'r') as userAlias:
-            userOut = userAlias.read().splitlines()
-        userAlias.close
+        if DEBUG: print("[DEBUG] With output detail? " + str(withDetail) + "\n")
 
-        arrayAnswerOut = []
+        if not(withDetail):
 
-        for rowExpect, rowUser in map(None, expectedOut, userOut):
+            result = open(exercise_out, 'rb').read() == open(fileUserAnswerOut, 'rb').read()
 
-            tempExpectedO = rowExpect.replace(' ', '')
+        else:
+        
+            resultOut = []
 
-            tempUserO = rowUser.replace(' ', '')
+            aux = 1
 
-            lengthExpectedO = len(rowExpect) 
+            with open(exercise_out, 'r') as ourFileOutReaded:
 
-            lengthUserO = len(rowUser)
+                ourFileOut = ourFileOutReaded.read().splitlines()
 
-            if((rowExpect.find('=') != -1 and rowUser.find('=') != -1) or (rowExpect.find(':') != -1 and rowUser.find(':') != -1)):
+            ourFileOutReaded.close()
 
-                if((rowExpect.find('=') != -1 and rowUser.find('=') != -1)):
+            with open(fileUserAnswerOut, 'r') as fileUserOutReaded:
 
-                    splitExpectedO = tempExpectedO.split('=')[1]
- 
-                    splitUserO = tempUserO.split('=')[1]
+                fileOutUser = fileUserOutReaded.read().splitlines()
 
-                elif((rowExpect.find(':') != -1 and rowUser.find(':') != -1)):
+            fileUserOutReaded.close()
 
-                    splitExpectedO = tempExpectedO.split(':')[1]
+            for our, user in zip(ourFileOut, fileOutUser):
 
-                    splitUserO = tempUserO.split(':')[1]                
+                if(our == user):
 
-                if((splitExpectedO == splitUserO) and lengthExpectedO != lengthUserO): #Error status 4
-
-                    arrayAnswerOut.append("Status 4:" + " {" + str(rowExpect) + " with " + str(rowUser) + "}")
-
-                elif(splitExpectedO != splitUserO):
-
-                    arrayAnswerOut.append("Status 2:" + " {" + str(rowExpect) + " with " + str(rowUser) + "}")
+                    result = "Status 5"
 
                 else:
 
-                    arrayAnswerOut.append("Status 5:" + " {" + str(rowExpect) + " with " + str(rowUser) + "}")
+                    tempOur = our.replace(" ", "")
 
-            else:
+                    tempUser = user.replace(" ", "")
 
-                if(rowExpect == rowUser):
+                    if(tempOur != tempUser):
 
-                    arrayAnswerOut.append("Status 5:" + " {" + str(rowExpect) + " with " + str(rowUser) + "}")                
+                        result = "Status 2"
 
-                elif(rowExpect != rowUser):
+                    else:
 
-                    arrayAnswerOut.append("Status 2:" + " {" + str(rowExpect) + " with " + str(rowUser) + "}")
+                        result = "Status 4"                        
+        
+                resultOut.append("Line " + str(aux) + ": " + str(result) + "; Expected result: " + str(our) + "; Your result: " + str(user) + ";\n")
 
-        if(DEBUG): print(str(arrayAnswerOut) + "\n")
+                aux += 1
 
-        return arrayAnswerOut
+            for item in resultOut:
+
+                if DEBUG: print ("[DEBUG] " + str(item))
+
+        if DEBUG: print("[DEBUG] Comparing the files: " + str(result) + "\n")
+
+        return result
 
     except Exception, e:
 
-        if(DEBUG): print(e)
+        if DEBUG: print("[DEBUG - EXCEPTION] " + str(e) + "\n")
 
-        return (False)
+        return False
 
-#The __main__ is the main module to be executed when this script (compiler.py) is ran
+
+def deleteFile(fileInput):
+
+    if DEBUG: print("[DEBUG] Deleting the file: " + str(fileInput) + "\n")
+
+    try:
+
+        cmd = ["rm", fileInput]
+
+        subprocess.Popen(cmd, shell=False);
+
+        if DEBUG: print("[DEBUG] Deleted successfully.\n")
+
+        return True
+
+    except Exception, e: 
+
+        if DEBUG: print("[DEBUG - EXCEPTION] " + str(e) + "\n")
+
+        return False
+
+
+def moveFile(fileInput, destiny):
+
+    if DEBUG: print("[DEBUG] Moving the file: " + str(fileInput) + " to: " + str(destiny) + "\n")
+
+    try:
+
+        cmd = ["mv", fileInput, destiny]
+
+        subprocess.Popen(cmd, shell=False);        
+
+        if DEBUG: print("[DEBUG] Moved successfully.\n")
+
+        return True
+
+    except Exception, e:
+
+        if DEBUG: print("[DEBUG - EXCEPTION] " + str(e) + "\n")
+
+        return False
+
+
 if __name__ == '__main__':
 
-    main()
+    result = main()
+
+    if DEBUG: print("[DEBUG] " + str(result) + "\n")
+
+    print(result)
