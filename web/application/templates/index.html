@@ -1,0 +1,44 @@
+{% extends 'base_index.html' %}
+{% block content %}
+
+    {% if message %}
+
+        <div class="myFlashInfoMessage">
+
+            <a> {{ message }}  </a>
+
+        </div>
+
+        <br><br>
+
+    {% endif %}
+
+    <div class="divMain">
+
+        <h1 class="labelTitle">Seven Online Judge!</h1>
+        
+        <hr>
+
+        <form action="{{ url_for('login') }}" method=POST>
+
+            <br><br>
+
+            <input class="textLogin" type="text" name="loginField" placeholder="Usuário" autofocus required>
+
+            <input class="textLogin" type="password" name="passwordField" placeholder="Senha" required><br><br>            
+
+            <input class="buttonMain" type="submit" name="enter" value="Entrar"><br><br>
+
+            <hr>
+
+            <br>
+
+        </form>
+    
+        <label style="font-size: 18px; font-style: italic;">Ainda não tem acesso?</label><br><br>
+
+        <input onClick="window.location.href='{{ url_for('registeruser') }}'" type="submit" Value="Cadastrar!" name="next" class="buttonMain"><br><br>
+
+    </div>
+
+{% endblock %}  

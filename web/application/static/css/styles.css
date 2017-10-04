@@ -1,0 +1,478 @@
+*{
+
+	font-family: sans-serif;
+
+}
+
+body {
+
+    background-image: url("../images/image_background_full.png");
+	background-repeat: repeat;
+	background-position: center center;
+	background-attachment: fixed;
+	background-size: cover;
+
+}
+
+ul {
+
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	background-color: #333;
+
+}
+
+li {
+
+	float: left;
+
+}
+
+li a {
+
+	display: block;
+	color: white;
+	text-align: center;
+	padding: 10px 10px;
+	text-decoration: none;
+
+}
+
+li a:hover {
+
+	background-color: #111111;
+
+}
+
+#uniq{
+	background-color: #ffffff;
+	width: 200px;
+}
+
+td, th {
+	border: 0px solid #111111;
+	text-align: center;
+	padding: 8px;
+	width: 600px;
+}
+
+tr:nth-child(even) {
+	border: 0px solid #111111;
+	background-color: #80b3ff;
+}
+
+.divMain{
+
+	background-color: #ffffff;
+
+	margin: auto;
+
+	width: 30%;
+
+    border: 0px solid black;
+
+    border-radius: 10px;
+
+    padding: 20px;
+
+    text-align: center;
+
+}
+
+.divNewUser{
+
+	background-color: #ffffff;
+
+	margin: auto;
+
+	width: 60%;
+
+    border: 1px solid black;
+
+    border-radius: 10px;
+
+    padding: 20px;
+
+    text-align: center;
+
+}
+
+.divPlain{
+
+	background-color: #ffffff;
+
+    border: 0px solid black;
+
+    border-radius: 10px;
+
+    padding: 20px;
+
+}
+
+.divShowExercises{
+
+	background-color: #ffffff;
+
+	margin: auto;
+
+	width: 80%;
+
+    border: 0px solid black;
+
+    border-radius: 10px;
+
+    padding: 20px;
+
+}
+
+.divPreviewExercises{
+
+	background-color: #ffffff;
+
+	margin: auto;
+
+	width: 60%;
+
+    border: 2px solid #186249;
+
+    border-radius: 8px;
+
+    padding: 17px;
+
+}
+
+.divNewPreviewExercises{
+
+	background-color: #ffffff;
+
+	width: 200px;
+
+	height: 100px;
+
+    border: 2px solid #186249;
+
+    border-radius: 8px;
+
+    padding: 8px;
+
+    text-align: center;
+
+    margin: auto;
+
+}
+
+.divPresentationQuestions{
+
+	background-color: #186249;
+
+	margin: auto;
+
+	width: 50%;
+
+    border: 0px solid black;
+
+    border-radius: 9px;
+
+    padding: 17px;
+
+    text-align: center;
+
+    color: #111111;
+
+}
+
+.divPresentationQuestionsNextItem{
+
+	background-color: #186249;
+
+	margin: auto;
+
+	width: 50%;
+
+    border: 0px solid black;
+
+    border-radius: 9px;
+
+    padding: 17px;
+
+    color: #111111;
+
+}
+
+.divMainBoard{
+
+	background-color: #ffffff;
+
+	margin: auto;
+
+	width: 90%;
+
+    border: 0px solid black;
+
+    border-radius: 10px;
+
+    padding: 10px;
+
+}
+
+.divJudgeMain{
+
+	background-color: #ffffff;
+	
+	margin: auto;
+
+	width: 35%;
+
+    border: 0px solid black;
+
+    border-radius: 10px;
+
+    padding: 20px;
+
+}
+
+.judgeParams{
+
+	width: auto;
+
+	margin: auto;
+
+	border: 0px solid black;
+
+	padding: 10px;
+
+	text-align: center;
+
+}
+
+.divJudge{
+
+	margin: auto;
+
+	width: auto;
+
+	border: 0px solid black;
+
+	padding: 10px;
+
+	text-align: center;
+
+}
+
+.divPreviewExercisesDescription{
+
+	font-family: sans-serif;
+	font-size: 18px;
+	color: 186249;
+
+}
+
+.divExerciseResult{
+
+	background-color: #ffffff;
+	
+	margin: auto;
+
+	width: 35%;
+
+    border: 0px solid black;
+
+    border-radius: 10px;
+
+    padding: 20px;
+
+}
+
+.textMain{
+
+	width: 50%;
+
+	padding: 5px;
+
+	font-family: sans-serif;
+
+}
+
+.textLogin{
+
+	width: 60%;
+
+	padding: 7px;
+
+	font-family: sans-serif;
+
+	font-size: 20px;
+
+}
+
+.textAreaMain{
+
+	width: 50%;
+
+	margin: 1px;
+
+	padding: 30px;
+
+	font-size: 17px;
+
+	font-family: sans-serif;
+
+}
+
+.textRegister{
+
+	background-color: #ffffff; 
+
+	width: 70%;
+
+	margin: 8px;
+
+	padding: 10px;
+
+	font-size: 17px;
+
+}
+
+.labelTitle{
+
+	font-size: 30px;
+
+	color: black;
+
+}
+
+.buttonMain{
+
+	width: 65%;
+
+	padding: 10px;
+
+	margin: 10px;
+
+	background-color: #6495ED;
+
+	border: 1px solid black;
+
+	border-radius: 2px;
+
+	font-size: 20px;
+
+	color: black;
+
+	text-decoration: none;
+
+}
+
+.buttonJudge{
+
+	width: 68%;
+
+	padding: 10px;
+
+	margin: 10px;
+
+	background-color: #6495ED;
+
+	border: 1px solid black;
+
+	border-radius: 2px;
+
+	font-size: 20px;
+
+	color: black;
+
+	text-decoration: none;
+
+}
+
+.buttonRegister{
+
+	width: 75%;
+
+	padding: 10px;
+
+	margin: 10px;
+
+	background-color: #6495ED;
+
+	border: 1px solid black;
+
+	border-radius: 2px;
+
+	font-size: 20px;
+
+	color: black;
+
+	text-decoration: none;
+
+}
+
+.buttonNext{
+
+	width: 20%;
+
+	padding: 7px;
+
+	margin: 10px;
+
+	background-color: #6495ED;
+
+	border: 1px solid black;
+
+	border-radius: 2px;
+
+	font-size: 20px;
+
+	color: black;
+
+	text-decoration: none;
+
+	text-align: center;
+
+}
+
+.myFlashInfoMessage{
+
+	color: black;
+
+	margin: auto;
+
+	width: 31%;
+
+	border: 0px solid black;
+
+	border-radius: 2px;
+
+	padding: 10px;
+
+	background-color: #6495ED;
+
+	text-align: center;
+
+}
+
+.container{
+	margin: auto;
+	width: 50%;
+    border: 0px solid black;
+    display: inline-block;
+    white-space: nowrap;
+}
+
+.box{
+    width: 220px;
+    height: 220px;
+    margin: 10px;
+    background-color: white;
+    display: inline-block;
+}
+
+.tableInputOutput{
+
+	width: 100%;
+	font-family: arial, sans-serif;
+	border-collapse: collapse;
+	
+}

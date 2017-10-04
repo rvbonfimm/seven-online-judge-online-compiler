@@ -1,0 +1,23 @@
+{% extends 'base_main.html' %}
+
+{% block content %}
+
+    <div class="divMainBoard" style="text-align: center">
+
+	    <p style="font-family: verdana; text-align: center; font-size: 30px;"> {{ current_user.name }}, o que você deseja fazer?</p>
+
+	    <hr>
+
+	    <br><br>
+
+	    <a href="{{ url_for('presentation') }}" class="buttonMain">Apresentação</a>
+
+		<a href="#" class="buttonMain">Estudos</a>
+
+		<a href="{{ url_for('listexercises') }}" class="buttonMain">Exercícios</a>
+
+		<br><br>
+
+	</div>
+
+{% endblock %}

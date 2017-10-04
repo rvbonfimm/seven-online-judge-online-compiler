@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+	<div class="divPlain">
+
+		<p style="">{{ current_user.name.title() }}, vamos lá!</p>
+
+		<p>Você tem <b><i>{{ itensToDo }}</i></b> itens para realizar:</p>
+
+		<br>
+
+		{% for item in itensToStudy %}
+
+			<p>-> {{ item }}</p>
+
+		{% endfor %}
+
+		<br><br>
+
+		<p>Itens studied: {{ itensDone }}</p>
+
+		<br><br>
+
+		{% for item in itensStudied %}
+
+			<p>{{ item }}</p>
+
+		{% endfor %}
+
+	</div>
+
+{% endblock %}

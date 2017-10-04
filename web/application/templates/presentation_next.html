@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+	<form action="{{ url_for('startusernext') }}" method="POST">
+
+		<br><br>
+
+		<div class="divPresentationQuestions">
+
+			<label style="font-size: 28px;">Entre os itens abaixo, quais você conhece?</label>
+
+			<hr>
+
+			<br>
+
+			<div style="text-align: left;">
+
+				{% if allKnownItens %}
+
+					{% for item in allKnownItens %}
+
+						<input type="checkbox" name="knownItens" value="{{ item.name }}">{{ item.name }}<br>
+
+					{% endfor %}
+
+				{%  endif %}
+
+			</div>
+
+			<br><br>
+
+			<label style="font-size: 28px;">Em qual nível de Programação você se considera?</label>
+
+			<hr>
+
+			<br>
+
+			<div style="text-align: left;">
+
+				<input type="checkbox" name="userLevel" value="Iniciante">Iniciante<br>
+				<input type="checkbox" name="userLevel" value="Intermediário">Intermediário<br>
+				<input type="checkbox" name="userLevel" value="Avançado">Avançado<br>
+
+			</div>
+
+			<br><br>
+
+			<label style="font-size: 15px; font-style: italic;">(Considere responder com sinceridade. Seu plano será ajustado mediante essas informações)</label>
+
+			<br><br>
+
+			<input class="buttonNext" type="submit" value="Avançar">	
+
+		</div>
+
+	</form>
+
+	<br>
+
+{% endblock %}

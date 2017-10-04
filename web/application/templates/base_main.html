@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+
+<html lan="pt-br">
+
+    <head>
+      
+        <meta charset="utf-8">
+
+        {% if title %}
+
+            <title>{{ title }}</title>
+
+        {% endif %}
+
+        <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/styles.css') }}">
+
+    </head>
+
+    <body>
+
+        <ul>
+
+          <li> <a href="{{ url_for('main') }}">Principal</a> </li>
+
+          <li> <a href="#contact">Julgar</a> </li>
+
+          {% if current_user.is_authenticated %}
+            <li> <a href="{{ url_for('logout') }}">Logout</a> </li>
+          {% endif %}
+          
+          <li> <a href="#about">Ajuda</a> </li>
+
+        </ul>
+
+        <br><br><br><br>
+
+        {% if message %}
+
+            <div class="myFlashInfoMessage">
+
+                <a>{{ message }}</a>
+
+            </div>
+
+            <br><br>
+
+        {% endif %}
+
+        {% block content %}
+        {% endblock %}
+
+    </body>
+
+</html>

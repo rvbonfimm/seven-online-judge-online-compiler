@@ -1,0 +1,105 @@
+CREATE TABLE users(
+
+    id INT NOT NULL AUTO_INCREMENT,
+    username VARCHAR(40) NOT NULL,
+    password VARCHAR(200) NOT NULL,
+    name VARCHAR(50) NOT NULL,
+    lastname VARCHAR(50) NOT NULL,
+    email VARCHAR(200) NOT NULL,
+    gender VARCHAR(10) NOT NULL,
+    date_created TIMESTAMP DEFAULT NOW(),
+
+    INDEX(id),
+
+    PRIMARY KEY(id)
+
+)ENGINE=INNODB;
+
+
+------------------------------------------------
+
+CREATE TABLE exercises(
+
+    id INT NOT NULL AUTO_INCREMENT,
+    exercise_number INT,
+    name VARCHAR(30) NOT NULL,
+    description VARCHAR(500),
+    level VARCHAR(10),
+    input VARCHAR(100) NOT NULL,
+    output VARCHAR(100) NOT NULL,
+    date_created TIMESTAMP DEFAULT NOW(),
+
+    PRIMARY KEY(id),
+
+    INDEX(id)
+
+)ENGINE=INNODB;
+
+------------------------------------------------
+
+CREATE TABLE attempts(
+
+    quantity_judges INT NOT NULL,
+    quantity_unjudges INT NOT NULL,
+    id_exercise INT,
+    id_user INT,
+
+    INDEX(id_exercise, id_user),
+
+    FOREIGN KEY (id_exercise)
+      REFERENCES exercises(id),
+
+    FOREIGN KEY (id_user)
+      REFERENCES users(id)
+
+)ENGINE=INNODB;
+
+------------------------------------------------
+
+CREATE TABLE judges(
+
+    id INT NOT NULL AUTO_INCREMENT,
+    code TEXT NOT NULL,
+    language VARCHAR(15) NOT NULL,
+    id_exercise INT,
+    id_user INT,
+
+    PRIMARY KEY(id),
+
+    INDEX(id, id_user),
+
+    FOREIGN KEY (id_exercise)
+      REFERENCES exercises(id),    
+
+    FOREIGN KEY (id_user)
+      REFERENCES users(id)	
+
+)ENGINE=INNODB;
+
+------------------------------------------------
+
+CREATE TABLE studies(
+
+    id INT NOT NULL AUTO_INCREMENT,
+    name VARCHAR(50) NOT NULL,
+
+    PRIMARY KEY(id)
+
+)ENGINE=INNODB;
+
+------------------------------------------------
+
+CREATE TABLE users_plans(
+
+    id_user INT,
+
+    id_study INT,	
+  
+    INDEX(id_user),
+
+    FOREIGN KEY (id_user)
+        REFERENCES users(id),
+
+    FOREIGN KEY (id_study)
+        REFERENCES studies(id)
+);

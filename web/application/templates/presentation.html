@@ -1,0 +1,34 @@
+{% extends 'base_presentation.html' %}
+
+{% block content %}
+
+	<form action="{{ url_for('startuser') }}" method="POST">
+
+		<div class="divPresentationQuestions">
+
+			<br>
+
+			<label style="font-size: 28px;">{{ current_user.name.title() }}, responda os questionamentos abaixo para que nós possamos definir um roteiro de estudos para você.</label>
+
+			<br><br>
+
+			<hr>
+
+			<label style="font-size: 28px;">Você já teve algum contato com Programação?</label>
+
+			<br><br>
+
+			<input type="radio" name="programming_experience" value="no">Não
+			<input type="radio" name="programming_experience" value="yes">Sim
+
+			<br><br>
+
+			<input class="buttonNext" type="submit" value="Avançar">	
+
+		</div>
+
+	</form>
+
+	<br>
+
+{% endblock %} 

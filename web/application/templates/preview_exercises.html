@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block content %}
+
+	{% for item in exercises_list %}
+
+		<br><br>
+
+		<div class="divPreviewExercises">
+	    
+	    	<p style="font-size: 20px; text-align: center; color: #186249;"><b>Exercício:</b> <i>{{ item.exercise_number }} </i>| <b>Nome:</b> <i> {{ item.name }} </i> | <b>Nível:</b> <i> {{ item.level }} </i> </p>
+
+	    	<div class="divPreviewExercisesDescription">
+
+		    	<b><p style="font-size: 20px">Descrição</p></b>
+
+		    	<hr>
+
+		    	<p>{{ item.description }}</p>
+
+		    	<hr>
+
+	    	</div>
+
+	    	<div>
+
+				<table class="tableInputOutput">
+
+					<tr>
+						<th style="font-size: 20px; color: #111111;">Entrada necessária</th>
+						<th id="uniq"></th>
+						<th style="font-size: 20px; color: #111111;">Saída esperada</th>
+					</tr>
+
+					<tr>
+						<td>{{ item.input }}</td>
+						<td id="uniq"></td>
+						<td>{{ item.output }}</td>
+					</tr>
+
+				</table>
+
+	    	</div>
+
+	    	<br><br>
+
+	    	<div style="text-align: center;">
+
+	    		<b><a href="{{ url_for('judges', exercise=item.exercise_number) }}" style="font-family: verdana; font-size: 20px; text-decoration: underline; color: #186249; font-style: italic;">Julgar esse exercício</a></b>
+
+	    	</div>
+
+		</div>
+
+		<br><br>
+
+	{% endfor %}
+
+{% endblock %}

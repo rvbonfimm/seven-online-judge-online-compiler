@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }} " rel="stylesheet">
+
+    <div class="container">
+
+        {% for item in exercises_list %}
+
+            <div class="box">
+
+                <br>
+
+                <p style="font-size: 23px; text-align: center; color: #186249;">{{ item.exercise_number }}</p>
+
+                <div style="text-align: center;">
+
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+                      Informações
+                    </button>
+
+                    <br><br>
+
+                    <b><a href="{{ url_for('judges') }}" style="font-family: verdana; font-size: 20px; text-decoration: underline; color: #186249; font-style: italic;">Julgar esse exercício</a></b>
+
+                </div>
+
+            </div>
+
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+
+              <div class="modal-dialog" role="document">
+
+                <div class="modal-content">
+
+                  <div class="modal-header">
+
+                    <h5 class="modal-title" id="exampleModalLongTitle">{{ item.id }} - {{ item.name }}</h5>
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+
+                  </div>
+
+                  <div class="modal-body">
+                   Nível: {{ item.level }}
+                  </div>
+
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                  </div>
+
+                </div>
+
+              </div>
+              
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+
+    <script>window.jQuery || document.write('<script src=" {{ url_for('static', filename='jquery.min.js') }} "><\/script>')</script>
+
+    <script src=" {{ url_for('static', filename='js/popper.min.js') }} "></script>
+
+    <script src=" {{ url_for('static', filename='js/holder.min.js') }} "></script>
+
+    <script src=" {{ url_for('static', filename='js/bootstrap.min.js') }} "></script>
+
+    <script src=" {{ url_for('static', filename='js/ie10-viewport-bug-workaround.js') }} "></script>
+
+{% endblock %}
