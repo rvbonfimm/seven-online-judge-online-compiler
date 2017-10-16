@@ -9,7 +9,6 @@ from application.models.tables import User, Study, UserPlan
 def load_user(id):
     return User.query.filter_by(id=id).first()
 
-
 @app.route('/login', methods=['GET', 'POST'])
 def login():
 
@@ -27,7 +26,7 @@ def login():
 
             login_user(user)
 
-            message = "Usuario logado com sucesso."
+            message = "Logado com sucesso."
 
             return render_template('main.html', message=message)
 
@@ -35,12 +34,11 @@ def login():
 
             message = "Usuario ou Senha invalidos. Confira os dados digitados e tente novamente!"
 
-            return render_template('index.html', message=message)
+            return render_template('login.html', message=message)
 
     elif (request.method == 'GET'):
 
-        return render_template('index.html', title=title)       
-
+        return render_template('login.html', title=title)       
 
 @app.route('/logout', methods=['GET','POST'])
 @login_required
@@ -50,8 +48,7 @@ def logout():
 
     message = "Usuario deslogado com sucesso."
 
-    return render_template('index.html',message=message)
-
+    return render_template('login.html',message=message)
 
 @app.route('/registeruser', methods=['GET','POST'])
 def registeruser():
@@ -99,6 +96,7 @@ def registeruser():
         return render_template('new_user.html', title=title)
 
 @app.route('/startuser', methods=['GET','POST'])
+@login_required
 def startuser():
 
     if request.method == 'POST':
@@ -121,7 +119,13 @@ def startuser():
 
                 db.session.commit()
 
-            return render_template('beginning.html', allKnownItens=knownItens)
+                return render_template('beginning.html', allKnownItens=knownItens)
+
+            else:
+
+                alreadyPlain = "Voce ja possui um Plano de Estudos definido."
+
+                return render_template('main.html', alreadyPlain=alreadyPlain)
 
         elif user_experience == "yes":
 
@@ -131,8 +135,8 @@ def startuser():
 
         return render_template('presentation.html')
 
-
 @app.route('/startusernext', methods=['GET','POST'])
+@login_required
 def startusernext():
 
     if request.method == 'POST':
@@ -140,6 +144,8 @@ def startusernext():
         knownItens = request.form.getlist('knownItens')
 
         unknownItens = Study.query.filter(~Study.name.in_(knownItens))
+
+        userLevel = request.form['userlevel']
 
         checkRegisteredPlan = db.session.query(UserPlan.id_user).filter_by(id_user=current_user.id).first() is not None
 
@@ -153,16 +159,22 @@ def startusernext():
 
             db.session.commit()
 
-        userLevel = request.form['userLevel']   
+            message= "Plano criado com sucesso."
 
-        return render_template('beginning.html', specificKnownItens=knownItens, specificUnknownItens=unknownItens)
+            return render_template('beginning.html', specificKnownItens=knownItens, specificUnknownItens=unknownItens, registeredPlain=message)
+
+        else:
+
+            message = "Voce ja possui um Plano de Estudos definido."
+
+            return render_template('main.html', alreadyPlain=message)
 
     elif request.method == 'GET':
 
         return render_template('presentation_next.html')
 
-
 @app.route('/studies', methods=['GET','POST'])
+@login_required
 def studies():
 
     if request.method == 'GET':
@@ -192,8 +204,14 @@ def studies():
 
         return render_template('studies.html', itensToStudy=itensToStudy, itensStudied=itensStudied, itensToDo=itensToDo, itensDone=itensDone)
 
-
 @app.route('/studydashboard', methods=['GET', 'POST'])
+@login_required
 def studydashboard():
 
     return render_template('study_dashboard.html')
+
+@app.route('/statistics', methods=['GET', 'POST'])
+@login_required
+def statistics():
+
+    return render_template('statistics.html')

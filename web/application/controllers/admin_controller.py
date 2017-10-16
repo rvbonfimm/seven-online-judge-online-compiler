@@ -20,13 +20,13 @@ def registerexercise():
 
         inputt = request.form.get('input')
 
-        if inputt == "":
+        outputt = request.form.get('output')
 
-            inputt = "Vazio"
+        input_description = request.form.get('input_description')
 
-        output = request.form.get('output')
+        output_description = request.form.get('output_description')
 
-        new_exercise = Exercise(exercise_number=exercise_number, name=name, description=description, level=level, input=inputt, output=output)
+        new_exercise = Exercise(exercise_number=exercise_number, name=name, description=description, level=level, inputt=inputt, outputt=outputt, input_description=input_description, output_description=output_description)
 
         db.session.add(new_exercise)
 
@@ -34,7 +34,7 @@ def registerexercise():
 
         message = "New exercise was successfully inserted at the db.\n"
 
-        return render_template('index.html', message=message)
+        return render_template('main.html', message=message)
 
     elif(request.method == 'GET'):
 

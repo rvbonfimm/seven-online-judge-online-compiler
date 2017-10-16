@@ -2,35 +2,35 @@
     
 {% block content %}
     
-    <form action="{{ url_for('registeruser') }}" method=POST>
-            
-        <div class ="divNewUser">
-            
-            <p class="labelTitle">Crie sua conta para acessar todo o conteúdo de nosso site</p>
+<form action="{{ url_for('registeruser') }}" method=POST>
+        
+    <div class ="divNewUser">
+        
+        <p class="labelTitle">Crie sua conta para acessar todo o conteúdo de nosso site</p>
 
-            <input class = "textRegister" type="text" name="nameField" placeholder="Nome" autofocus required><br><br>
+        <input class = "textRegister" type="text" name="nameField" placeholder="Nome" autofocus required><br><br>
 
-            <input class = "textRegister" type="text" name="lastnameField" placeholder="Sobrenome" required><br><br>
+        <input class = "textRegister" type="text" name="lastnameField" placeholder="Sobrenome" required><br><br>
 
-            <input class = "textRegister" type="text" name="emailField" placeholder="E-mail" required><br><br>
+        <input class = "textRegister" type="text" name="emailField" placeholder="E-mail" required><br><br>
 
-            <input class = "textRegister" type="text" name="usernameField" placeholder="Usuário" required><br><br>
+        <input class = "textRegister" type="text" name="usernameField" placeholder="Usuário" required><br><br>
 
-            <input class = "textRegister" type="password" placeholder="Senha" name="passwordField" required><br><br>
+        <input class = "textRegister" type="password" placeholder="Senha" name="passwordField" required><br><br>
 
-            <input class = "textRegister" type="password" name="repasswordField" placeholder="Senha novamente" required><br><br>
+        <input class = "textRegister" type="password" name="repasswordField" placeholder="Senha novamente" required><br><br>
 
-            <label for="gender">Gênero:</label>
-            <input type="radio" name="gender" value="male">Masculino
+        <label for="gender">Gênero:</label>
+        <input type="radio" name="gender" value="male">Masculino
 
-            <input type="radio" name="gender" value="female">Feminino<br><br>  
+        <input type="radio" name="gender" value="female">Feminino<br><br>  
 
-            <input class="buttonRegister" type="submit" name="enter" value="Cadastrar"><br><br>
+        <input class="buttonRegister" type="submit" name="enter" value="Cadastrar"><br><br>
 
-        </div>
+    </div>
 
-        <br><br>
+    <br><br>
 
-    </form>
+</form>
 
 {% endblock %}

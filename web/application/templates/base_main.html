@@ -1,54 +1,89 @@
 <!DOCTYPE html>
 
-<html lan="pt-br">
+<html lang="pt-br">
 
-    <head>
-      
-        <meta charset="utf-8">
+  <head>
 
-        {% if title %}
+    {% block head %}
 
-            <title>{{ title }}</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+      <meta name="description" content="A graduated work about an online judge">
+      <meta name="author" content="Marcus Vogado, Rogério Bonfim">  
 
-        {% endif %}
+      <title>{% block title %}{% endblock %} - Seven Online Judge!</title>
 
-        <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/styles.css') }}">
+      <link href="{{ url_for('static', filename='css/styles.css') }} " rel="stylesheet">
 
-    </head>
+      <link href="{{ url_for('static', filename='css/bootstrap.min.css') }} " rel="stylesheet">
 
-    <body>
+      <link href="{{ url_for('static', filename='css/navbar.css') }} " rel="stylesheet">
 
-        <ul>
+    {% endblock %}
 
-          <li> <a href="{{ url_for('main') }}">Principal</a> </li>
+  </head>
 
-          <li> <a href="#contact">Julgar</a> </li>
+  <body>
 
-          {% if current_user.is_authenticated %}
-            <li> <a href="{{ url_for('logout') }}">Logout</a> </li>
-          {% endif %}
-          
-          <li> <a href="#about">Ajuda</a> </li>
+    <nav class="navbar navbar-toggleable-md navbar-inverse bg-inverse">
+
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <a href="{{ url_for('main') }}">
+        <img src="{{ url_for('static', filename='images/home.png') }}" alt="Smiley face" width="35" height="35">
+      </a>
+
+      <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+
+        <ul class="navbar-nav mr-auto">
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Estudos</a>
+            <div class="dropdown-menu" aria-labelledby="dropdown01">
+              <a class="dropdown-item" href="#">Ajuda</a>
+              <a class="dropdown-item" href="#">Vamos estudar!</a>
+              <a class="dropdown-item" href="#">Estatísticas</a>
+            </div>
+          </li>
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" id="dropdown02" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Exercícios</a>
+            <div class="dropdown-menu" aria-labelledby="dropdown02">
+              <a class="dropdown-item" href="#">Ajuda</a>
+              <a class="dropdown-item" href="#">Mão na massa!</a>
+              <a class="dropdown-item" href="#">Estatísticas</a>
+            </div>
+          </li>
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" id="dropdown03" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Conta</a>
+            <div class="dropdown-menu" aria-labelledby="dropdown03">
+              <a class="dropdown-item" href="#">Configurações</a>
+              <a class="dropdown-item" href="#">Perfil</a>
+              <a class="dropdown-item" href="{{ url_for('logout') }}">Logout</a>
+            </div>
+          </li>
 
         </ul>
+        
+      </div>
 
-        <br><br><br><br>
+    </nav>
 
-        {% if message %}
+    {% block content %}{% endblock %}
 
-            <div class="myFlashInfoMessage">
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
 
-                <a>{{ message }}</a>
+    <script>window.jQuery || document.write('<script src="{{ url_for('static', filename='js/jquery.min.js') }}"><\/script>')</script>
 
-            </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
 
-            <br><br>
+    <script src="{{  url_for('static', filename='js/bootstrap.min.js') }} "></script>
 
-        {% endif %}
+    <script src="{{  url_for('static', filename='js/ie10-viewport-bug-workaround.js') }} "></script>
 
-        {% block content %}
-        {% endblock %}
-
-    </body>
+  </body>
 
 </html>

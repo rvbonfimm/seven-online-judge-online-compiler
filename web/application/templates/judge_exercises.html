@@ -1,60 +1,74 @@
 {% extends 'base_main.html' %}
-   
-{% block content %}
 
-	<div class="divJudgeMain">
+    {% block title %}Julgamento{% endblock %}
 
-		<form action="{{ url_for('registercode') }}" method="POST">
+    {% block head %}
 
-			<div class="judgeParams">
+      {{ super() }}
 
-				<label>Exercício:</label>
+    {% endblock %}
 
-				<select name="exercise_number" required>
-						
-					{% for item in exercises_list %}
+    {% block content %}
 
-						{% if exercise == item.exercise_number %}
+    <div class="divJudgeMain">
 
-							<option selected=True>
-								
-								{{ item.exercise_number }}
+        <form action="{{ url_for('registercode') }}" method="POST">
 
-							</option>
-					
-						{% else %}		
+            <div class="judgeParams">
 
-							<option>
-								
-								{{ item.exercise_number }}
+                <label>Exercício:</label>
 
-							</option>	
+                <select name="exercise_number" required>
+                        
+                    {% for item in exercises_list %}
 
-						{% endif %}
+                        {% if exercise == item.exercise_number %}
 
-					{% endfor %} 
+                            <option selected=True>
+                                
+                                {{ item.exercise_number }}
 
-				</select>
+                            </option>
+                    
+                        {% else %}		
 
-				<label>Linguagem:</label>
+                            <option>
+                                
+                                {{ item.exercise_number }}
 
-				<input type="radio" name="language" value="c" checked>C
-				<input type="radio" name="language" value="py">Python
+                            </option>	
 
-			</div>
+                        {% endif %}
 
-			<br>
+                    {% endfor %} 
 
-			<div class="divJudge">
+                </select>
 
-				<textarea name="codearea" rows="20" cols="40"></textarea><br><br>
+                <label>Linguagem:</label>
 
-				<input class="buttonJudge" type="submit" value="Submeter">
+                <input type="radio" name="language" value="c" checked>C
+                <input type="radio" name="language" value="py">Python
 
-			</div>
+            </div>
 
-		</form>
+            <br>
 
-	</div>
+            <div class="divJudge">
+
+                <textarea name="codearea" rows="15" cols="50" required></textarea><br><br>
+
+                <input class="buttonJudge" type="submit" value="Submeter">
+
+                <br>
+
+                <p>Ou, você pode importar diretamente um arquivo para Julgamento</p>
+
+                
+
+            </div>
+
+        </form>
+
+    </div>
 
 {% endblock %}

@@ -59,15 +59,15 @@ class Exercise(db.Model):
 
     date_created = db.Column(db.DateTime)
 
-    input = db.Column(db.String(100))
+    inputt = db.Column(db.String(100))
 
-    output = db.Column(db.String(100))
+    outputt = db.Column(db.String(100))
 
     input_description = db.Column(db.String(100))
 
     output_description = db.Column(db.String(100))
 
-    def __init__(self, exercise_number, name, description, level, input, output, input_description, output_description, date_created=None):
+    def __init__(self, exercise_number, name, description, level, inputt, outputt, input_description, output_description, date_created=None):
 
         self.exercise_number = exercise_number
         self.name = name
@@ -79,8 +79,8 @@ class Exercise(db.Model):
         else:
             self.date_created = date_created
 
-        self.input = input    
-        self.output = output
+        self.inputt = inputt
+        self.outputt = outputt
         self.input_description = input_description
         self.output_description= output_description
 

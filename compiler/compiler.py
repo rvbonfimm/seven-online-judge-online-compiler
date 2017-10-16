@@ -1,27 +1,28 @@
 #!/usr/bin/env python
 
+import sys
 import os
 import subprocess
 import pexpect
-import sys
 import py_compile
+import logging as log
 
 from subprocess import Popen, PIPE
 from pexpect import *
 
 
 # Set the Debug Mode On or Off
-if (str(sys.argv).find('-d') != -1): 
+if str(sys.argv).find('-d') != -1:
 
     DEBUG = True
 
-else: 
+else:
 
     DEBUG = False
 
 def main():
 
-    MAIN_DIR = ((os.getcwd()).replace("web", "compiler") + "/")
+    MAIN_DIR = str(sys.argv[0]).replace("compiler.py", "")
 
     FILE_USER_IN_DIR = str(sys.argv[1])
 
@@ -29,13 +30,17 @@ def main():
 
     JUDGED_FILE_DIR = MAIN_DIR + "judged/"
 
+    LOG_DIR = MAIN_DIR + "logs/"
+
     TEMP_DIR = JUDGE_DIR + "temp/"
 
-    FILE_USER_IN = FILE_USER_IN_DIR.replace(JUDGE_DIR,"")
+    FILE_USER_IN = FILE_USER_IN_DIR.replace(JUDGE_DIR, "")
 
     EXERCISES_DIR = MAIN_DIR + "exercises/"
 
     EXERCISE_NUMBER = FILE_USER_IN[:4]
+
+    LOG_FILE = LOG_DIR + FILE_USER_IN.split('.')[0] + ".judgelog"
 
     EXERCISE_IN = EXERCISES_DIR + "input/" + EXERCISE_NUMBER + ".exercisein" 
 
@@ -45,44 +50,48 @@ def main():
 
     FILE_USER_JUDGED_RESULT = TEMP_DIR + FILE_USER_IN.split('.')[0] + ".judgeresult"
 
-    WITHDETAIL = True
-    
-    #Search for the language choose
-    if DEBUG: print("[DEBUG] Language selected: " + str(FILE_USER_IN.split('.')[1]) + "\n")
+    log.basicConfig(filename=LOG_FILE, level=log.DEBUG, format='%(asctime)s - %(levelname)s: %(message)s')
 
-    if (FILE_USER_IN.split('.')[1] == 'c'):
+    WITHDETAIL = True
+
+    log.info("---------------- Start of Judgement -----------------\n")
+
+    log.info("Language selected: " + str(FILE_USER_IN.split('.')[1]))
+
+    #Search for the language choose
+    if FILE_USER_IN.split('.')[1] == 'c':
 
         LANGUAGE = 'c'
 
         FILE_USER_COMPILED = FILE_USER_IN.split('.')[0] + ".gcctemp"
 
-    elif(FILE_USER_IN.split('.')[1] == 'py'):
+    elif FILE_USER_IN.split('.')[1] == 'py':
 
         LANGUAGE = 'python'
 
         FILE_USER_COMPILED = JUDGE_DIR + FILE_USER_IN.split('.')[0] + ".pyc"
 
-    if DEBUG: print("[DEBUG] Starting 'Status 1' treatment\n")
+    log.info("Starting 'Status 1' treatment")
     
     #Search for Status 1
     status = firstStatus(LANGUAGE, FILE_USER_IN_DIR, FILE_USER_COMPILED)
 
     moveFile(FILE_USER_IN_DIR, JUDGED_FILE_DIR)
 
-    if DEBUG: print("[DEBUG] Status 1: " + str(status) + "\n")
+    log.info("Status 1: " + str(status))
 
-    if(status):
+    if status:
 
         return "Status 1"
 
-    if DEBUG: print("[DEBUG] Starting 'Status 2, 3 and 4' treatment\n")
+    log.info("Starting 'Status 2, 3 and 4' treatment")
 
     #Search for Status 2, 3 or 4
-    userCodeStatus = testUserCode(LANGUAGE, EXERCISE_IN, EXERCISE_OUT, FILE_USER_COMPILED, FILE_USER_ANSWER_OUT)
+    userCodeStatus = testUserCode(LANGUAGE, EXERCISE_IN, FILE_USER_COMPILED, FILE_USER_ANSWER_OUT)
     
     deleteFile(FILE_USER_COMPILED)
 
-    if(userCodeStatus == "Status 3" or userCodeStatus == "Status 4"):
+    if userCodeStatus == "Status 3" or userCodeStatus == "Status 4":
 
         return userCodeStatus
 
@@ -92,36 +101,38 @@ def main():
 
         deleteFile(FILE_USER_ANSWER_OUT)
 
-        if(status == "Status 5"):
+        if status == "Status 5":
 
-            if DEBUG: print("[DEBUG] Status 2, 3 and 4: any problem was found.\n")
+            log.info("Status 2, 3 and 4: any problem was found.")
 
-            if DEBUG: print("[DEBUG] The user code was succesfully accepted.\n")
+            log.info("The user code was succesfully accepted.")            
+
+            return status
 
         return status
 
 
 def firstStatus(language, fileInput, fileCompiled):
 
-    if DEBUG: print("[DEBUG] Compiling the file: " + str(fileInput) + "\n")
+    log.info("Compiling the file: " + str(fileInput))
 
-    if(language == "c"):
+    if language == "c":
 
-        if DEBUG: print("[DEBUG] Printing the .c file in: " + str(fileInput) + "\n")
+        log.info("Printing the .c file in: " + str(fileInput))
 
         cmd = ["gcc", fileInput, "-o", fileCompiled]
 
-        if DEBUG: print("[DEBUG] Printing the .c file out: " + str(fileCompiled) + "\n")
+        log.info("Printing the .c file out: " + str(fileCompiled))
 
-    elif(language == "python"):
+    elif language == "python":
 
-        if DEBUG: print("[DEBUG] Printing the .py file in: " + str(fileInput) + "\n")
+        log.info("Printing the .py file in: " + str(fileInput))
 
         cmd = ["python", "-m", "py_compile", fileInput]        
 
-        if DEBUG: print("[DEBUG] Printing the .py file out: " + str(fileCompiled) + "\n")
+        log.info("Printing the .py file out: " + str(fileCompiled))
 
-    if DEBUG: print("[DEBUG] Printing the command: " + str(cmd) + "\n")
+    log.info("Printing the command: " + str(cmd))
 
     try:
 
@@ -131,24 +142,24 @@ def firstStatus(language, fileInput, fileCompiled):
 
     except subprocess.CalledProcessError, c:
 
-        if DEBUG: print("[DEBUG - EXCEPTION] " + str(c) + "\n")
+        log.info(str(c))
 
         return True
 
     except py_compile.PyCompileError, p:
 
-        if DEBUG: print("[DEBUG - EXCEPTION] " + str(p) + "\n")
+        log.info("[EXCEPTION] " + str(p))
 
         return True
 
     except Exception, e:
 
-        if DEBUG: print("[DEBUG - EXCEPTION] " + str(e) + "\n")
+        log.error("[EXCEPTION] " + str(e))
 
         return True
 
 
-def testUserCode(language, exercise_in, exercise_out, compiledFile, fileUserAnswerOut):
+def testUserCode(language, exercise_in, compiledFile, fileUserAnswerOut):
 
     try:
 
@@ -158,70 +169,82 @@ def testUserCode(language, exercise_in, exercise_out, compiledFile, fileUserAnsw
 
         fileInReaded.close
 
+        log.info("File readed: " + str(fileInRows))
+
         answerOut = []
 
         #Each line is a case to test with the user code
         for line in fileInRows:
-            
-            splitter = line.split(' ')
 
-            if(language == 'c'):
+            log.info("Line: " + str(line))
+
+            splitter = line.split(';')
+
+            log.info("Splitter: " + str(splitter))
+
+            if language == 'c':
 
                 cmd = ('./' + compiledFile)
 
-            elif(language == 'python'):
+            elif language == 'python':
 
                 cmd = ('python ' + compiledFile)
 
-            userCodeOut = pexpect.spawn(cmd, timeout=4)
+            child = pexpect.spawn(cmd, timeout=4)
 
             for item in splitter:
 
-                userCodeOut.sendline(item)
+                log.info("Item putted: " + str(item))
 
-            checkExpectOut = userCodeOut.expect([pexpect.EOF, pexpect.TIMEOUT])
+                child.sendline(item)
 
-            if(checkExpectOut == 1 ):
+            checkexpectout = child.expect([pexpect.EOF, pexpect.TIMEOUT])
+
+            if checkexpectout == 1:
 
                 return "Status 3"
 
-            splitOut = userCodeOut.before.split('\n')
+            splitout = child.before.split('\n')
 
-            if(language == 'c'):
+            log.info("Pexpect out: " + str(splitout))
 
-                searchForNewLine = splitOut[len(splitOut)-1]
+            if language == 'c':
 
-            elif(language == 'python'):            
+                searchnewline = splitout[len(splitout)-1]
 
-                if(splitOut[len(splitOut)-2] == '\r'):
+            elif language == 'python':
 
-                    return "Status 4" #\n at print function
+                if splitout[len(splitout)-2] == '\r': #\n at print function
 
-                searchForNewLine = splitOut[len(splitOut)-1]
+                    return "Status 4"
 
-            if(searchForNewLine != ""):
+                searchnewline = splitout[len(splitout)-1]
+
+            if searchnewline != "":
 
                 return "Status 4"
 
-            userCodeOut.close()
+            child.close()
 
-            finalOut = splitOut[len(splitOut)-2].replace('\r','')
+            finalout = splitout[len(splitout)-2].replace('\r', '')
 
-            answerOut.append(finalOut)
+            answerOut.append(finalout)
 
-        generateFileOut = open(fileUserAnswerOut, 'w')
+        generatefileout = open(fileUserAnswerOut, 'w')
 
         for item in answerOut:
 
-            generateFileOut.write(item + "\n")
+            log.info("Answer out: " + str(item))
 
-        generateFileOut.close
+            generatefileout.write(item + "\n")
+
+        generatefileout.close
 
         return True
 
     except Exception, e:
 
-        if DEBUG: print("[DEBUG - EXCEPTION] " + str(e) + "\n")
+        log.error("[EXCEPTION] " + str(e))
 
         return False
 
@@ -230,16 +253,16 @@ def compareValues(exercise_out, fileUserAnswerOut, withDetail):
 
     try:
 
-        if DEBUG: print("[DEBUG] Comparing the files: " + str(exercise_out) + "\nwith: " + str(fileUserAnswerOut) + "\n")
+        log.info("Comparing the files: " + str(exercise_out) + "\nwith: " + str(fileUserAnswerOut))
 
-        if DEBUG: print("[DEBUG] With output detail? " + str(withDetail) + "\n")
+        log.info("With output detail? " + str(withDetail))
 
-        if not(withDetail):
+        if not withDetail:
 
             result = open(exercise_out, 'rb').read() == open(fileUserAnswerOut, 'rb').read()
 
         else:
-        
+    
             resultOut = []
 
             aux = 1
@@ -258,7 +281,7 @@ def compareValues(exercise_out, fileUserAnswerOut, withDetail):
 
             for our, user in zip(ourFileOut, fileOutUser):
 
-                if(our == user):
+                if our == user:
 
                     result = "Status 5"
 
@@ -268,7 +291,7 @@ def compareValues(exercise_out, fileUserAnswerOut, withDetail):
 
                     tempUser = user.replace(" ", "")
 
-                    if(tempOur != tempUser):
+                    if tempOur != tempUser:
 
                         result = "Status 2"
 
@@ -276,28 +299,27 @@ def compareValues(exercise_out, fileUserAnswerOut, withDetail):
 
                         result = "Status 4"                        
         
-                resultOut.append("Line " + str(aux) + ": " + str(result) + "; Expected result: " + str(our) + "; Your result: " + str(user) + ";\n")
+                resultOut.append("Line " + str(aux) + ": '" + str(result) + "'; Expected result: '" + str(our) + "'; Your result: '" + str(user) + "';\n")
 
                 aux += 1
 
             for item in resultOut:
 
-                if DEBUG: print ("[DEBUG] " + str(item))
+                log.info(str(item))
 
-        if DEBUG: print("[DEBUG] Comparing the files: " + str(result) + "\n")
+        log.info("Comparing the files: " + str(result))
 
         return result
 
     except Exception, e:
 
-        if DEBUG: print("[DEBUG - EXCEPTION] " + str(e) + "\n")
+        log.error("[EXCEPTION] " + str(e))
 
         return False
 
-
 def deleteFile(fileInput):
 
-    if DEBUG: print("[DEBUG] Deleting the file: " + str(fileInput) + "\n")
+    log.info("Deleting the file: " + str(fileInput))
 
     try:
 
@@ -305,20 +327,19 @@ def deleteFile(fileInput):
 
         subprocess.Popen(cmd, shell=False);
 
-        if DEBUG: print("[DEBUG] Deleted successfully.\n")
+        log.info("Deleted successfully.")
 
         return True
 
     except Exception, e: 
 
-        if DEBUG: print("[DEBUG - EXCEPTION] " + str(e) + "\n")
+        log.error("[EXCEPTION] " + str(e))
 
         return False
 
-
 def moveFile(fileInput, destiny):
 
-    if DEBUG: print("[DEBUG] Moving the file: " + str(fileInput) + " to: " + str(destiny) + "\n")
+    log.info("Moving the file: " + str(fileInput) + " to: " + str(destiny))
 
     try:
 
@@ -326,21 +347,22 @@ def moveFile(fileInput, destiny):
 
         subprocess.Popen(cmd, shell=False);        
 
-        if DEBUG: print("[DEBUG] Moved successfully.\n")
+        log.info("Moved successfully.")
 
         return True
 
     except Exception, e:
 
-        if DEBUG: print("[DEBUG - EXCEPTION] " + str(e) + "\n")
+        log.error("[EXCEPTION] " + str(e))
 
         return False
-
 
 if __name__ == '__main__':
 
     result = main()
 
-    if DEBUG: print("[DEBUG] " + str(result) + "\n")
+    log.info(str(result))
+
+    log.info("---------------- End of Judgement ----------------\n")
 
     print (result)

@@ -1,3 +1,6 @@
+# encoding=utf8  
+
+import sys  
 import pexpect
 import time
 import os
@@ -9,22 +12,8 @@ from flask_login import login_user, login_required, current_user
 from application.models.tables import Exercise, Judge, User, Attempt
 
 
-@app.route('/test')
-@login_required
-def test():
-
-    title = "Lista de Exercicios"
-
-    exercises = Exercise.query.all()
-
-    return render_template('list_exercises.html', title=title, exercises_list=exercises)
-
-@app.route('/test2')
-@login_required
-def test2():
-
-    return render_template('modal_exercises.html')
-
+reload(sys)
+sys.setdefaultencoding('utf8')
 
 @app.route('/listexercises')
 @login_required
@@ -35,8 +24,7 @@ def listexercises():
     exercises = Exercise.query.all()
 
     return render_template('preview_exercises.html', title=title, exercises_list=exercises)
-
-
+    
 @app.route('/judges/<int:exercise>', methods=['GET', 'POST'])
 @app.route('/judges/', defaults={"exercise": None}, methods=['GET', 'POST'])
 @login_required
@@ -53,15 +41,13 @@ def judges(exercise):
 @login_required
 def registercode():
 
-    status = {'Status 1':'Erro de sintaxe','Status 2':'Resposta incorreta','Status 3':'Tempo limite excedido','Status 4':'Erro de apresentacao','Status 5':'Codigo submetido com sucesso'}
-
     title = "Julgamento de Exercicios"
+
+    user_code = request.form.get('codearea')
 
     exercise_number = request.form.get('exercise_number')
 
     user_language = request.form.get('language')
-
-    user_code = request.form.get('codearea')
 
     user_id = current_user.id
 
@@ -71,65 +57,61 @@ def registercode():
 
     judge = Judge(code=user_code, language=user_language, id_exercise=id_exercise, id_user=user_id)
 
-    #alreadyTried = Attempt.query.filter_by(id_user=user_id).first()
-
-    #if(alreadyTries):
-
-    #elif():
-
-    #else:
-
     db.session.add(judge)
 
     db.session.commit()
 
     # Start to create the user code file to compile
-    date_time = (time.strftime("%d%m%Y") + "_" + time.strftime("%H%M%S") )
+    date_time = (time.strftime("%d%m%Y") + "_" + time.strftime("%H%M%S"))
 
     base_compiler_dir = (os.getcwd().replace("web", "")) + "compiler/"
 
     exec_dir = base_compiler_dir + "compiler.py"
 
-    user_file_dir = base_compiler_dir + "tojudge/" + exercise_number + "_" + date_time + "_" + str(user_id) + "." + user_language
+    user_file_dir = base_compiler_dir + "tojudge/" + exercise_number + "_" + \
+    date_time + "_" + str(user_id) + "." + user_language
 
     user_file_dir = str(user_file_dir)
 
-    with open(user_file_dir,"w") as userFile:
+    with open(user_file_dir, "w") as userfile:
 
-        userFile.write(user_code)
+        userfile.write(user_code)
 
-        userFile.close()
+        userfile.close()
 
-    cmd = ("python " + str(exec_dir) + " " + str(user_file_dir))
+    cmd = ("python " + str(exec_dir) + " " + str(user_file_dir) + " -d")
 
-    userCodeOut = pexpect.spawn(cmd, timeout=7)
+    usercodeout = pexpect.spawn(cmd, timeout=7)
 
-    index = userCodeOut.expect([pexpect.EOF, pexpect.TIMEOUT])
+    index = usercodeout.expect([pexpect.EOF, pexpect.TIMEOUT])
 
-    if(index == 1 ):
+    if index == 1:
 
         return "[WEB] Timeout exceeded.\n"
 
-    result = userCodeOut.before
+    result = usercodeout.before
 
-    if(result.find('Status 1') != -1):
+    print("[WEB] Result: %s\n" % result)
 
-        result = "Status 1"
+    if result.find('Status 1') != -1:
 
-    clearResult = str(result).strip()
+        return render_template('exercise_result.html', title=title, \
+        result="Status 1: Erro de sintaxe", result_error=result)
 
-    if status.has_key(clearResult):
+    else:
 
-        value = status[clearResult]
+        clearesult = str(result).strip()
 
-    attempt = Attempt(id_user=user_id,id_exercise=id_exercise,judge_status=value)
+        status = {'Status 1':'Erro de sintaxe', 'Status 2':'Resposta incorreta', 'Status 3':'Tempo limite excedido', 'Status 4':'Erro de apresentacao', 'Status 5':'Codigo submetido com sucesso'}
 
-    db.session.add(attempt)
+        if status.has_key(clearesult):
 
-    db.session.commit()
+            value = status[clearesult]
 
-    answerOut = str(clearResult)  + ": " + value
+        else:
 
-    print ("[WEB] %s\n" % answerOut)
+            value = ""
 
-    return render_template('exercise_result.html', title=title, result=answerOut)
+        answerout = str(clearesult)  + ": " + value
+
+        return render_template('exercise_result.html', title=title, result=answerout)

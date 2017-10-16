@@ -1,34 +1,42 @@
-{% extends 'base_presentation.html' %}
+{% extends 'base_main.html' %}
+
+{% block title %}Plano de Estudos{% endblock %}
+
+{% block head %}
+
+  	{{ super() }}
+
+{% endblock %}
 
 {% block content %}
 
-	<form action="{{ url_for('startuser') }}" method="POST">
+<form action="{{ url_for('startuser') }}" method="POST">
 
-		<div class="divPresentationQuestions">
+	<div class="divPresentationQuestions">
 
-			<br>
+		<br>
 
-			<label style="font-size: 28px;">{{ current_user.name.title() }}, responda os questionamentos abaixo para que nós possamos definir um roteiro de estudos para você.</label>
+		<label style="font-size: 35px;">{{ current_user.name.title() }}, responda os questionamentos abaixo para que nós possamos definir um roteiro de estudos para você.</label>
 
-			<br><br>
+		<br><br>
 
-			<hr>
+		<hr>
 
-			<label style="font-size: 28px;">Você já teve algum contato com Programação?</label>
+		<label style="font-size: 28px;">Você já teve algum contato com Programação?</label>
 
-			<br><br>
+		<br><br>
 
-			<input type="radio" name="programming_experience" value="no">Não
-			<input type="radio" name="programming_experience" value="yes">Sim
+		<input type="radio" name="programming_experience" value="no">Não
+		<input type="radio" name="programming_experience" value="yes">Sim
 
-			<br><br>
+		<br><br>
 
-			<input class="buttonNext" type="submit" value="Avançar">	
+		<input class="buttonNext" type="submit" value="Avançar">	
 
-		</div>
+	</div>
 
-	</form>
+</form>
 
-	<br>
+<br>
 
 {% endblock %} 

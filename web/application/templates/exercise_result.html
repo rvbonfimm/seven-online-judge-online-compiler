@@ -1,23 +1,45 @@
-{% extends 'base_index.html' %}
+{% extends 'base_main.html' %}
+
+{% block title %}Julgamentos{% endblock %}
+
+{% block head %}
+
+{{ super() }}
+
+{% endblock %}
 
 {% block content %}
 
-	<div class="divExerciseResult">
+	{% if result %}
 
-		<p>Resultado da submissão: </p>
+		<br><br>
 
-		{% if result %}
+		<div class="divExerciseResult">
+
+			<p>Resultado da submissão: </p>
 
 			<p>{{ result }}</p>
 
-		{% endif %}
+			<b><a href="{{ url_for('listexercises') }}" style="font-family: verdana; font-size: 20px; text-decoration: None; color: #186249; font-style: italic;">Voltar aos Exercícios</a></b>
 
-	</div>
+		</div>
 
-	<div>
+		<br>
 
-		<b><a href="{{ url_for('listexercises') }}" style="font-family: verdana; font-size: 20px; text-decoration: None; color: #186249; font-style: italic;">Voltar aos Exercícios</a></b>
+	{% endif %}
 
-	</div>
+	{% if result_error %}
+
+		<div class="divExerciseResult">
+
+			<p>Saída do programa: </p>
+
+			<p>{{ result_error }}</p>
+
+		</div>
+
+		<br>
+
+	{% endif %}
 
 {% endblock %}

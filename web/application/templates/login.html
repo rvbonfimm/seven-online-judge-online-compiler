@@ -1,0 +1,55 @@
+{% extends 'base_index.html' %}
+
+{% block title %}Login{% endblock %}
+
+{% block head %}
+
+  {{ super() }}
+
+{% endblock %}
+
+{% block content %}
+
+{% if message %}
+    
+    <div style="text-align: center;" class="alert alert-info alert-dismissible fade show" role="alert">
+
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+        </button>
+
+        <strong>{{ current_user.name }}</strong>{{ message }}
+        
+    </div>
+
+{% endif %}
+
+<br><br>
+
+<div class="divMain">
+
+    <h1 class="labelTitle">Seven Online Judge!</h1>
+    
+    <hr>
+
+    <form action="{{ url_for('login') }}" method=POST>
+
+        <br>
+
+        <input class="textLogin" type="text" name="loginField" placeholder="Usuário" autofocus required>
+
+        <input class="textLogin" type="password" name="passwordField" placeholder="Senha" required><br><br>            
+
+        <input class="buttonMain" type="submit" name="enter" value="Entrar"><br>
+
+        <hr>
+
+    </form>
+
+    <label style="font-size: 18px; font-style: italic;">Ainda não tem acesso?</label><br>
+
+    <input onClick="window.location.href='{{ url_for('registeruser') }}'" type="submit" Value="Cadastrar!" name="next" class="buttonMain"><br>
+
+</div>
+
+{% endblock %}  

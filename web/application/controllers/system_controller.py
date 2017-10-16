@@ -27,9 +27,17 @@ def presentation():
 
 
 @app.route('/main')
-#@login_required
+@login_required
 def main():
 
     title = "Pagina principal"
 
     return render_template('main.html', title=title)
+
+@app.route('/functionality')
+def functionality():
+
+    title = "Funcionalidades"
+
+    return render_template('functionality.html', title=title)
+

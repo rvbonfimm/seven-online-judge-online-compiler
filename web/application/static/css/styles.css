@@ -1,49 +1,16 @@
-*{
-
-	font-family: sans-serif;
-
-}
-
 body {
 
-    background-image: url("../images/image_background_full.png");
-	background-repeat: repeat;
+    background-image: url("../images/seven_wallpaper.jpg");
+	background-repeat: repeat-x;
 	background-position: center center;
 	background-attachment: fixed;
 	background-size: cover;
 
 }
 
-ul {
-
-	list-style-type: none;
-	margin: 0;
-	padding: 0;
-	overflow: hidden;
-	background-color: #333;
-
-}
-
-li {
-
-	float: left;
-
-}
-
-li a {
-
-	display: block;
-	color: white;
-	text-align: center;
-	padding: 10px 10px;
-	text-decoration: none;
-
-}
-
-li a:hover {
-
-	background-color: #111111;
-
+.titleMain{
+	font: #ffffff;
+	font-family: sans-serif;
 }
 
 #uniq{
@@ -165,11 +132,9 @@ tr:nth-child(even) {
 
 .divPresentationQuestions{
 
-	background-color: #186249;
-
 	margin: auto;
 
-	width: 50%;
+	width: 70%;
 
     border: 0px solid black;
 
@@ -179,8 +144,26 @@ tr:nth-child(even) {
 
     text-align: center;
 
-    color: #111111;
+    color: #ffffff;
 
+}
+
+.divIndex{
+	
+	margin: auto;
+
+	width: 100%;
+
+	border: 0px solid black;
+
+	border-radius: 9px;
+
+	padding: 17px;
+
+	text-align: center;
+
+	color: #ffffff;
+	
 }
 
 .divPresentationQuestionsNextItem{
@@ -223,7 +206,7 @@ tr:nth-child(even) {
 	
 	margin: auto;
 
-	width: 35%;
+	width: 50%;
 
     border: 0px solid black;
 
@@ -275,13 +258,15 @@ tr:nth-child(even) {
 	
 	margin: auto;
 
-	width: 35%;
+	text-align: center;
+
+	width: 40%;
 
     border: 0px solid black;
 
-    border-radius: 10px;
+    padding: 10px;
 
-    padding: 20px;
+    border-radius: 10px;
 
 }
 
@@ -297,7 +282,7 @@ tr:nth-child(even) {
 
 .textLogin{
 
-	width: 60%;
+	width: 70%;
 
 	padding: 7px;
 
@@ -345,7 +330,7 @@ tr:nth-child(even) {
 
 .buttonMain{
 
-	width: 65%;
+	width: 70%;
 
 	padding: 10px;
 
@@ -433,46 +418,30 @@ tr:nth-child(even) {
 
 }
 
-.myFlashInfoMessage{
-
-	color: black;
-
-	margin: auto;
-
-	width: 31%;
-
-	border: 0px solid black;
-
-	border-radius: 2px;
-
-	padding: 10px;
-
-	background-color: #6495ED;
-
-	text-align: center;
-
-}
-
-.container{
-	margin: auto;
-	width: 50%;
-    border: 0px solid black;
-    display: inline-block;
-    white-space: nowrap;
-}
-
-.box{
-    width: 220px;
-    height: 220px;
-    margin: 10px;
-    background-color: white;
-    display: inline-block;
-}
-
 .tableInputOutput{
 
 	width: 100%;
 	font-family: arial, sans-serif;
 	border-collapse: collapse;
-	
 }
+
+#flex-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 60%;
+    margin: 0 auto;
+}
+
+.flex-item {
+    width: 30%;
+    height: 260px;
+    background: #fff;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    background-color: #ffffff;
+}
+
+img:hover { 
+	border: 1px solid #6495ED; 
+	border-radius: 3px;
+} 

@@ -1,44 +1,33 @@
 {% extends 'base_index.html' %}
-{% block content %}
 
-    {% if message %}
+  {% block title %}Index{% endblock %}
 
-        <div class="myFlashInfoMessage">
+  {% block head %}
 
-            <a> {{ message }}  </a>
+    {{ super() }}
 
-        </div>
+  {% endblock %}
 
-        <br><br>
+  {% block content %}
 
-    {% endif %}
+  <div class="divIndex">
 
-    <div class="divMain">
+    <div style="text-align: center;" class="col-sm-8 mx-auto">
 
-        <h1 class="labelTitle">Seven Online Judge!</h1>
-        
-        <hr>
+      <h1 style="font-size: 50px;">Seven Online Judge!</h1>
 
-        <form action="{{ url_for('login') }}" method=POST>
+      <br><br><br><br><br>
 
-            <br><br>
+      <p style="font-size: 30px; font: #ffffff;">Esteja conosco e nós lhe mostraremos o quão incrível e maravilhoso a Programação de Computadores é!</p>
+      <p>
 
-            <input class="textLogin" type="text" name="loginField" placeholder="Usuário" autofocus required>
+      <br><br><br><br>
 
-            <input class="textLogin" type="password" name="passwordField" placeholder="Senha" required><br><br>            
-
-            <input class="buttonMain" type="submit" name="enter" value="Entrar"><br><br>
-
-            <hr>
-
-            <br>
-
-        </form>
-    
-        <label style="font-size: 18px; font-style: italic;">Ainda não tem acesso?</label><br><br>
-
-        <input onClick="window.location.href='{{ url_for('registeruser') }}'" type="submit" Value="Cadastrar!" name="next" class="buttonMain"><br><br>
+      <a class="btn btn-primary" href="{{ url_for('login') }}" role="button">Começar agora mesmo!</a>
+      </p>
 
     </div>
 
-{% endblock %}  
+  </div>
+
+{% endblock %}

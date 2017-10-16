@@ -1,58 +1,89 @@
-{% extends 'base.html' %}
+{% extends 'base_main.html' %}
+
+{% block title %}Lista de Exercícios{% endblock %}
+
+{% block head %}
+
+  {{ super() }}
+
+{% endblock %}
+
 {% block content %}
 
-	{% for item in exercises_list %}
+{% for item in exercises_list %}
 
-		<br><br>
+    <br><br>
 
-		<div class="divPreviewExercises">
-	    
-	    	<p style="font-size: 20px; text-align: center; color: #186249;"><b>Exercício:</b> <i>{{ item.exercise_number }} </i>| <b>Nome:</b> <i> {{ item.name }} </i> | <b>Nível:</b> <i> {{ item.level }} </i> </p>
+    <div class="divPreviewExercises">
+    
+        <p style="font-size: 20px; text-align: center; color: #186249;"><b>Exercício:</b> <i>{{ item.exercise_number }} </i>| <b>Nome:</b> <i> {{ item.name }} </i> | <b>Nível:</b> <i> {{ item.level }} </i> </p>
 
-	    	<div class="divPreviewExercisesDescription">
+        <div class="divPreviewExercisesDescription">
 
-		    	<b><p style="font-size: 20px">Descrição</p></b>
+            <b><p style="font-size: 20px">Descrição</p></b>
 
-		    	<hr>
+            <hr>
 
-		    	<p>{{ item.description }}</p>
+            <p>{{ item.description }}</p>
 
-		    	<hr>
+            <hr>
 
-	    	</div>
+        </div>
 
-	    	<div>
+        <div>
 
-				<table class="tableInputOutput">
+            <table class="tableInputOutput">
 
-					<tr>
-						<th style="font-size: 20px; color: #111111;">Entrada necessária</th>
-						<th id="uniq"></th>
-						<th style="font-size: 20px; color: #111111;">Saída esperada</th>
-					</tr>
+                <tr>
 
-					<tr>
-						<td>{{ item.input }}</td>
-						<td id="uniq"></td>
-						<td>{{ item.output }}</td>
-					</tr>
+                    <th style="font-size: 20px; color: #111111;">Entrada necessária</th>
+                    <th id="uniq"></th>
+                    <th style="font-size: 20px; color: #111111;">Saída esperada</th> 
 
-				</table>
+                </tr>
 
-	    	</div>
+                {% set input = item.inputt.split('\n') %}
 
-	    	<br><br>
+                {% for row in input %}
 
-	    	<div style="text-align: center;">
+                    <tr>
 
-	    		<b><a href="{{ url_for('judges', exercise=item.exercise_number) }}" style="font-family: verdana; font-size: 20px; text-decoration: underline; color: #186249; font-style: italic;">Julgar esse exercício</a></b>
+                        <td>{{ row }}</td>
 
-	    	</div>
+                        <td id="uniq"></td>
 
-		</div>
+                    </tr>
 
-		<br><br>
+                {% endfor %}
 
-	{% endfor %}
+                {% set output = item.outputt.split('\n') %}
+
+                {% for row in output %}
+
+                    <tr>
+
+                        <td>{{ row }}</td>
+
+                    </tr>
+
+                {% endfor %}
+
+            </table>
+
+        </div>
+
+        <br><br>
+
+        <div style="text-align: center;">
+
+            <b><a href="{{ url_for('judges', exercise=item.exercise_number) }}" style="font-family: verdana; font-size: 20px; text-decoration: underline; color: #186249; font-style: italic;">Julgar esse exercício</a></b>
+
+        </div>
+
+    </div>
+
+    <br><br>
+
+{% endfor %}
 
 {% endblock %}

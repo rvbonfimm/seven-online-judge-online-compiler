@@ -1,23 +1,115 @@
 {% extends 'base_main.html' %}
 
+{% block title %}Principal{% endblock %}
+
+{% block head %}
+
+  	{{ super() }}
+
+{% endblock %}
+
 {% block content %}
 
-    <div class="divMainBoard" style="text-align: center">
+	{% if alreadyPlain %}
+	    
+	    <div style="text-align: center;" class="alert alert-warning alert-dismissible fade show" role="alert">
 
-	    <p style="font-family: verdana; text-align: center; font-size: 30px;"> {{ current_user.name }}, o que você deseja fazer?</p>
+	        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+	        <span aria-hidden="true">&times;</span>
+	        </button>
 
-	    <hr>
+	        {{ alreadyPlain }}
+	        
+	    </div>
 
-	    <br><br>
+	{% endif %}
 
-	    <a href="{{ url_for('presentation') }}" class="buttonMain">Apresentação</a>
+    <h3 style="font: #ffffff; font-size: 40px; text-align: center;"> {{ current_user.name.title() }}, o que você deseja fazer?</h3>
 
-		<a href="#" class="buttonMain">Estudos</a>
+    <hr>
 
-		<a href="{{ url_for('listexercises') }}" class="buttonMain">Exercícios</a>
+	<br><br>
 
-		<br><br>
+	<div id="flex-container">
+
+		<div class="flex-item">
+
+			<br>
+
+			<div style="text-align: center; padding: 10px; font-size: 18px;">
+				<a href="{{ url_for('presentation') }}"><img src="{{ url_for('static', filename='images/books.png') }}" alt="" height="70" width="70"></a>
+				<p>Nos ajude a definir um Plano de Estudos para você mediante alguns testes</p>
+			</div>
+
+		</div>
+
+		<div class="flex-item">
+
+			<br>
+
+			<div style="text-align: center; padding: 10px; font-size: 18px;">
+				<a href="{{ url_for('studies') }}" ><img src="{{ url_for('static', filename='images/studies.png') }}" alt="" height="70" width="70"></a>
+				<p>Estude um plano específico para você. Isso ajudará você durante o aprendizado à Programação.</p>	
+			</div>
+
+		</div>
+
+		<div class="flex-item">
+
+			<br>
+
+			<div style="text-align: center; padding: 10px; font-size: 18px;">
+				<a href="{{ url_for('listexercises') }}"><img src="{{ url_for('static', filename='images/computer.png') }}" alt="" height="70" width="70"></a>
+				<p>Pratique seus conhecimentos adquiridos com os exercícios que nós preparamos para você!</p>
+			</div>
+
+		</div>
 
 	</div>
+
+	<br><br>
+
+	<div id="flex-container">
+
+		<div class="flex-item">
+
+			<br>
+
+			<div style="text-align: center; padding: 10px; font-size: 18px;">
+				<a href="{{ url_for('statistics') }}"><img src="{{ url_for('static', filename='images/statistics.png') }}" alt="" height="70" width="70"></a>
+				<p>Conheça os resultados e estatísticas de seus estudos realizados</p>
+			</div>
+
+		</div>
+
+		<div class="flex-item">
+
+			<br>
+
+			<div style="text-align: center; padding: 10px; font-size: 18px;">
+				<a href="{{ url_for('statistics') }}" ><img src="{{ url_for('static', filename='images/statistics_2.png') }}" alt="" height="70" width="70"></a>
+				<p>Conheça os resultados e estatísticas de seus exercícios realizados</p>	
+			</div>
+
+		</div>
+
+		<div class="flex-item">
+
+			<br>
+
+			<div style="text-align: center; padding: 10px; font-size: 18px;">
+				<a href="{{ url_for('functionality') }}"><img src="{{ url_for('static', filename='images/functionality.jpg') }}" alt="" height="70" width="70"></a>
+				<p>Conheça as funcionalidades que o Seven Online Judge! tem para lhe oferecer</p>
+			</div>
+
+		</div>
+
+	</div>
+
+	<br>
+
+	<hr>
+
+	<br>
 
 {% endblock %}

@@ -1,34 +1,70 @@
 <!DOCTYPE html>
 
-<html lan="pt-br">
+<html lang="pt-br">
 
-    <head>
+  <head>
+
+    {% block head %}
+
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+      <meta name="description" content="A graduated work about an online judge">
+      <meta name="author" content="Marcus Vogado, Rogério Bonfim">  
+
+      <title>{% block title %}{% endblock %} - Seven Online Judge!</title>
+
+      <link href="{{ url_for('static', filename='css/styles.css') }} " rel="stylesheet">
+
+      <link href="{{ url_for('static', filename='css/bootstrap.min.css') }} " rel="stylesheet">
+
+      <link href="{{ url_for('static', filename='css/navbar.css') }} " rel="stylesheet">
+
+    {% endblock %}
+
+  </head>
+
+  <body>
+
+    <nav class="navbar navbar-inverse bg-inverse navbar-toggleable-md">
       
-        <meta charset="utf-8">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleCenteredNav" aria-controls="navbarsExampleCenteredNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
 
-        {% if title %}
+      <div class="collapse navbar-collapse justify-content-md-center" id="navbarsExampleCenteredNav">
 
-            <title>{{ title }}</title>
+        <ul class="navbar-nav">
 
-        {% endif %}            
+          <li class="nav-item active">
+            <a class="nav-link" href="{{ url_for('judges') }}">Code!<span class="sr-only">(current)</span></a>
+          </li>
 
-        <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/styles.css') }}">
+          <li class="nav-item active">
+            <a class="nav-link" href="{{ url_for('studies') }}">Estudos <span class="sr-only">(current)</span></a>
+          </li>
 
-    </head>
-
-    <body>
-
-        <ul>
-
-          <li><a href="#about">Ajuda</a></li>
+          <li class="nav-item active">
+            <a class="nav-link" href="{{ url_for('statistics') }}">Estatísticas <span class="sr-only">(current)</span></a>
+          </li>
 
         </ul>
 
-        <br><br><br><br>
+      </div>
 
-        {% block content %}
-        {% endblock %}
+    </nav>
 
-    </body>
+    {% block content %}{% endblock %}
+
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+
+    <script>window.jQuery || document.write('<script src="{{ url_for('static', filename='js/jquery.min.js') }}"><\/script>')</script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+
+    <script src="{{  url_for('static', filename='js/bootstrap.min.js') }} "></script>
+
+    <script src="{{  url_for('static', filename='js/ie10-viewport-bug-workaround.js') }} "></script>
+
+  </body>
 
 </html>
