@@ -1,0 +1,79 @@
+{% extends 'base_main.html' %}
+
+{% block title %}Grupo de Exercícios{% endblock %}
+
+{% block head %}
+
+  	{{ super() }}
+
+{% endblock %}
+
+{% block content %}
+
+	{% if message %}
+	    
+	    <div style="text-align: center;" class="alert alert-warning alert-dismissible fade show" role="alert">
+
+	        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+	        <span aria-hidden="true">&times;</span>
+	        </button>
+
+	        {{ message }}
+	        
+	    </div>
+
+	{% endif %}
+
+    <h3 style="color: #ffffff; font-size: 40px; text-align: center;"> {{ current_user.name.title() }}, escolha a categoria de exercícios para julgar:</h3>
+
+    <hr>
+
+	<br><br>
+
+	<div id="flex-container">
+
+		<div class="flex-item">
+
+			<br>
+
+			<div style="text-align: center; padding: 10px; font-size: 18px;">
+				<a href="{{ url_for('exercise_list', level='Iniciante') }}"><img src="{{ url_for('static', filename='images/number_one.png') }}" alt="" height="70" width="70"></a>
+				<p>Nível Iniciante:</p>
+				<p>Variáveis e Constantes, Tipos de Dados, Estruturas de Decisão e Repetição, etc.</p>
+			</div>
+
+		</div>
+
+		<div class="flex-item">
+
+			<br>
+
+			<div style="text-align: center; padding: 10px; font-size: 18px;">
+				<a href="{{ url_for('exercise_list', level='Intermediario') }}" ><img src="{{ url_for('static', filename='images/number_two.png') }}" alt="" height="70" width="70"></a>
+				<p>Nível intermediário:</p>
+				<p>Vetores, Matrizes, Ordenação, etc.</p>	
+			</div>
+
+		</div>
+
+		<div class="flex-item">
+
+			<br>
+
+			<div style="text-align: center; padding: 10px; font-size: 18px;">
+				<a href="{{ url_for('exercise_list', level='Avancado') }}"><img src="{{ url_for('static', filename='images/number_three.png') }}" alt="" height="70" width="70"></a>
+				<p>Nível avançado:</p>
+				<p>Ponteiros, Matrizes, Ordenação, etc.</p>
+			</div>
+
+		</div>
+
+	</div>
+
+	<br>
+
+	<hr>
+
+	<br>
+
+{% endblock %}

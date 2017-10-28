@@ -1,0 +1,91 @@
+{% extends 'base_main.html' %}
+
+{% block title %}Lista de Exercícios{% endblock %}
+
+{% block head %}
+
+    {{ super() }}
+
+{% endblock %}
+
+{% block content %}
+
+<br><br>
+
+{% if exercise %}
+
+    <div class="divPreviewExercises">
+
+        <p style="font-size: 20px; text-align: center; color: #111111;"><b>Exercício:</b> <i>{{ exercise.exercise_number }} </i>| <b>Nome:</b> <i> {{ exercise.name }} </i> | <b>Nível:</b> <i> {{ exercise.level }} </i> </p>
+
+        <div class="divPreviewExercisesDescription">
+
+            <b><p style="font-size: 20px">Descrição</p></b>
+
+            <hr>
+
+            <p>{{ exercise.description }}</p>
+
+            <hr>
+
+        </div>
+
+        <div style="text-align: center;">
+
+            <table style="margin-right: 20px;" class="tableExercisePreview">
+
+                <tr>
+
+                    <th style="font-size: 20px; color: #111111; text-align: center;">Entrada necessária</th>
+
+                </tr>
+
+                {% set input = exercise.inputt.split('\n') %}
+
+                {% for row in input %}
+
+                    <tr>
+
+                        <td class="input">{{ row }}</td>
+
+                    </tr>
+
+                {% endfor %}
+
+            </table>
+
+            <table style="margin-left: 20px;" class="tableExercisePreview">
+
+                <th style="font-size: 20px; color: #111111; text-align: center;">Saída esperada</th> 
+
+                {% set output = exercise.outputt.split('\n') %}
+                
+                {% for row in output %}
+
+                    <tr>
+
+                        <td class="output">{{ row }}</td>
+
+                    </tr>
+
+                {% endfor %}
+
+            </table>
+
+        </div>
+
+        <br><br>
+
+        <div style="text-align: center;">
+            
+            <b><a href="{{ url_for('judges', exercise=exercise.exercise_number) }}" style="font-family: verdana; font-size: 20px; text-decoration: underline; color: #186249; font-style: italic;">Julgar esse exercício</a></b>
+
+        </div>
+
+    </div>
+
+{% endif %}
+
+<br><br>
+
+{% endblock %}

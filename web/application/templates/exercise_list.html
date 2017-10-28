@@ -1,0 +1,68 @@
+{% extends 'base_main.html' %}
+
+{% block title %}Lista de Exercícios{% endblock %}
+
+{% block head %}
+
+  {{ super() }}
+
+{% endblock %}
+
+{% block content %}
+
+<br><br>
+
+{% if exercises_list %}
+
+    <div class="divTableExercises">
+
+        <table class="tableInputOutput">
+
+            <tr class="listexercises">
+
+                <th class="status">Status</th>
+                <th class="number">Número</th>
+                <th class="name">Nome</th>
+                <th class="level">Nível</th>
+                <th class="judge">Julgar</th>
+                
+            </tr>
+
+            {% for exercise in exercises_list %}
+
+                <tr class="listexercises">
+
+                    <td class="status">
+
+                        <img border="0" src="{{ url_for('static', filename='images/accepted.png') }}" width="25" height="25">
+
+                        <img border="0" src="{{ url_for('static', filename='images/error.png') }}" width="25" height="25">
+
+                    </td>
+
+                    <td class="number">{{ exercise.exercise_number }}</td>
+                    <td class="name">{{ exercise.name }}</td>
+                    <td class="level">{{ exercise.level }}</td>
+                    
+                    <td class="judge">
+                        <a target="_blank" href="{{ url_for('previewexercise', exercise=exercise.exercise_number) }}"><img border="0" src="{{ url_for('static', filename='images/glyphicons-152-new-window.png') }}" width="20" height="20">
+                        </a>
+                    </td>
+                    
+                </tr>
+
+            {% endfor %}
+
+        </table>
+
+    </div>
+
+    <div>
+        
+    </div>
+
+{% endif %}
+
+<br><br>
+
+{% endblock %}

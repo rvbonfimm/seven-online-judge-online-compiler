@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+
+<html lang="pt-br">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Seven Online Judge</title>
+
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }} " rel="stylesheet">
+
+    <link href="album.css" rel="stylesheet">
+
+  </head>
+
+  <body>
+
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+      Dados do exercício
+    </button>
+
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+      <div class="modal-dialog" role="document">
+
+        <div class="modal-content">
+
+          <div class="modal-header">
+
+            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+
+          </div>
+
+          <div class="modal-body">
+            Body content  
+          </div>
+
+          <div class="modal-footer">
+
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+
+          </div>
+
+        </div>
+
+      </div>
+      
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+
+    <script>window.jQuery || document.write('<script src=" {{ url_for('static', filename='jquery.min.js') }} "><\/script>')</script>
+
+    <script src=" {{ url_for('static', filename='js/popper.min.js') }} "></script>
+
+    <script src=" {{ url_for('static', filename='js/holder.min.js') }} "></script>
+
+    <script src=" {{ url_for('static', filename='js/bootstrap.min.js') }} "></script>
+
+    <script src=" {{ url_for('static', filename='js/ie10-viewport-bug-workaround.js') }} "></script>
+
+  </body>
+
+</html>
