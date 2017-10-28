@@ -24,7 +24,7 @@
 
 	{% endif %}
 
-    <h3 style="font: #ffffff; font-size: 40px; text-align: center;"> {{ current_user.name.title() }}, o que você deseja fazer?</h3>
+    <h3 style="color: #ffffff; font-size: 40px; text-align: center;"> {{ current_user.name.title() }}, o que você deseja fazer?</h3>
 
     <hr>
 
@@ -59,7 +59,7 @@
 			<br>
 
 			<div style="text-align: center; padding: 10px; font-size: 18px;">
-				<a href="{{ url_for('listexercises') }}"><img src="{{ url_for('static', filename='images/computer.png') }}" alt="" height="70" width="70"></a>
+				<a href="{{ url_for('exercisegroup') }}"><img src="{{ url_for('static', filename='images/computer.png') }}" alt="" height="70" width="70"></a>
 				<p>Pratique seus conhecimentos adquiridos com os exercícios que nós preparamos para você!</p>
 			</div>
 

@@ -10,38 +10,71 @@ from flask import render_template, request, url_for
 from pexpect import spawn
 from flask_login import login_user, login_required, current_user
 from application.models.tables import Exercise, Judge, User, Attempt
-
+from sqlalchemy import func
+from collections import Counter
 
 reload(sys)
 sys.setdefaultencoding('utf8')
 
-@app.route('/listexercises')
+@app.route('/exercise_list/<string:level>', methods=['GET', 'POST'])
+@app.route('/exercise_list/', defaults={"level": None}, methods=['GET', 'POST'])
 @login_required
-def listexercises():
+def exercise_list(level=None):
 
-    title = "Lista de Exercicios"
+    exercises = db.session.query(Exercise.id, Exercise.exercise_number, Exercise.name, Exercise.level). \
+    filter(Exercise.level == level).all()
 
-    exercises = Exercise.query.all()
+    done_exercises = db.session.query(Attempt.id_exercise, Attempt.status). \
+    filter(Attempt.id_user == current_user.id, Attempt.status == 'Status 5'). \
+    group_by(Attempt.status, Attempt.id_exercise).order_by(Attempt.id_exercise).all()
 
-    return render_template('preview_exercises.html', title=title, exercises_list=exercises)
-    
+    undone_exercises = db.session.query(Attempt.id_exercise, Attempt.status). \
+    filter(Attempt.id_user == current_user.id, Attempt.status != 'Status 5'). \
+    group_by(Attempt.status, Attempt.id_exercise).order_by(Attempt.id_exercise).all()
+
+    list_done = []
+
+    list_undone = []
+
+    for item in done_exercises:
+
+        list_done.append(item.id_exercise)
+
+    for item in undone_exercises:
+
+        if item.id_exercise not in list_done:
+
+            list_undone.append(item.id_exercise)
+
+    return render_template('exercise_list.html', exercises_list=exercises, done_exercises=list_done, undone_exercises=list_undone)
+
+@app.route('/exercisegroup')
+@login_required
+def exercisegroup():
+
+    return render_template('exercise_group.html')
+
 @app.route('/judges/<int:exercise>', methods=['GET', 'POST'])
 @app.route('/judges/', defaults={"exercise": None}, methods=['GET', 'POST'])
 @login_required
 def judges(exercise):
 
-    title = "Pagina de Julgamento"
+    exercises = Exercise.query.order_by(Exercise.exercise_number.asc()).all()
 
-    exercises = Exercise.query.all()
+    return render_template('judge_exercises.html', exercises_list=exercises, exercise=exercise)
 
-    return render_template('judge_exercises.html', title=title, exercises_list=exercises, exercise=exercise)
+@app.route('/previewexercise/<int:exercise>', methods=['GET', 'POST'])
+@app.route('/previewexercise/', defaults={"exercise": None}, methods=['GET', 'POST'])
+@login_required
+def previewexercise(exercise):
 
+    exercise = Exercise.query.filter_by(exercise_number=exercise).first()
+
+    return render_template('preview_exercise.html', exercise=exercise)
 
 @app.route('/registercode', methods=['GET', 'POST'])
 @login_required
 def registercode():
-
-    title = "Julgamento de Exercicios"
 
     user_code = request.form.get('codearea')
 
@@ -49,13 +82,13 @@ def registercode():
 
     user_language = request.form.get('language')
 
-    user_id = current_user.id
+    id_user = current_user.id
 
     exercise = Exercise.query.filter_by(exercise_number=exercise_number).first()
 
     id_exercise = exercise.id
 
-    judge = Judge(code=user_code, language=user_language, id_exercise=id_exercise, id_user=user_id)
+    judge = Judge(code=user_code, language=user_language, id_exercise=id_exercise, id_user=id_user)
 
     db.session.add(judge)
 
@@ -69,7 +102,7 @@ def registercode():
     exec_dir = base_compiler_dir + "compiler.py"
 
     user_file_dir = base_compiler_dir + "tojudge/" + exercise_number + "_" + \
-    date_time + "_" + str(user_id) + "." + user_language
+    date_time + "_" + str(id_user) + "." + user_language
 
     user_file_dir = str(user_file_dir)
 
@@ -91,17 +124,39 @@ def registercode():
 
     result = usercodeout.before
 
-    print("[WEB] Result: %s\n" % result)
+    print "[WEB] Result: %s\n" % result
 
     if result.find('Status 1') != -1:
 
-        return render_template('exercise_result.html', title=title, \
+        #Insert the new tries and the user status (error or accept)
+        new_attempt = Attempt(id_exercise=id_exercise, id_user=id_user, tries=1, errors=1, accepts=0, status="Status 1")
+
+        db.session.add(new_attempt)
+
+        db.session.commit()
+
+        return render_template('exercise_result.html', \
         result="Status 1: Erro de sintaxe", result_error=result)
 
     else:
 
         clearesult = str(result).strip()
 
+        if clearesult == "Status 5":
+
+            #Insert the new tries and the user status (error or accept)
+            new_attempt = Attempt(id_exercise=id_exercise, id_user=id_user, tries=1, errors=0, accepts=1, status=clearesult)
+
+        else:
+
+            #Insert the new tries and the user status (error or accept)
+            new_attempt = Attempt(id_exercise=id_exercise, id_user=id_user, tries=1, errors=1, accepts=0, status=clearesult)
+
+        db.session.add(new_attempt)
+
+        db.session.commit()
+
+        #Set the Key/value based on result
         status = {'Status 1':'Erro de sintaxe', 'Status 2':'Resposta incorreta', 'Status 3':'Tempo limite excedido', 'Status 4':'Erro de apresentacao', 'Status 5':'Codigo submetido com sucesso'}
 
         if status.has_key(clearesult):
@@ -114,4 +169,18 @@ def registercode():
 
         answerout = str(clearesult)  + ": " + value
 
-        return render_template('exercise_result.html', title=title, result=answerout)
+        return render_template('exercise_result.html', result=answerout)
+
+@app.route('/exercise_statistics', methods=['GET', 'POST'])
+def exercise_statistics():
+
+    cursor = db.session.query(func.sum(Attempt.tries)).filter(Attempt.id_user==id_user)
+
+    tries = cursor.scalar()
+
+@app.route('/test')
+def test():
+
+    exercises = Exercise.query.all()
+
+    return render_template('modal_exercises.html', exercises=exercises)

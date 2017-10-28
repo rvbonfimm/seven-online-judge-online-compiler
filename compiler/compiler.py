@@ -105,7 +105,7 @@ def main():
 
             log.info("Status 2, 3 and 4: any problem was found.")
 
-            log.info("The user code was succesfully accepted.")            
+            log.info("The user code was succesfully accepted.")          
 
             return status
 
@@ -164,8 +164,10 @@ def testUserCode(language, exercise_in, compiledFile, fileUserAnswerOut):
     try:
 
         with open(exercise_in, 'r') as fileInReaded:
-
+            
             fileInRows = fileInReaded.read().splitlines()
+
+	    log.info("Line readed at input file: " + str(fileInRows))
 
         fileInReaded.close
 
@@ -190,7 +192,7 @@ def testUserCode(language, exercise_in, compiledFile, fileUserAnswerOut):
 
                 cmd = ('python ' + compiledFile)
 
-            child = pexpect.spawn(cmd, timeout=4)
+            child = pexpect.spawn(cmd, timeout=5)
 
             for item in splitter:
 
@@ -203,6 +205,8 @@ def testUserCode(language, exercise_in, compiledFile, fileUserAnswerOut):
             if checkexpectout == 1:
 
                 return "Status 3"
+
+            log.info("Child before: " + str(child.before))
 
             splitout = child.before.split('\n')
 
@@ -306,8 +310,6 @@ def compareValues(exercise_out, fileUserAnswerOut, withDetail):
             for item in resultOut:
 
                 log.info(str(item))
-
-        log.info("Comparing the files: " + str(result))
 
         return result
 

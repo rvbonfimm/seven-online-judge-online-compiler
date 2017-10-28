@@ -418,13 +418,6 @@ tr:nth-child(even) {
 
 }
 
-.tableInputOutput{
-
-	width: 100%;
-	font-family: arial, sans-serif;
-	border-collapse: collapse;
-}
-
 #flex-container {
     display: flex;
     flex-direction: row;
@@ -442,6 +435,91 @@ tr:nth-child(even) {
 }
 
 img:hover { 
-	border: 1px solid #6495ED; 
+	border: 3px solid #6495ED; 
 	border-radius: 3px;
-} 
+}
+
+.divTableExercises{
+	width: 95%;
+	background-color: #ffffff;
+	text-align: center;
+	margin: 0 auto;
+	padding: 15px;
+}
+ 
+.tableInputOutput{
+	width: 100%;
+	font-family: arial, sans-serif;
+	border-top: 1px ridge black;
+	border-bottom: 1px ridge black;
+	border-left: 1px ridge black;
+	border-right: 1px ridge black;
+	border-radius: 3px;
+	border: collapse;
+	display: inline-block;
+}
+
+.tableExercisePreview{
+	width: 40%;
+	font-family: arial, sans-serif;
+	border-collapse: collapse;
+	display: inline-flex;
+}
+
+tr.listexercises{
+	font-size: 18px; 
+	color: #111111;
+	text-align: center;
+}
+
+th.status {
+	width: 5%;
+	text-align: center;
+}
+
+th.number{
+	width: 10%;
+	text-align: center;
+}
+
+th.name {
+	width: 25%;
+	text-align: center;
+}
+
+th.level {
+	width: 15%;
+	text-align: center;
+}
+
+th.judge {
+	width: 10%;
+	text-align: center;
+}
+
+td.status {
+	width: 5%;
+	text-align: center;
+}
+
+td.number {
+	width: 10%;
+}
+
+td.name {
+	width: 25%;
+}
+
+td.level {
+	width: 15%;
+}
+
+td.judge {
+	width: 10%;
+}
+
+divJudgeExercise{
+	width: 95%;
+	background-color: #ffffff;
+	padding: 10px;
+}

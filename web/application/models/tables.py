@@ -21,18 +21,18 @@ class User(db.Model):
 
     @property
     def is_authenticated(self):
-       return True
+        return True
 
     @property
     def is_active(self):
-       return True
+        return True
 
     @property
     def is_anonymous(self):
-       return False
+        return False
 
     def get_id(self):
-       return unicode(self.id) #if python 3, return a str - python 3 use unicode for strings
+        return unicode(self.id) #if python 3, return a str - python 3 use unicode for strings
 
     def __init__(self, username, password, name, lastname, email, gender):
 
@@ -84,22 +84,26 @@ class Exercise(db.Model):
         self.input_description = input_description
         self.output_description= output_description
 
-
 class Attempt(db.Model):
 
-    __tablename__ = 'users_attempts'
+    __tablename__ = 'attempts'
 
     id = db.Column(db.Integer, primary_key=True)
     id_exercise = db.Column(db.Integer, db.ForeignKey('exercises.id'))
     id_user = db.Column(db.Integer, db.ForeignKey('users.id'))
-    judge_status = db.Column(db.String(10))
+    tries = db.Column(db.Integer)
+    errors = db.Column(db.Integer)
+    accepts = db.Column(db.Integer)
+    status = db.Column(db.String(10))
 
-    def __init__(self, id_exercise, id_user, judge_status):
+    def __init__(self, id_exercise, id_user, tries, errors, accepts, status):
 
         self.id_exercise=id_exercise
         self.id_user=id_user
-        self.judge_status=judge_status
-
+        self.tries=tries
+        self.errors=errors
+        self.accepts=accepts
+        self.status=status
 
 class Judge(db.Model):
 
@@ -134,7 +138,7 @@ class Study(db.Model):
 
 class UserPlan(db.Model):
 
-    __tablename__ = 'users_plans'
+    __tablename__ = 'plans'
 
     id = db.Column(db.Integer, primary_key=True)
     id_user = db.Column(db.Integer, db.ForeignKey('users.id'))

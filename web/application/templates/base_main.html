@@ -10,6 +10,8 @@
       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
       <meta name="description" content="A graduated work about an online judge">
       <meta name="author" content="Marcus Vogado, Rogério Bonfim">  
+      <link rel="icon" href="{{ url_for('static', filename='images/computer.png') }} " type="image/x-icon"/>
+
 
       <title>{% block title %}{% endblock %} - Seven Online Judge!</title>
 
@@ -72,7 +74,8 @@
 
     </nav>
 
-    {% block content %}{% endblock %}
+    {% block content %}
+    {% endblock %}
 
     <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
 
