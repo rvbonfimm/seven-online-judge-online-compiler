@@ -67,7 +67,13 @@ class Exercise(db.Model):
 
     output_description = db.Column(db.String(100))
 
-    def __init__(self, exercise_number, name, description, level, inputt, outputt, input_description, output_description, date_created=None):
+    tries = db.Column(db.Integer)
+
+    accepts = db.Column(db.Integer)
+
+    errors = db.Column(db.Integer)
+
+    def __init__(self, exercise_number, name, description, level, inputt, outputt, input_description, output_description, date_created=None, tries=0, accepts=0, errors=0):
 
         self.exercise_number = exercise_number
         self.name = name
@@ -82,11 +88,29 @@ class Exercise(db.Model):
         self.inputt = inputt
         self.outputt = outputt
         self.input_description = input_description
-        self.output_description= output_description
+        self.output_description = output_description
+        self.tries = tries
+        self.accepts = accepts
+        self.errors = errors
 
 class Attempt(db.Model):
 
     __tablename__ = 'attempts'
+
+    id = db.Column(db.Integer, primary_key=True)    
+    status = db.Column(db.String(10))
+    id_exercise = db.Column(db.Integer, db.ForeignKey('exercises.id'))
+    id_user = db.Column(db.Integer, db.ForeignKey('users.id'))
+
+    def __init__(self, id_exercise, id_user, status):
+
+        self.id_exercise = id_exercise
+        self.id_user = id_user
+        self.status = status
+
+class Exercise_Statistic(db.Model):
+
+    __tablename__ = 'exercises_statistics'
 
     id = db.Column(db.Integer, primary_key=True)
     id_exercise = db.Column(db.Integer, db.ForeignKey('exercises.id'))
@@ -98,12 +122,12 @@ class Attempt(db.Model):
 
     def __init__(self, id_exercise, id_user, tries, errors, accepts, status):
 
-        self.id_exercise=id_exercise
-        self.id_user=id_user
-        self.tries=tries
-        self.errors=errors
-        self.accepts=accepts
-        self.status=status
+        self.id_exercise = id_exercise
+        self.id_user = id_user
+        self.tries = tries
+        self.errors = errors
+        self.accepts = accepts
+        self.status = status
 
 class Judge(db.Model):
 
@@ -115,14 +139,12 @@ class Judge(db.Model):
     id_exercise = db.Column(db.Integer, db.ForeignKey('exercises.id'))
     id_user = db.Column(db.Integer, db.ForeignKey('users.id'))
 
-    #user_information = db.Relationship('User', foreign_keys=id_user)
-
     def __init__(self, code, language, id_exercise, id_user):
 
-        self.code=code
-        self.language=language
-        self.id_exercise=id_exercise
-        self.id_user=id_user
+        self.code = code
+        self.language = language
+        self.id_exercise = id_exercise
+        self.id_user = id_user
 
 class Study(db.Model):
 
@@ -144,7 +166,7 @@ class UserPlan(db.Model):
     id_user = db.Column(db.Integer, db.ForeignKey('users.id'))
     id_study = db.Column(db.Integer, db.ForeignKey('studies.id'))
     status = db.Column(db.Integer)
-    
+
     def __init__(self, id_user, id_study, status):
 
         self.id_user = id_user

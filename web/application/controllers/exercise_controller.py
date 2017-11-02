@@ -3,13 +3,13 @@
 import sys  
 import pexpect
 import time
-import os
+import os, os.path
 
 from application import app, db
-from flask import render_template, request, url_for
+from flask import render_template, request
 from pexpect import spawn
 from flask_login import login_user, login_required, current_user
-from application.models.tables import Exercise, Judge, User, Attempt
+from application.models.tables import Exercise, Judge, User, Attempt, Exercise_Statistic
 from sqlalchemy import func
 from collections import Counter
 
@@ -19,34 +19,13 @@ sys.setdefaultencoding('utf8')
 @app.route('/exercise_list/<string:level>', methods=['GET', 'POST'])
 @app.route('/exercise_list/', defaults={"level": None}, methods=['GET', 'POST'])
 @login_required
-def exercise_list(level=None):
+def exerciselist(level=None):
 
-    exercises = db.session.query(Exercise.id, Exercise.exercise_number, Exercise.name, Exercise.level). \
-    filter(Exercise.level == level).all()
+    exercises = db.session.query(Exercise.id, Exercise.exercise_number, Exercise.name, \
+    Exercise.level).filter(Exercise.level == level). \
+    order_by(Exercise.exercise_number).all()
 
-    done_exercises = db.session.query(Attempt.id_exercise, Attempt.status). \
-    filter(Attempt.id_user == current_user.id, Attempt.status == 'Status 5'). \
-    group_by(Attempt.status, Attempt.id_exercise).order_by(Attempt.id_exercise).all()
-
-    undone_exercises = db.session.query(Attempt.id_exercise, Attempt.status). \
-    filter(Attempt.id_user == current_user.id, Attempt.status != 'Status 5'). \
-    group_by(Attempt.status, Attempt.id_exercise).order_by(Attempt.id_exercise).all()
-
-    list_done = []
-
-    list_undone = []
-
-    for item in done_exercises:
-
-        list_done.append(item.id_exercise)
-
-    for item in undone_exercises:
-
-        if item.id_exercise not in list_done:
-
-            list_undone.append(item.id_exercise)
-
-    return render_template('exercise_list.html', exercises_list=exercises, done_exercises=list_done, undone_exercises=list_undone)
+    return render_template('exercise_list.html', exercises_list=exercises)
 
 @app.route('/exercisegroup')
 @login_required
@@ -78,13 +57,14 @@ def registercode():
 
     user_code = request.form.get('codearea')
 
-    exercise_number = request.form.get('exercise_number')
+    number = request.form.get('exercise_number')
 
     user_language = request.form.get('language')
 
     id_user = current_user.id
 
-    exercise = Exercise.query.filter_by(exercise_number=exercise_number).first()
+    exercise = db.session.query(Exercise.id). \
+    filter(Exercise.exercise_number == number).first()
 
     id_exercise = exercise.id
 
@@ -99,9 +79,9 @@ def registercode():
 
     base_compiler_dir = (os.getcwd().replace("web", "")) + "compiler/"
 
-    exec_dir = base_compiler_dir + "compiler.py"
+    exec_dir = base_compiler_dir + "compiler_new.py"
 
-    user_file_dir = base_compiler_dir + "tojudge/" + exercise_number + "_" + \
+    user_file_dir = base_compiler_dir + "tojudge/" + number + "_" + \
     date_time + "_" + str(id_user) + "." + user_language
 
     user_file_dir = str(user_file_dir)
@@ -122,65 +102,143 @@ def registercode():
 
         return "[WEB] Timeout exceeded.\n"
 
-    result = usercodeout.before
-
-    print "[WEB] Result: %s\n" % result
+    result = str(usercodeout.before).strip()
 
     if result.find('Status 1') != -1:
 
-        #Insert the new tries and the user status (error or accept)
-        new_attempt = Attempt(id_exercise=id_exercise, id_user=id_user, tries=1, errors=1, accepts=0, status="Status 1")
+        result = "Status 1"
 
-        db.session.add(new_attempt)
+        #Insert the new tries and the user status (error or accept)
+        new_statistic = Exercise_Statistic(id_exercise=id_exercise, id_user=id_user, tries=1, \
+        errors=1, accepts=0, status=result)
+
+        db.session.add(new_statistic)
 
         db.session.commit()
+
+        increment_exercise(id_exercise, result)
+
+        increment_attempt(id_exercise, result)
 
         return render_template('exercise_result.html', \
         result="Status 1: Erro de sintaxe", result_error=result)
 
+    elif result == 'Status 2' or result == 'Status 3' or result == 'Status 4':
+
+        #Insert the new tries and the user status (error or accept)
+        new_statistic = Exercise_Statistic(id_exercise=id_exercise, id_user=id_user, \
+        tries=1, errors=1, accepts=0, status=result)
+
+    elif result == 'Status 5':
+
+        #Insert the new tries and the user status (error or accept)
+        new_statistic = Exercise_Statistic(id_exercise=id_exercise, id_user=id_user, \
+        tries=1, errors=0, accepts=1, status=result)
+
     else:
 
-        clearesult = str(result).strip()
+        print "Error: %s\n not expected.\n" % result
 
-        if clearesult == "Status 5":
+        return render_template('exercise_result.html', result_error=result)
 
-            #Insert the new tries and the user status (error or accept)
-            new_attempt = Attempt(id_exercise=id_exercise, id_user=id_user, tries=1, errors=0, accepts=1, status=clearesult)
+    increment_exercise(id_exercise, result)
 
-        else:
+    increment_attempt(id_exercise, result)
 
-            #Insert the new tries and the user status (error or accept)
-            new_attempt = Attempt(id_exercise=id_exercise, id_user=id_user, tries=1, errors=1, accepts=0, status=clearesult)
+    db.session.add(new_statistic)
 
-        db.session.add(new_attempt)
+    db.session.commit()
 
-        db.session.commit()
+    #Set the Key/value based on result
+    status = {'Status 1':'Erro de sintaxe', 'Status 2':'Resposta incorreta', \
+    'Status 3':'Tempo limite excedido', 'Status 4':'Erro de apresentacao', \
+    'Status 5':'Codigo submetido com sucesso'}
 
-        #Set the Key/value based on result
-        status = {'Status 1':'Erro de sintaxe', 'Status 2':'Resposta incorreta', 'Status 3':'Tempo limite excedido', 'Status 4':'Erro de apresentacao', 'Status 5':'Codigo submetido com sucesso'}
+    if status.has_key(result):
 
-        if status.has_key(clearesult):
+        value = status[result]
 
-            value = status[clearesult]
+    else:
 
-        else:
+        error_message = "Any key was found at status exercise dictionary. Admin, fix it!\n"
 
-            value = ""
+        return render_template('exercise_result.html', error_message=error_message)
 
-        answerout = str(clearesult)  + ": " + value
+    answerout = str(result)  + ": " + value
 
-        return render_template('exercise_result.html', result=answerout)
+    return render_template('exercise_result.html', result=answerout)
 
 @app.route('/exercise_statistics', methods=['GET', 'POST'])
 def exercise_statistics():
 
-    cursor = db.session.query(func.sum(Attempt.tries)).filter(Attempt.id_user==id_user)
+    return "ok"
 
-    tries = cursor.scalar()
+def increment_exercise(id_exercise, status):
 
-@app.route('/test')
-def test():
+    try:
 
-    exercises = Exercise.query.all()
+        db.session.query(Exercise).filter(Exercise.id == id_exercise). \
+        update({Exercise.tries: Exercise.tries + 1})
 
-    return render_template('modal_exercises.html', exercises=exercises)
+        if status == 'Status 5':
+
+            db.session.query(Exercise).filter(Exercise.id == id_exercise). \
+            update({Exercise.accepts: Exercise.accepts + 1})
+
+        elif status != 'Status 5':
+
+            db.session.query(Exercise).filter(Exercise.id == id_exercise). \
+            update({Exercise.errors: Exercise.errors + 1})
+
+        return True
+
+    except Exception, e:
+
+        print "Exception at increment: " + str(e)
+
+        return False
+
+def increment_attempt(id_exercise, status):
+
+    try:
+
+        #Search for already registered id_exercise at db
+        check = db.session.query(Attempt.id_exercise, Attempt.status). \
+        filter(Attempt.id_exercise == id_exercise, Attempt.status == status). \
+        order_by(Attempt.id_exercise). \
+        all()
+
+        if not check:
+
+            new_attempt = Attempt(status=status, id_exercise=id_exercise, id_user=current_user.id)
+            db.session.add(new_attempt)
+            db.session.commit()
+
+        else:
+
+            #Registered before - check if the new status is Status 5: if yes, update. if not, if new status is diff of last, update
+            for column in check:
+
+                exercise = column.id_exercise
+                db_status = column.status
+
+            #Status registered at database is Status 5(code accepted - do not need to change)
+            if db_status == 5:
+
+                return
+
+            else:
+
+                # If new status if equal to saved status at database, not necessary to update
+                if db_status == status:
+
+                    return
+
+                else:
+
+                    db.session.query(Attempt).filter(Attempt.id_exercise == id_exercise). \
+                    update({Attempt.status: status})
+
+    except Exception, e:
+
+        print e

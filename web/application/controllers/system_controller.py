@@ -41,3 +41,7 @@ def functionality():
 
     return render_template('functionality.html', title=title)
 
+@app.route('/rules', methods=['GET', 'POST'])
+def rules():
+
+    return render_template('rules.html')

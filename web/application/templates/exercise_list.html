@@ -45,7 +45,7 @@
                     <td class="level">{{ exercise.level }}</td>
                     
                     <td class="judge">
-                        <a target="_blank" href="{{ url_for('previewexercise', exercise=exercise.exercise_number) }}"><img border="0" src="{{ url_for('static', filename='images/glyphicons-152-new-window.png') }}" width="20" height="20">
+                        <a href="{{ url_for('previewexercise', exercise=exercise.exercise_number) }}"><img border="0" src="{{ url_for('static', filename='images/glyphicons-152-new-window.png') }}" width="20" height="20">
                         </a>
                     </td>
                     

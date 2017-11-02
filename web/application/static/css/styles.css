@@ -8,6 +8,10 @@ body {
 
 }
 
+body.questions{
+	background-color: #ffffff;
+}
+
 .titleMain{
 	font: #ffffff;
 	font-family: sans-serif;
@@ -102,7 +106,7 @@ tr:nth-child(even) {
 
 	width: 60%;
 
-    border: 2px solid #186249;
+    border: 1px solid #111111;
 
     border-radius: 8px;
 
@@ -440,7 +444,8 @@ img:hover {
 }
 
 .divTableExercises{
-	width: 95%;
+	width: 100%;
+	height: 100%;
 	background-color: #ffffff;
 	text-align: center;
 	margin: 0 auto;
@@ -464,6 +469,7 @@ img:hover {
 	font-family: arial, sans-serif;
 	border-collapse: collapse;
 	display: inline-flex;
+	border: 1px solid #ddd;
 }
 
 tr.listexercises{

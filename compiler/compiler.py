@@ -42,7 +42,7 @@ def main():
 
     LOG_FILE = LOG_DIR + FILE_USER_IN.split('.')[0] + ".judgelog"
 
-    EXERCISE_IN = EXERCISES_DIR + "input/" + EXERCISE_NUMBER + ".exercisein" 
+    EXERCISE_IN = EXERCISES_DIR + "input/" + EXERCISE_NUMBER + ".exercisein"
 
     EXERCISE_OUT = EXERCISES_DIR + "output/" + EXERCISE_NUMBER + ".exerciseout"
 
@@ -50,7 +50,8 @@ def main():
 
     FILE_USER_JUDGED_RESULT = TEMP_DIR + FILE_USER_IN.split('.')[0] + ".judgeresult"
 
-    log.basicConfig(filename=LOG_FILE, level=log.DEBUG, format='%(asctime)s - %(levelname)s: %(message)s')
+    log.basicConfig(filename=LOG_FILE, level=log.DEBUG, \
+    format='%(asctime)s - %(levelname)s: %(message)s')
 
     WITHDETAIL = True
 
@@ -72,7 +73,7 @@ def main():
         FILE_USER_COMPILED = JUDGE_DIR + FILE_USER_IN.split('.')[0] + ".pyc"
 
     log.info("Starting 'Status 1' treatment")
-    
+
     #Search for Status 1
     status = firstStatus(LANGUAGE, FILE_USER_IN_DIR, FILE_USER_COMPILED)
 
@@ -86,31 +87,12 @@ def main():
 
     log.info("Starting 'Status 2, 3 and 4' treatment")
 
-    #Search for Status 2, 3 or 4
-    userCodeStatus = testUserCode(LANGUAGE, EXERCISE_IN, FILE_USER_COMPILED, FILE_USER_ANSWER_OUT)
-    
+    status = testUserCode(LANGUAGE, EXERCISE_IN, EXERCISE_OUT, \
+    FILE_USER_COMPILED, FILE_USER_ANSWER_OUT)
+
     deleteFile(FILE_USER_COMPILED)
 
-    if userCodeStatus == "Status 3" or userCodeStatus == "Status 4":
-
-        return userCodeStatus
-
-    else:
-
-        status = compareValues(EXERCISE_OUT, FILE_USER_ANSWER_OUT, WITHDETAIL)
-
-        deleteFile(FILE_USER_ANSWER_OUT)
-
-        if status == "Status 5":
-
-            log.info("Status 2, 3 and 4: any problem was found.")
-
-            log.info("The user code was succesfully accepted.")          
-
-            return status
-
-        return status
-
+    return status
 
 def firstStatus(language, fileInput, fileCompiled):
 
@@ -128,7 +110,7 @@ def firstStatus(language, fileInput, fileCompiled):
 
         log.info("Printing the .py file in: " + str(fileInput))
 
-        cmd = ["python", "-m", "py_compile", fileInput]        
+        cmd = ["python", "-m", "py_compile", fileInput]
 
         log.info("Printing the .py file out: " + str(fileCompiled))
 
@@ -158,160 +140,116 @@ def firstStatus(language, fileInput, fileCompiled):
 
         return True
 
-
-def testUserCode(language, exercise_in, compiledFile, fileUserAnswerOut):
+def testUserCode(language, exercise_in, exercise_out, compiledFile, fileUserAnswerOut):
 
     try:
+        #Read execise input file
+        with open(exercise_in, 'r') as fh_input:
 
-        with open(exercise_in, 'r') as fileInReaded:
-            
-            fileInRows = fileInReaded.read().splitlines()
+            fileInRows = fh_input.read().splitlines()
 
-	    log.info("Line readed at input file: " + str(fileInRows))
+        fh_input.close
 
-        fileInReaded.close
+        #Read execise output file
+        with open(exercise_out, 'r') as fh_output:
 
-        log.info("File readed: " + str(fileInRows))
+            fileOutRows = fh_output.read().splitlines()
 
-        answerOut = []
+        fh_output.close
+
+        if language == 'c':
+
+            cmd = ('./' + compiledFile)
+
+        elif language == 'python':
+
+            cmd = ('python ' + compiledFile)
 
         #Each line is a case to test with the user code
-        for line in fileInRows:
+        for lineIn, lineOut in zip(fileInRows, fileOutRows):
 
-            log.info("Line: " + str(line))
+            caseIn = lineIn.split("|")
 
-            splitter = line.split(';')
-
-            log.info("Splitter: " + str(splitter))
-
-            if language == 'c':
-
-                cmd = ('./' + compiledFile)
-
-            elif language == 'python':
-
-                cmd = ('python ' + compiledFile)
+            caseOut = lineOut.split("|")
 
             child = pexpect.spawn(cmd, timeout=5)
 
-            for item in splitter:
+            for pin, pout in zip(caseIn, caseOut):
 
-                log.info("Item putted: " + str(item))
+                log.info("pin: " + str(pin))
 
-                child.sendline(item)
+                log.info("pout: " + str(pout))
 
-            checkexpectout = child.expect([pexpect.EOF, pexpect.TIMEOUT])
+                #Check if is necessary to put some parameter at user code
+                if pin != "empty":
 
-            if checkexpectout == 1:
+                    splitter = pin.split(';')
 
-                return "Status 3"
+                    for item in splitter:
 
-            log.info("Child before: " + str(child.before))
+                        log.info("Item splitted putted: " + str(item))
 
-            splitout = child.before.split('\n')
+                        child.sendline(item)
 
-            log.info("Pexpect out: " + str(splitout))
+                #Search for empty value at exercise output file
+                if pout == "empty":
 
-            if language == 'c':
+                    log.info("Line out readed is empty. Loop to next line.")
 
-                searchnewline = splitout[len(splitout)-1]
+                    continue
 
-            elif language == 'python':
+                checkexpectout = child.expect([pexpect.EOF, pexpect.TIMEOUT])
 
-                if splitout[len(splitout)-2] == '\r': #\n at print function
+                if checkexpectout == 1:
+
+                    return "Status 3"
+
+                pexpectout = []
+
+                for item in child.before.split("\n"):
+
+                    pexpectout.append(item)
+
+                #Close the child process spawned
+                child.close()
+
+                log.info("pexpect array out: " + str(pexpectout))
+
+                if language == 'c':
+
+                    searchnewline = pexpectout[len(pexpectout)-1]
+
+                elif language == 'python':
+
+                    if pexpectout[len(pexpectout)-2] == '\r': #\n at print function
+
+                        return "Status 4"
+
+                    searchnewline = pexpectout[len(pexpectout)-1]
+
+                if searchnewline != "":
 
                     return "Status 4"
 
-                searchnewline = splitout[len(splitout)-1]
+                finalout = pexpectout[len(pexpectout)-2].replace('\r', '')
 
-            if searchnewline != "":
+                log.info("Pexpect out: " + str(finalout))
 
-                return "Status 4"
+                log.info("Our expected output: " + str(pout))
 
-            child.close()
+                if finalout != pout:
 
-            finalout = splitout[len(splitout)-2].replace('\r', '')
+                    clearPexpectOut = finalout.strip()
 
-            answerOut.append(finalout)
+                    if clearPexpectOut != pout:
 
-        generatefileout = open(fileUserAnswerOut, 'w')
-
-        for item in answerOut:
-
-            log.info("Answer out: " + str(item))
-
-            generatefileout.write(item + "\n")
-
-        generatefileout.close
-
-        return True
-
-    except Exception, e:
-
-        log.error("[EXCEPTION] " + str(e))
-
-        return False
-
-
-def compareValues(exercise_out, fileUserAnswerOut, withDetail):
-
-    try:
-
-        log.info("Comparing the files: " + str(exercise_out) + "\nwith: " + str(fileUserAnswerOut))
-
-        log.info("With output detail? " + str(withDetail))
-
-        if not withDetail:
-
-            result = open(exercise_out, 'rb').read() == open(fileUserAnswerOut, 'rb').read()
-
-        else:
-    
-            resultOut = []
-
-            aux = 1
-
-            with open(exercise_out, 'r') as ourFileOutReaded:
-
-                ourFileOut = ourFileOutReaded.read().splitlines()
-
-            ourFileOutReaded.close()
-
-            with open(fileUserAnswerOut, 'r') as fileUserOutReaded:
-
-                fileOutUser = fileUserOutReaded.read().splitlines()
-
-            fileUserOutReaded.close()
-
-            for our, user in zip(ourFileOut, fileOutUser):
-
-                if our == user:
-
-                    result = "Status 5"
-
-                else:
-
-                    tempOur = our.replace(" ", "")
-
-                    tempUser = user.replace(" ", "")
-
-                    if tempOur != tempUser:
-
-                        result = "Status 2"
+                        return "Status 2"
 
                     else:
 
-                        result = "Status 4"                        
-        
-                resultOut.append("Line " + str(aux) + ": '" + str(result) + "'; Expected result: '" + str(our) + "'; Your result: '" + str(user) + "';\n")
+                        return "Status 4"
 
-                aux += 1
-
-            for item in resultOut:
-
-                log.info(str(item))
-
-        return result
+        return "Status 5"
 
     except Exception, e:
 
@@ -327,17 +265,18 @@ def deleteFile(fileInput):
 
         cmd = ["rm", fileInput]
 
-        subprocess.Popen(cmd, shell=False);
+        subprocess.Popen(cmd, shell=False)
 
         log.info("Deleted successfully.")
 
         return True
 
-    except Exception, e: 
+    except Exception, e:
 
         log.error("[EXCEPTION] " + str(e))
 
         return False
+
 
 def moveFile(fileInput, destiny):
 
@@ -347,7 +286,7 @@ def moveFile(fileInput, destiny):
 
         cmd = ["mv", fileInput, destiny]
 
-        subprocess.Popen(cmd, shell=False);        
+        subprocess.Popen(cmd, shell=False)
 
         log.info("Moved successfully.")
 
@@ -367,4 +306,4 @@ if __name__ == '__main__':
 
     log.info("---------------- End of Judgement ----------------\n")
 
-    print (result)
+    print result

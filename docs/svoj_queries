@@ -39,12 +39,37 @@ CREATE TABLE exercises(
 
 CREATE TABLE attempts(
 
-    quantity_judges INT NOT NULL,
-    quantity_unjudges INT NOT NULL,
+    id INT primary key auto_increment,
+    tries int(10),
+    accepts int(10),
+    errors int(10),
+    status varchar(10),
     id_exercise INT,
     id_user INT,
 
-    INDEX(id_exercise, id_user),
+    INDEX(id, id_exercise, id_user),
+
+    FOREIGN KEY (id_exercise)
+      REFERENCES exercises(id),
+
+    FOREIGN KEY (id_user)
+      REFERENCES users(id)
+
+)ENGINE=INNODB;
+
+------------------------------------------------
+
+CREATE TABLE exercises_statistics(
+
+    id INT primary key auto_increment,
+    tries int(10),
+    accepts int(10),
+    errors int(10),
+    status varchar(10),
+    id_exercise INT,
+    id_user INT,
+
+    INDEX(id, id_exercise, id_user),
 
     FOREIGN KEY (id_exercise)
       REFERENCES exercises(id),
@@ -89,7 +114,7 @@ CREATE TABLE studies(
 
 ------------------------------------------------
 
-CREATE TABLE users_plans(
+CREATE TABLE plans(
 
     id_user INT,
 

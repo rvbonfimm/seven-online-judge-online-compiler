@@ -1,3 +1,4 @@
+import os
 from application import app, db
 from flask import render_template, request, url_for
 
@@ -62,3 +63,59 @@ def new_study():
     elif request.method == 'GET':
 
         return render_template('new_study.html')
+
+@app.route('/admin/generatefileexercise', methods=['GET', 'POST'])
+def generatefileexercise():
+
+    list_exercises = db.session.query(Exercise.exercise_number, Exercise.inputt, Exercise.outputt). \
+    order_by(Exercise.exercise_number).all()
+
+    for exercise in list_exercises:
+
+        print exercise.exercise_number
+
+        if not file_exists(exercise.exercise_number):
+
+            exercise_dir_input = os.getcwd().replace("web", "compiler") + "/exercises/input/"
+
+            exercise_dir_output = os.getcwd().replace("web", "compiler") + "/exercises/output/"
+
+            fileinput = exercise_dir_input + str(exercise.exercise_number) + ".exercisein"
+
+            fileoutput = exercise_dir_output + str(exercise.exercise_number) + ".exerciseout"
+
+            print "Fileinput: %s\n" % fileinput
+
+            print "Fileoutput: %s\n" % fileoutput
+
+            with open(fileinput, 'w') as fh_input:
+
+                fh_input.write(exercise.inputt)
+
+                fh_input.write('\n')
+
+            fh_input.close()
+
+            with open(fileoutput, 'w') as fh_output:
+
+                fh_output.write(exercise.outputt)
+
+                fh_output.write('\n')
+
+            fh_output.close()
+
+    return "Files created successfully."
+
+def file_exists(exercise):
+
+    input_exercise_dir = os.getcwd().replace('web', 'compiler') + \
+    str('/exercises/input/') + str(exercise) + '.exercisein'
+
+    output_exercise_dir = os.getcwd().replace('web', 'compiler') + \
+    str('/exercises/output/') + str(exercise) + '.exerciseout'
+
+    if not(os.path.isfile(input_exercise_dir) and os.path.isfile(output_exercise_dir)):
+
+        return False
+
+    return True
