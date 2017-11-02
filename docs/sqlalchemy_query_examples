@@ -1,0 +1,18 @@
+# done_exercises = db.session.query(Attempt.id_exercise, Attempt.status). \
+# filter(Attempt.id_user == current_user.id, Attempt.status == 'Status 5'). \
+# group_by(Attempt.status, Attempt.id_exercise).order_by(Attempt.id_exercise).all()
+
+# undone_exercises = db.session.query(Attempt.id_exercise, Attempt.status). \
+# filter(Attempt.id_user == current_user.id, Attempt.status != 'Status 5'). \
+# group_by(Attempt.status, Attempt.id_exercise).order_by(Attempt.id_exercise).all()
+
+# list_exercises = db.session.query(Exercise.id, Exercise.exercise_number, Exercise.name, \
+# Exercise.level, Attempt.status).join(Attempt, Exercise.id == Attempt.id_exercise). \
+# filter(Exercise.level == level). \
+# group_by(Attempt.status, Attempt.id_exercise). \
+# order_by(Exercise.exercise_number).all()
+
+#undone_exercises = db.session.query(Exercise.id, Exercise.exercise_number, Exercise.name, \
+# Exercise.level).join(Attempt, Exercise.id == Attempt.id_exercise). \
+# filter(Attempt.status != 'Status 5', ~Exercise.exercise_number.in_(list_done)).group_by(Attempt.id_exercise). \
+# order_by(Exercise.exercise_number).all()
