@@ -37,8 +37,8 @@
 			<br>
 
 			<div style="text-align: center; padding: 10px; font-size: 18px;">
-				<a href="{{ url_for('presentation') }}"><img src="{{ url_for('static', filename='images/books.png') }}" alt="" height="70" width="70"></a>
-				<p>Nos ajude a definir um Plano de Estudos para você mediante alguns testes</p>
+				<a href="{{ url_for('presentation') }}"><img class="action" src="{{ url_for('static', filename='images/studies_list.png') }}" alt="" height="70" width="70"></a>
+				<p>Defina os itens que você deseja estudar, criando um Plano de Ensino.</p>
 			</div>
 
 		</div>
@@ -48,8 +48,36 @@
 			<br>
 
 			<div style="text-align: center; padding: 10px; font-size: 18px;">
-				<a href="{{ url_for('studies') }}" ><img src="{{ url_for('static', filename='images/studies.png') }}" alt="" height="70" width="70"></a>
-				<p>Estude um plano específico para você. Isso ajudará você durante o aprendizado à Programação.</p>	
+				<a href="{{ url_for('studies') }}" ><img class="action" src="{{ url_for('static', filename='images/studies.png') }}" alt="" height="70" width="70"></a>
+				<p>Estude o plano definido por você. Isso ajudará você durante seu aprendizado à Programação.</p>	
+			</div>
+
+		</div>
+
+		<div class="flex-item">
+			
+			<br>
+
+			<div style="text-align: center; padding: 10px; font-size: 18px;">
+				<a href="{{ url_for('rules') }}"><img class="action" src="{{ url_for('static', filename='images/cource.png') }}" alt="" height="55" width="55"></a>
+				<p>Conheça nosso método Interativo de Estudos. Esse é o método aconselhado por nós, criadores desse site!</p>
+			</div>
+
+		</div>
+
+	</div>
+
+	<br><br>
+
+	<div id="flex-container">
+
+		<div class="flex-item">
+
+			<br>
+
+			<div style="text-align: center; padding: 10px; font-size: 18px;">
+				<a href="{{ url_for('statistics') }}"><img class="action" src="{{ url_for('static', filename='images/statistics.png') }}" alt="" height="70" width="70"></a>
+				<p>Conheça os resultados e estatísticas de seus estudos realizados</p>
 			</div>
 
 		</div>
@@ -59,7 +87,18 @@
 			<br>
 
 			<div style="text-align: center; padding: 10px; font-size: 18px;">
-				<a href="{{ url_for('exercisegroup') }}"><img src="{{ url_for('static', filename='images/computer.png') }}" alt="" height="70" width="70"></a>
+				<a href="{{ url_for('statistics') }}" ><img class="action" src="{{ url_for('static', filename='images/statistics_2.png') }}" alt="" height="70" width="70"></a>
+				<p>Conheça os resultados e estatísticas de seus exercícios realizados</p>	
+			</div>
+
+		</div>
+
+		<div class="flex-item">
+
+			<br>
+
+			<div style="text-align: center; padding: 10px; font-size: 18px;">
+				<a href="{{ url_for('exercisegroup') }}"><img class="action" src="{{ url_for('static', filename='images/computer.png') }}" alt="" height="70" width="70"></a>
 				<p>Pratique seus conhecimentos adquiridos com os exercícios que nós preparamos para você!</p>
 			</div>
 
@@ -72,34 +111,34 @@
 	<div id="flex-container">
 
 		<div class="flex-item">
-
+			
 			<br>
 
 			<div style="text-align: center; padding: 10px; font-size: 18px;">
-				<a href="{{ url_for('statistics') }}"><img src="{{ url_for('static', filename='images/statistics.png') }}" alt="" height="70" width="70"></a>
-				<p>Conheça os resultados e estatísticas de seus estudos realizados</p>
+				<a href="{{ url_for('rules') }}"><img class="action" src="{{ url_for('static', filename='images/rules.png') }}" alt="" height="70" width="70"></a>
+				<p>Conheça as regras que o Seven Online Judge! contém.</p>
 			</div>
 
 		</div>
 
 		<div class="flex-item">
-
+			
 			<br>
 
 			<div style="text-align: center; padding: 10px; font-size: 18px;">
-				<a href="{{ url_for('statistics') }}" ><img src="{{ url_for('static', filename='images/statistics_2.png') }}" alt="" height="70" width="70"></a>
-				<p>Conheça os resultados e estatísticas de seus exercícios realizados</p>	
+				<a href="{{ url_for('presentation') }}"><img class="action" src="{{ url_for('static', filename='images/question_linux.png') }}" alt="" height="70" width="70"></a>
+				<p>Conheça as perguntas frequentes que o Seven Online Judge! contém.</p>
 			</div>
 
 		</div>
 
 		<div class="flex-item">
-
+			
 			<br>
 
 			<div style="text-align: center; padding: 10px; font-size: 18px;">
-				<a href="{{ url_for('functionality') }}"><img src="{{ url_for('static', filename='images/functionality.jpg') }}" alt="" height="70" width="70"></a>
-				<p>Conheça as funcionalidades que o Seven Online Judge! tem para lhe oferecer</p>
+				<a href="{{ url_for('presentation') }}"><img class="action" src="{{ url_for('static', filename='images/information.png') }}" alt="" height="70" width="70"></a>
+				<p>Conheça os significados e dicas de cada Status dos Exercícios.</p>
 			</div>
 
 		</div>
@@ -115,8 +154,19 @@
 			<br>
 
 			<div style="text-align: center; padding: 10px; font-size: 18px;">
-				<a href="{{ url_for('rules') }}"><img src="{{ url_for('static', filename='images/rules.png') }}" alt="" height="70" width="70"></a>
-				<p>Conheça as regras que o Seven Online Judge! contém.</p>
+				<a href="{{ url_for('rules') }}"><img class="action" src="{{ url_for('static', filename='images/main.png') }}" alt="" height="70" width="70"></a>
+				<p>Saiba o "Por quê" do projeto Seven Online Judge!</p>
+			</div>
+
+		</div>
+
+		<div class="flex-item">
+
+			<br>
+
+			<div style="text-align: center; padding: 10px; font-size: 18px;">
+				<a href="{{ url_for('functionality') }}"><img class="action" src="{{ url_for('static', filename='images/functionality.jpg') }}" alt="" height="70" width="70"></a>
+				<p>Conheça as funcionalidades que o Seven Online Judge! tem para lhe oferecer</p>
 			</div>
 
 		</div>
@@ -126,19 +176,8 @@
 			<br>
 
 			<div style="text-align: center; padding: 10px; font-size: 18px;">
-				<a href="{{ url_for('presentation') }}"><img src="{{ url_for('static', filename='images/question_linux.png') }}" alt="" height="70" width="70"></a>
-				<p>Conheça as perguntas possíveis que o Seven Online Judge! contém.</p>
-			</div>
-
-		</div>
-
-		<div class="flex-item">
-			
-			<br>
-
-			<div style="text-align: center; padding: 10px; font-size: 18px;">
-				<a href="{{ url_for('presentation') }}"><img src="{{ url_for('static', filename='images/information.png') }}" alt="" height="70" width="70"></a>
-				<p>Conheça os significados e dicas de cada Status dos Exercícios.</p>
+				<a href="{{ url_for('rules') }}"><img class="action" src="{{ url_for('static', filename='images/developers.png') }}" alt="" height="70" width="70"></a>
+				<p>Conheça os Desenvolvedores por trás do Seven Online Judge!</p>
 			</div>
 
 		</div>

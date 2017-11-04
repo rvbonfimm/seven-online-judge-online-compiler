@@ -242,3 +242,9 @@ def increment_attempt(id_exercise, status):
     except Exception, e:
 
         print e
+
+@app.route("/interactive_study", methods=['GET', 'POST'])
+def interactivestudy():
+
+    return render_template('interactive_study.html')
+    

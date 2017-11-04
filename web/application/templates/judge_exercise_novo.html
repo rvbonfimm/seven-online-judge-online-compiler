@@ -1,68 +1,66 @@
 {% extends 'base_main.html' %}
 
-    {% block title %}Julgamento{% endblock %}
+{% block title %}Julgamento{% endblock %}
 
-    {% block head %}
+{% block head %}
 
-      {{ super() }}
+  {{ super() }}
 
-    {% endblock %}
+{% endblock %}
 
-    {% block content %}
+{% block content %}
 
-    {% if exercises %}
+{% if exercises %}
 
-        <div>
+<div>
 
-            <!-- Exercise div -->
-            <div>
+    <div>
 
-                <label>Exercício:</label>
+        <label>Exercício:</label>
 
-                <select name="exercise_number" required></select>
+        <select name="exercise_number" required></select>
 
-                    {% for item in exercises_list %}
-                    
-                        {% if exercise == item.exercise_number %}
+            {% for item in exercises_list %}
+            
+                {% if exercise == item.exercise_number %}
 
-                            <option selected=True>
-                                
-                                {{ item.exercise_number }}
+                    <option selected=True>
+                        
+                        {{ item.exercise_number }}
 
-                            </option>
-                    
-                        {% else %}		
+                    </option>
+            
+                {% else %}		
 
-                            <option>
-                                
-                                {{ item.exercise_number }}
+                    <option>
+                        
+                        {{ item.exercise_number }}
 
-                            </option>	
+                    </option>	
 
-                        {% endif %}
+                {% endif %}
 
-                    {% endfor %}
-                
-                </select>
+            {% endfor %}
+        
+        </select>
 
-                <label>Linguagem:</label>
-                <input type="radio" name="language" value="c" checked>C
-                <input type="radio" name="language" value="py">Python
+        <label>Linguagem:</label>
+        <input type="radio" name="language" value="c" checked>C
+        <input type="radio" name="language" value="py">Python
 
-                <label>Descrição:</label>
-                <textarea rows="4" cols="50">
-                    {{ item.description }}
-                </textarea>
+        <label>Descrição:</label>
+        <textarea rows="4" cols="50">
+            {{ item.description }}
+        </textarea>
 
-            </div>
+    </div>
 
-            <!-- Judge div -->
-            <div>
-                
-            </div>
+    <div>
+        
+    </div>
 
-        </div>
+</div>
 
-    { endif %}
+{ endif %}
 
 {% endblock %}

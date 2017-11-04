@@ -10,8 +10,7 @@
       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
       <meta name="description" content="A graduated work about an online judge">
       <meta name="author" content="Marcus Vogado, Rogério Bonfim">  
-      <link rel="icon" href="{{ url_for('static', filename='images/computer.png') }} " type="image/x-icon"/>
-
+      <link rel="icon" href="{{ url_for('static', filename='images/main.png') }} " type="image/x-icon"/>
 
       <title>{% block title %}{% endblock %} - Seven Online Judge!</title>
 
@@ -34,7 +33,7 @@
       </button>
 
       <a href="{{ url_for('main') }}">
-        <img src="{{ url_for('static', filename='images/home.png') }}" alt="Smiley face" width="35" height="35">
+        <img class="main" src="{{ url_for('static', filename='images/main.png') }}" alt="Smiley face" width="45" height=45">
       </a>
 
       <div class="collapse navbar-collapse" id="navbarsExampleDefault">
@@ -44,27 +43,39 @@
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Estudos</a>
             <div class="dropdown-menu" aria-labelledby="dropdown01">
-              <a class="dropdown-item" href="#">Ajuda</a>
-              <a class="dropdown-item" href="#">Vamos estudar!</a>
-              <a class="dropdown-item" href="#">Estatísticas</a>
+              <a class="dropdown-item effect" href="#">
+                <img src="{{ url_for('static', filename='images/help.png') }}" alt="Smiley face" width="25" height="25">  Ajuda</a>
+              <a class="dropdown-item effect" href="#">
+                <img src="{{ url_for('static', filename='images/study_go.png') }}" alt="Smiley face" width="25" height="25">   Vamos estudar!</a>
+              <a class="dropdown-item effect" href="#">
+                <img src="{{ url_for('static', filename='images/study_statistics.png') }}" alt="Smiley face" width="25" height="25">   Estatísticas</a>
             </div>
           </li>
+
+          
 
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" id="dropdown02" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Exercícios</a>
             <div class="dropdown-menu" aria-labelledby="dropdown02">
-              <a class="dropdown-item" href="#">Ajuda</a>
-              <a class="dropdown-item" href="#">Mão na massa!</a>
-              <a class="dropdown-item" href="#">Estatísticas</a>
+              <a class="dropdown-item effect" href="#">
+                <img src="{{ url_for('static', filename='images/help.png') }}" alt="Smiley face" width="25" height="25">  Ajuda</a>
+              <a class="dropdown-item effect" href="#">
+                <img src="{{ url_for('static', filename='images/exercise_go.png') }}" alt="Smiley face" width="25" height="25">   Mão na massa!</a>
+              <a class="dropdown-item effect" href="#">
+              <img src="{{ url_for('static', filename='images/exercises_statistics.png') }}" alt="Smiley face" width="25" height="25">   Estatísticas</a>
             </div>
           </li>
 
-          <li class="nav-item dropdown">
+          <li class="nav-item dropdown ">
             <a class="nav-link dropdown-toggle" id="dropdown03" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Conta</a>
             <div class="dropdown-menu" aria-labelledby="dropdown03">
-              <a class="dropdown-item" href="#">Configurações</a>
-              <a class="dropdown-item" href="#">Perfil</a>
-              <a class="dropdown-item" href="{{ url_for('logout') }}">Logout</a>
+              <a class="dropdown-item effect" href="#">
+                <img src="{{ url_for('static', filename='images/settings.png') }}" alt="Smiley face" width="25" height="25">  Configurações</a>
+              <a class="dropdown-item effect" href="#">
+              <img src="{{ url_for('static', filename='images/profile.png') }}" alt="Smiley face" width="25" height="25">  Perfil
+              </a>
+              <a class="dropdown-item effect" href="{{ url_for('logout') }}">
+                <img src="{{ url_for('static', filename='images/logout.png') }}" alt="Smiley face" width="25" height="25">   Logout</a>
             </div>
           </li>
 

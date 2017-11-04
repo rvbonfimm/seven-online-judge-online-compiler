@@ -438,9 +438,18 @@ tr:nth-child(even) {
     background-color: #ffffff;
 }
 
-img:hover { 
-	border: 3px solid #6495ED; 
+img.action:hover { 
+	border: 3px solid #3399ff; 
 	border-radius: 3px;
+}
+
+img.main:hover {
+	border: 1px solid #ffffff; 
+	border-radius: 2px;
+	background-color: #3399ff;
+  	opacity:0.7 !important;
+  	filter:alpha(opacity=70) !important; /* For IE8 and earlier */
+  	box-shadow: 0 0 0px #000000 !important;
 }
 
 .divTableExercises{
@@ -524,8 +533,13 @@ td.judge {
 	width: 10%;
 }
 
-divJudgeExercise{
+.divJudgeExercise{
 	width: 95%;
 	background-color: #ffffff;
 	padding: 10px;
+}
+
+a.effect:hover{
+	border-style: dashed;
+	background-color: #3399ff;
 }

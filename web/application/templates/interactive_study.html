@@ -1,0 +1,33 @@
+{% extends 'base_main.html' %}
+
+{% block title %}Estudo Interativo{% endblock %}
+
+{% block head %}
+
+	{% super() %}
+
+{% endblock%}
+
+{% block content %}
+
+	<h3>Bem vindo, {% current_user.name.title() %} a área de Estudos Interativos.</h3>
+
+	<h2>Você não se arrependerá de ter escolhido esse método de estudo. Nós preparamos algo grandioso para você!</h2>
+
+	<p>(Lembre-se, nós também já fomos alunos)</p>
+
+	<p> Sem mais delongas, vamos lá.</p>
+
+	<p>Nós preparamos os seguintes tópicos para você estudar, da melhor e mais rapida forma possível:</p>
+
+	<ul>
+
+		<li>Breve história</li>
+		<li>Por quê programação?</li>
+		<li>Vamos praticar!</li>
+
+	</ul>
+
+	<hr>
+
+{% endblock %}
