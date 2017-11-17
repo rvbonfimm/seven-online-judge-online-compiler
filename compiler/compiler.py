@@ -6,19 +6,12 @@ import subprocess
 import pexpect
 import py_compile
 import logging as log
+import time
 
 from subprocess import Popen, PIPE
 from pexpect import *
 
-
-# Set the Debug Mode On or Off
-if str(sys.argv).find('-d') != -1:
-
-    DEBUG = True
-
-else:
-
-    DEBUG = False
+start_time = time.time()
 
 def main():
 
@@ -124,7 +117,7 @@ def firstStatus(language, fileInput, fileCompiled):
 
     except subprocess.CalledProcessError, c:
 
-        log.info(str(c))
+        log.info("[EXCEPTION] " + str(c))
 
         return True
 
@@ -143,14 +136,13 @@ def firstStatus(language, fileInput, fileCompiled):
 def testUserCode(language, exercise_in, exercise_out, compiledFile, fileUserAnswerOut):
 
     try:
-        #Read execise input file
+
         with open(exercise_in, 'r') as fh_input:
 
             fileInRows = fh_input.read().splitlines()
 
         fh_input.close
 
-        #Read execise output file
         with open(exercise_out, 'r') as fh_output:
 
             fileOutRows = fh_output.read().splitlines()
@@ -215,13 +207,16 @@ def testUserCode(language, exercise_in, exercise_out, compiledFile, fileUserAnsw
 
                 log.info("pexpect array out: " + str(pexpectout))
 
+                # Start to search for Status 2 or 4
+
                 if language == 'c':
 
                     searchnewline = pexpectout[len(pexpectout)-1]
 
                 elif language == 'python':
 
-                    if pexpectout[len(pexpectout)-2] == '\r': #\n at print function
+                    # Python have a natural \n at print function
+                    if pexpectout[len(pexpectout)-2] == '\r':
 
                         return "Status 4"
 
@@ -304,6 +299,17 @@ if __name__ == '__main__':
 
     log.info(str(result))
 
-    log.info("---------------- End of Judgement ----------------\n")
+    end_time = (time.time() - start_time)
 
-    print result
+    dict_result = {
+	'Status': result,
+	'Time': end_time
+    }
+
+    log.info(dict_result)
+
+    print dict_result
+
+    log.info("Execution time: %s\n" % end_time)
+
+    log.info("---------------- End of Judgement ----------------\n")

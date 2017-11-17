@@ -10,7 +10,7 @@ def index():
 
     if current_user.is_authenticated:
 
-        return render_template('main.html', title=title)
+        return render_template('main_new.html', title=title)
 
     else:
 
@@ -32,7 +32,25 @@ def main():
 
     title = "Pagina principal"
 
-    return render_template('main.html', title=title)
+    return render_template('main_new.html', title=title)
+
+@app.route('/studyboard')
+@login_required
+def studyboard():
+
+    return render_template('study_board_main.html')
+
+@app.route('/exerciseboard')
+@login_required
+def exerciseboard():
+
+    return render_template('exercise_board_main.html')
+
+@app.route('/systemboard')
+@login_required
+def systemboard():
+
+    return render_template('system_board_main.html')
 
 @app.route('/functionality')
 def functionality():

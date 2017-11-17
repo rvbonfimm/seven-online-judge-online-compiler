@@ -1,0 +1,104 @@
+{% extends 'base_main.html' %}
+
+{% block title %}Principal{% endblock %}
+
+{% block head %}
+
+  	{{ super() }}
+
+{% endblock %}
+
+{% block content %}
+
+	{% if alreadyPlain %}
+	    
+	    <div style="text-align: center;" class="alert alert-warning alert-dismissible fade show" role="alert">
+
+	        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+	        <span aria-hidden="true">&times;</span>
+	        </button>
+
+	        {{ alreadyPlain }}
+	        
+	    </div>
+
+	{% endif %}
+
+    <h3 style="color: #ffffff; font-size: 40px; text-align: center;"> {{ current_user.name.title() }}, o que você deseja fazer?</h3>
+
+    <hr>
+
+	<br><br>
+
+	<div id="flex-container">
+
+		<div class="flex-item">
+			
+			<br>
+
+			<div style="text-align: center; padding: 10px; font-size: 18px;">
+				<a href="{{ url_for('rules') }}"><img class="action" src="{{ url_for('static', filename='images/main.png') }}" alt="" height="70" width="70"></a>
+				<p>Saiba o <b>"Por quê"</b> do projeto <b>Seven Online Judge!</b></p>
+			</div>
+
+		</div>
+
+		<div class="flex-item">
+
+			<br>
+
+			<div style="text-align: center; padding: 10px; font-size: 18px;">
+				<a href="{{ url_for('functionality') }}"><img class="action" src="{{ url_for('static', filename='images/functionality.jpg') }}" alt="" height="70" width="70"></a>
+				<p>Conheça as <b>funcionalidades</b> que o <b>Seven Online Judge!</b> tem para lhe oferecer</p>
+			</div>
+
+		</div>
+
+		<div class="flex-item">
+			
+			<br>
+
+			<div style="text-align: center; padding: 10px; font-size: 18px;">
+				<a href="{{ url_for('presentation') }}"><img class="action" src="{{ url_for('static', filename='images/question_linux.png') }}" alt="" height="70" width="70"></a>
+				<p>Conheça as perguntas frequentes que o Seven Online Judge! contém.</p>
+			</div>
+
+		</div>
+
+	</div>
+
+	<br><br>
+
+	<div id="flex-container">
+
+		<div class="flex-item">
+			
+			<br>
+
+			<div style="text-align: center; padding: 10px; font-size: 18px;">
+				<a href="{{ url_for('rules') }}"><img class="action" src="{{ url_for('static', filename='images/rules.png') }}" alt="" height="70" width="70"></a>
+				<p>Conheça as regras que o Seven Online Judge! contém.</p>
+			</div>
+
+		</div>
+
+		<div class="flex-item">
+			
+			<br>
+
+			<div style="text-align: center; padding: 10px; font-size: 18px;">
+				<a href="{{ url_for('rules') }}"><img class="action" src="{{ url_for('static', filename='images/developers.png') }}" alt="" height="70" width="70"></a>
+				<p>Conheça os Desenvolvedores por trás do Seven Online Judge!</p>
+			</div>
+
+		</div>
+
+	</div>
+
+	<br>
+
+	<hr>
+
+	<br>
+
+{% endblock %}

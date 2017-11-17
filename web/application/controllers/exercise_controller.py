@@ -4,6 +4,7 @@ import sys
 import pexpect
 import time
 import os, os.path
+import ast
 
 from application import app, db
 from flask import render_template, request
@@ -79,7 +80,7 @@ def registercode():
 
     base_compiler_dir = (os.getcwd().replace("web", "")) + "compiler/"
 
-    exec_dir = base_compiler_dir + "compiler_new.py"
+    exec_dir = base_compiler_dir + "compiler.py"
 
     user_file_dir = base_compiler_dir + "tojudge/" + number + "_" + \
     date_time + "_" + str(id_user) + "." + user_language
@@ -102,7 +103,19 @@ def registercode():
 
         return "[WEB] Timeout exceeded.\n"
 
-    result = str(usercodeout.before).strip()
+    result = usercodeout.before
+
+    dict_result = ast.literal_eval(result)
+
+    if dict_result.has_key('Status'):
+
+        status = dict_result['Status']
+ 
+        time_ran = dict_result['Time']
+
+    else:
+
+        return "Something went wrong at Key's dictionary result. Contact the Admin, please."
 
     if result.find('Status 1') != -1:
 
@@ -121,52 +134,51 @@ def registercode():
         increment_attempt(id_exercise, result)
 
         return render_template('exercise_result.html', \
-        result="Status 1: Erro de sintaxe", result_error=result)
+        result="Status 1: Erro de sintaxe", result_error=result, time=time_ran)
 
-    elif result == 'Status 2' or result == 'Status 3' or result == 'Status 4':
+    elif status == 'Status 2' or status == 'Status 3' or status == 'Status 4':
+    
+        #Insert the new tries and the user status (error or accept)
+        new_statistic = Exercise_Statistic(id_exercise=id_exercise, id_user=id_user, \
+        tries=1, errors=1, accepts=0, status=status)
+
+    elif status == 'Status 5':
 
         #Insert the new tries and the user status (error or accept)
         new_statistic = Exercise_Statistic(id_exercise=id_exercise, id_user=id_user, \
-        tries=1, errors=1, accepts=0, status=result)
-
-    elif result == 'Status 5':
-
-        #Insert the new tries and the user status (error or accept)
-        new_statistic = Exercise_Statistic(id_exercise=id_exercise, id_user=id_user, \
-        tries=1, errors=0, accepts=1, status=result)
+        tries=1, errors=0, accepts=1, status=status)
 
     else:
 
-        print "Error: %s\n not expected.\n" % result
+        return "Error: result " + str(status) + " not expected. Contant the admin, please."
 
-        return render_template('exercise_result.html', result_error=result)
+        return render_template('exercise_result.html', result_error=result, time=time_ran)
 
-    increment_exercise(id_exercise, result)
+    increment_exercise(id_exercise, status)
 
-    increment_attempt(id_exercise, result)
+    increment_attempt(id_exercise, status)
 
     db.session.add(new_statistic)
 
     db.session.commit()
 
-    #Set the Key/value based on result
-    status = {'Status 1':'Erro de sintaxe', 'Status 2':'Resposta incorreta', \
+    additional_status = {'Status 1':'Erro de sintaxe', 'Status 2':'Resposta incorreta', \
     'Status 3':'Tempo limite excedido', 'Status 4':'Erro de apresentacao', \
     'Status 5':'Codigo submetido com sucesso'}
 
-    if status.has_key(result):
+    if additional_status.has_key(status):
 
-        value = status[result]
+        value = additional_status[status]
 
     else:
 
         error_message = "Any key was found at status exercise dictionary. Admin, fix it!\n"
 
-        return render_template('exercise_result.html', error_message=error_message)
+        return render_template('exercise_result.html', error_message=error_message, time=time_ran)
 
-    answerout = str(result)  + ": " + value
+    answerout = str(status)  + ": " + value
 
-    return render_template('exercise_result.html', result=answerout)
+    return render_template('exercise_result.html', result=answerout, time=time_ran)
 
 @app.route('/exercise_statistics', methods=['GET', 'POST'])
 def exercise_statistics():

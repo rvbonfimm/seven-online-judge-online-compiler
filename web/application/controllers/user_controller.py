@@ -28,7 +28,7 @@ def login():
 
             message = "Logado com sucesso."
 
-            return render_template('main.html', message=message)
+            return render_template('main_new.html', message=message)
 
         else:
 

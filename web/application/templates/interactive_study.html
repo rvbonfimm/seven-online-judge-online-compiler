@@ -1,33 +1,205 @@
-{% extends 'base_main.html' %}
+{% extends 'base_studies.html' %}
 
 {% block title %}Estudo Interativo{% endblock %}
 
 {% block head %}
 
-	{% super() %}
+	{{ super() }}
 
-{% endblock%}
+{% endblock %}
 
 {% block content %}
 
-	<h3>Bem vindo, {% current_user.name.title() %} a área de Estudos Interativos.</h3>
+	<body class="questions interactiveStudy">
 
-	<h2>Você não se arrependerá de ter escolhido esse método de estudo. Nós preparamos algo grandioso para você!</h2>
+		<br>
 
-	<p>(Lembre-se, nós também já fomos alunos)</p>
+		<div style="text-align: center;">
 
-	<p> Sem mais delongas, vamos lá.</p>
+			<div style="display: inline-flex;">
 
-	<p>Nós preparamos os seguintes tópicos para você estudar, da melhor e mais rapida forma possível:</p>
+				<div style="padding-right: 100px;">
 
-	<ul>
+		        	<img src="{{ url_for('static', filename='images/main.png') }}" alt="Smiley face" width="75" height="75">
+			    
+		      	</div>
 
-		<li>Breve história</li>
-		<li>Por quê programação?</li>
-		<li>Vamos praticar!</li>
+		      	<strong><p style="font-size: 42px;">Bem vindo aos Estudos Interativos</p></strong>
 
-	</ul>
+				<div style="padding-left: 100px;">
+			 
+		        	<img src="{{ url_for('static', filename='images/main.png') }}" alt="Smiley face" width="75" height="75">
+			    
+		      	</div>
 
-	<hr>
+	  		</div>
+
+  		</div>
+
+		<div style="margin: auto; text-align: center;">
+
+			<br><br><br><br><br>
+
+			<div style="width: 80%; margin: auto;">
+
+				<p style="font-size: 36px;">Nós preparamos alguns itens que acreditamos ser de <b>extrema importância</b> para quem está começando a aprender <b>Programação</b></p>
+
+				<br><br><br><br><br>
+
+				<p style="font-size: 33px;">Confira abaixo os itens que serão apresentados:</p>
+
+				<hr class="style">
+
+				<br>
+
+			</div>
+
+			<br><br>
+
+			<div style="text-align: center; font-size: 30px;">
+
+				<img src="{{ url_for('static', filename='images/number_zero.png') }}" alt="" height="40" width="40">  Variáveis e Constantes
+
+				<br><br>
+
+				<img src="{{ url_for('static', filename='images/number_one.png') }}" alt="" height="40" width="40">  Condições
+
+				<br><br>
+
+				<img src="{{ url_for('static', filename='images/number_two.png') }}" alt="" height="40" width="40">  Controle de Fluxo
+
+				<br><br>
+
+				<img src="{{ url_for('static', filename='images/number_three.png') }}" alt="" height="40" width="40">  Repetições
+
+				<br><br>
+
+				<img src="{{ url_for('static', filename='images/number_four.png') }}" alt="" height="40" width="40">  Entrada/Saída
+
+				<br><br>
+
+				<img src="{{ url_for('static', filename='images/number_five.png') }}" alt="" height="40" width="40">  Métodos
+
+				<br><br>
+
+				<img src="{{ url_for('static', filename='images/number_six.png') }}" alt="" height="40" width="40">  Funções
+
+			</div>
+
+			<br><br>
+
+		</div>
+
+		<br>
+
+		<hr class="style">
+
+		<br><br>
+
+		<div style="font-size: 42px; text-align: center;">
+
+			<img src="{{ url_for('static', filename='images/question_linux.png') }}" alt="" height="120" width="120">Como funciona o estudo interativo?
+
+			<img src="{{ url_for('static', filename='images/question_linux.png') }}" alt="" height="120" width="120">
+
+			<br><br>
+
+			<div style="width: 85%; font-size: 30px; margin: auto;">
+
+				<ol>
+
+					<li>Será apresentado o tema em questão da forma mais <b>simples</b> e <b>rapida</b> possível.</li>
+					<li>Será exibido algumas dicas de resolução do tema.</li>
+					<li>Após entender o tema, será possível testar os conhecimentos adquiridos.</li>
+
+				</ol>
+
+			</div>
+
+		</div>
+
+		<br><br><br><br>
+
+		<hr class="style">
+
+		<br>
+
+		<div style="width: 90%; margin: auto; font-size: 30px; text-align: center;">
+
+			<p>Chega de enrolação. <b><i>Let's code, dude?!</i></b></p>
+
+		</div>
+
+		<br>
+
+		<div style="width: 90%; margin: auto; font-size: 24px;">
+
+			<li>Iniciando: <b><i>"Variáveis e Constantes"</i></b></li>
+
+			<br>
+
+			<div style="width: 5%; text-align: right; font-size: 24px; padding-bottom: 8px;">
+
+				<img src="{{ url_for('static', filename='images/books.png') }}" alt="" height="60" width="60">
+
+			</div>
+
+			<div class="divStudyItensDescription">
+
+				<p>"Variáveis são objetos para que seja possível "guardar coisas" na memória do computador para que
+					ele possa trabalhar com. Se comparado ao nosso corpo, <b>Variável</b> é um <b>Lugar</b> que reservamos em nosso
+				cérebro para guardar informações."</p>
+
+			</div>
+
+			<br>
+
+			<hr class="style">
+
+			<div style="width: 3%; text-align: right; font-size: 24px; padding-bottom: 15px;">
+
+				<img src="{{ url_for('static', filename='images/idea.png') }}" alt="" height="50" width="50">
+
+			</div>
+
+			<div class="divStudyItensExample">
+
+				<p>Vamos começar criando algumas variáveis para guardar os seguintes dados:</p>
+
+				<ol>
+
+					<li>Nome</li>
+					<li>E-mail</li>
+					<li>Idade</li>
+					<li>Celular</li>
+					<li>CPF</li>
+
+				</ol>
+
+			</div>
+
+		</div>
+
+		<br>
+
+		<div style="width: 30%; text-align: right; font-size: 25px;">
+
+			<img src="{{ url_for('static', filename='images/code_area.png') }}" alt="" height="60" width="60">
+
+		</div>
+
+		<div class="divStudyItensTryIt">
+
+			<textarea style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); font-size: 20px;" rows="5" cols="50">Essa é a sua área! Teste aqui seus conhecimentos adquiridos.</textarea>
+
+			<br><br><br>
+
+			<input class="button_default btnInteractiveStudySubmit" type="submit" value="Enviar">
+
+		</div>
+
+		<br><br>
+
+	</body>
 
 {% endblock %}

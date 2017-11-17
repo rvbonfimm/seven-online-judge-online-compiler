@@ -1,0 +1,95 @@
+{% extends 'base_main.html' %}
+
+{% block title %}Principal{% endblock %}
+
+{% block head %}
+
+  	{{ super() }}
+
+{% endblock %}
+
+{% block content %}
+
+	{% if alreadyPlain %}
+	    
+	    <div style="text-align: center;" class="alert alert-warning alert-dismissible fade show" role="alert">
+
+	        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+	        <span aria-hidden="true">&times;</span>
+	        </button>
+
+	        {{ alreadyPlain }}
+	        
+	    </div>
+
+	{% endif %}
+
+    <h3 style="color: #ffffff; font-size: 40px; text-align: center;"> {{ current_user.name.title() }}, bem-vindo à guia de Estudos.</h3>
+
+    <h3 style="color: #ffffff; font-size: 40px; text-align: center;">O que você deseja fazer?</h3>
+
+    <hr>
+
+	<br><br>
+
+	<div id="flex-container">
+
+		<div class="flex-item">
+
+			<br>
+
+			<div style="text-align: center; padding: 10px; font-size: 18px;">
+				<a href="{{ url_for('presentation') }}"><img class="action" src="{{ url_for('static', filename='images/studies_list.png') }}" alt="" height="70" width="70"></a>
+				<p>Defina um <b>Plano de estudos</b> específico para você.</p>
+			</div>
+
+		</div>
+
+		<div class="flex-item">
+
+			<br>
+
+			<div style="text-align: center; padding: 10px; font-size: 18px;">
+				<a href="{{ url_for('studies') }}" ><img class="action" src="{{ url_for('static', filename='images/studies.png') }}" alt="" height="70" width="70"></a>
+				<p>Confira nosso <b>Material de Apoio</b> para os Estudos.</p>	
+			</div>
+
+		</div>
+
+		<div class="flex-item">
+			
+			<br>
+
+			<div style="text-align: center; padding: 10px; font-size: 18px;">
+				<a href="{{ url_for('interactivestudy') }}"><img class="action" src="{{ url_for('static', filename='images/cource.png') }}" alt="" height="55" width="55"></a>
+				<p>Conheça nosso <b>Método Interativo de Estudos</b>. Método aconselhável por nós!</p>
+			</div>
+
+		</div>
+
+	</div>
+
+	<br><br>
+
+	<div id="flex-container">
+
+		<div class="flex-item">
+
+			<br>
+
+			<div style="text-align: center; padding: 10px; font-size: 18px;">
+				<a href="{{ url_for('statistics') }}"><img class="action" src="{{ url_for('static', filename='images/statistics.png') }}" alt="" height="70" width="70"></a>
+				<p>Conheça os <b>Resultados</b> e <b>Estatísticas</b> de seus estudos realizados.</p>
+			</div>
+
+		</div>
+
+	</div>
+
+	<br>
+
+	<hr>
+
+	<br>
+
+{% endblock %}

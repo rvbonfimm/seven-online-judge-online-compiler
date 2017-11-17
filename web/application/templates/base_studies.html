@@ -24,7 +24,7 @@
 
   </head>
 
-  <body class="main">
+  <body>
 
     <nav class="navbar navbar-toggleable-md navbar-inverse bg-inverse">
 
@@ -33,7 +33,7 @@
       </button>
 
       <a href="{{ url_for('main') }}">
-        <img class="main" src="{{ url_for('static', filename='images/main.png') }}" alt="Smiley face" width="45" height="45">
+        <img class="main" src="{{ url_for('static', filename='images/main.png') }}" alt="Smiley face" width="45" height=45">
       </a>
 
       <div class="collapse navbar-collapse" id="navbarsExampleDefault">
@@ -49,20 +49,6 @@
                 <img src="{{ url_for('static', filename='images/study_go.png') }}" alt="Smiley face" width="25" height="25">   Vamos estudar!</a>
               <a class="dropdown-item effect" href="#">
                 <img src="{{ url_for('static', filename='images/study_statistics.png') }}" alt="Smiley face" width="25" height="25">   Estatísticas</a>
-            </div>
-          </li>
-
-          
-
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" id="dropdown02" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Exercícios</a>
-            <div class="dropdown-menu" aria-labelledby="dropdown02">
-              <a class="dropdown-item effect" href="#">
-                <img src="{{ url_for('static', filename='images/help.png') }}" alt="Smiley face" width="25" height="25">  Ajuda</a>
-              <a class="dropdown-item effect" href="#">
-                <img src="{{ url_for('static', filename='images/exercise_go.png') }}" alt="Smiley face" width="25" height="25">   Mão na massa!</a>
-              <a class="dropdown-item effect" href="#">
-              <img src="{{ url_for('static', filename='images/exercises_statistics.png') }}" alt="Smiley face" width="25" height="25">   Estatísticas</a>
             </div>
           </li>
 

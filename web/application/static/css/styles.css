@@ -1,4 +1,4 @@
-body {
+body.main {
 
     background-image: url("../images/seven_wallpaper.jpg");
 	background-repeat: repeat-x;
@@ -264,7 +264,7 @@ tr:nth-child(even) {
 
 	text-align: center;
 
-	width: 40%;
+	width: 60%;
 
     border: 0px solid black;
 
@@ -453,15 +453,16 @@ img.main:hover {
 }
 
 .divTableExercises{
-	width: 100%;
-	height: 100%;
+	width: 90%;
+	height: 90%;
 	background-color: #ffffff;
 	text-align: center;
 	margin: 0 auto;
-	padding: 15px;
+	padding: 7px;
+	border-radius: 5px;
 }
  
-.tableInputOutput{
+.tableInputOutput_Old{
 	width: 100%;
 	font-family: arial, sans-serif;
 	border-top: 1px ridge black;
@@ -469,6 +470,14 @@ img.main:hover {
 	border-left: 1px ridge black;
 	border-right: 1px ridge black;
 	border-radius: 3px;
+	border: collapse;
+	display: inline-block;
+}
+
+.tableInputOutput{
+	width: 100%;
+	font-family: arial, sans-serif;
+	border: 1px solid #ddd;
 	border: collapse;
 	display: inline-block;
 }
@@ -542,4 +551,57 @@ td.judge {
 a.effect:hover{
 	border-style: dashed;
 	background-color: #3399ff;
+}
+
+.divStudyItensDescription{
+	background-color: #e6f2ff;
+	border-radius: 2px;
+	padding: 7px;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.divStudyItensExample{
+	background-color: #b9d2f9;
+	border-radius: 2px;
+	padding: 7px;
+	box-shadow: 0 4px 8px
+}
+
+.divStudyItensTryIt{
+	text-align: center;
+	padding: 7px;
+}
+
+.button_default {
+    background-color: #e6f2ff; /* Green */
+    border: none;
+    color: white;
+    padding: 16px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+    cursor: pointer;
+}
+
+.btnInteractiveStudySubmit {
+	width: 48%;
+    background-color: white; 
+    color: black; 
+    border: 2px solid #008CBA;
+}
+
+.btnInteractiveStudySubmit:hover {
+    background-color: #008CBA;
+    color: white;
+}
+
+hr.style{
+    border: 0;
+    height: 1px;
+    background: #333;
+    background-image: linear-gradient(to right, #ccc, #333, #ccc);
 }

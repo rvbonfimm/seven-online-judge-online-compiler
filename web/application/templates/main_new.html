@@ -1,0 +1,77 @@
+{% extends 'base_main.html' %}
+
+{% block title %}Principal{% endblock %}
+
+{% block head %}
+
+  	{{ super() }}
+
+{% endblock %}
+
+{% block content %}
+
+	{% if alreadyPlain %}
+	    
+	    <div style="text-align: center;" class="alert alert-warning alert-dismissible fade show" role="alert">
+
+	        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+	        <span aria-hidden="true">&times;</span>
+	        </button>
+
+	        {{ alreadyPlain }}
+	        
+	    </div>
+
+	{% endif %}
+
+    <h3 style="color: #ffffff; font-size: 40px; text-align: center;"> {{ current_user.name.title() }}, o que você deseja fazer?</h3>
+
+    <hr>
+
+	<br><br>
+
+	<div id="flex-container">
+
+		<div class="flex-item">
+
+			<br>
+
+			<div style="text-align: center; padding: 10px; font-size: 18px;">
+				<a href="{{ url_for('studyboard') }}"><img class="action" src="{{ url_for('static', filename='images/books.png') }}" alt="" height="70" width="70"></a>
+				<p>Prepare-se para os desafios futuros com os <b>Estudos</b> que preparamos para você!</p>
+			</div>
+
+		</div>
+
+		<div class="flex-item">
+
+			<br>
+
+			<div style="text-align: center; padding: 10px; font-size: 18px;">
+				<a href="{{ url_for('exerciseboard') }}" ><img class="action" src="{{ url_for('static', filename='images/computer.png') }}" alt="" height="70" width="70"></a>
+				<p>Ponha em prática os conhecimentos adquiridos com nossos <b>Exercícios</b>.</p>
+			</div>
+
+		</div>
+
+		<div class="flex-item">
+			
+			<br>
+
+			<div style="text-align: center; padding: 10px; font-size: 18px;">
+				<a href="{{ url_for('systemboard') }}"><img class="action" src="{{ url_for('static', filename='images/main.png') }}" alt="" height="65" width="65"></a>
+				<p>Saiba as motivações, bases e objetivos do <b>Seven Online Judge!</b></p>
+				
+			</div>
+
+		</div>
+
+	</div>
+
+	<br>
+
+	<hr>
+
+	<br>
+
+{% endblock %}
