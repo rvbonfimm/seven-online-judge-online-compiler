@@ -16,18 +16,27 @@
 
 		<br>
 
-		<label style="font-size: 35px;">{{ current_user.name.title() }}, responda os questionamentos abaixo para que nós possamos definir um roteiro de estudos para você.</label>
+		<label style="font-size: 40px;">{{ current_user.name.title() }}, responda os questionamentos abaixo para que nós possamos definir um roteiro de estudos para você.</label>
 
 		<br><br>
 
 		<hr>
 
-		<label style="font-size: 28px;">Você já teve algum contato com Programação?</label>
+		<label style="font-size: 40px;">Você já teve algum contato com Programação?</label>
 
 		<br><br>
 
-		<input type="radio" name="programming_experience" value="no">Não
-		<input type="radio" name="programming_experience" value="yes">Sim
+		<label class="custom-control custom-radio">
+		<input name="programming_experience" value="yes" type="radio" class="custom-control-input">
+		<span class="custom-control-indicator"></span>
+		<span class="custom-control-description">Sim</span>
+		</label>
+
+		<label class="custom-control custom-radio">
+		<input name="programming_experience" value="no" type="radio" class="custom-control-input">
+		<span class="custom-control-indicator"></span>
+		<span class="custom-control-description">Não</span>
+		</label>
 
 		<br><br>
 

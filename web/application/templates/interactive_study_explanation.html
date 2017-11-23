@@ -1,0 +1,175 @@
+{% extends 'base_studies.html' %}
+
+{% block title %}Estudo Interativo{% endblock %}
+
+{% block head %}
+
+	{{ super() }}
+
+{% endblock %}
+
+{% block content %}
+
+	<body class="questions interactiveStudy">
+
+		<br>
+
+		<div style="text-align: center;">
+
+			<div style="display: inline-flex;">
+
+				<div style="padding-right: 100px;">
+
+		        	<img src="{{ url_for('static', filename='images/main.png') }}" alt="Smiley face" width="75" height="75">
+			    
+		      	</div>
+
+		      	<strong><p style="font-size: 42px;"><i>{{ current_user.name.title() }}</i>, Bem vindo aos Estudos Interativos!</p></strong>
+
+				<div style="padding-left: 100px;">
+			 
+		        	<img src="{{ url_for('static', filename='images/main.png') }}" alt="Smiley face" width="75" height="75">
+			    
+		      	</div>
+
+	  		</div>
+
+  		</div>
+
+		<div style="margin: auto; text-align: center;">
+
+			<br><br><br><br><br>
+
+			<div style="width: 80%; margin: auto;">
+
+				<p style="font-size: 36px;">Nós preparamos alguns itens que acreditamos ser de <b>extrema importância</b> para quem está começando a aprender <b>Programação</b></p>
+
+				<br><br><br><br><br>
+
+				<p style="font-size: 33px;">Confira abaixo os itens que serão apresentados:</p>
+
+				<hr class="style">
+
+				<br>
+
+			</div>
+
+			<br><br>
+
+			<div style="text-align: center; font-size: 30px;">
+
+				{% if study_itens %}
+
+					{% for item in study_itens %}
+
+						{% set convert_var = item.id|string %}
+
+						{% if convert_var|length > 1 %}
+
+							{% for item in convert_var %}
+
+								<img src="static/images/{{ item }}.png" alt="" height="40" width="40">
+								
+							{% endfor %}
+
+							{{ item.name }}
+
+						{% else %}
+
+							<img src="static/images/{{ item.id }}.png" alt="" height="40" width="40">  {{ item.name }}
+
+						{% endif %}
+
+						<br><br>
+
+					{% endfor %}
+
+				{% else %}
+
+					<p>Any Study item was found.</p>
+
+				{% endif %}
+
+			</div>
+
+			<br><br>
+
+		</div>
+
+		<br>
+
+		<hr class="style">
+
+		<br><br>
+
+		<div style="font-size: 42px; text-align: center;">
+
+			<img src="{{ url_for('static', filename='images/question_linux.png') }}" alt="" height="120" width="120">Como funciona o estudo interativo?
+
+			<img src="{{ url_for('static', filename='images/question_linux.png') }}" alt="" height="120" width="120">
+
+			<br><br>
+
+			<div style="width: 85%; font-size: 30px; margin: auto;">
+
+				<ol>
+
+					<li style="text-align: left;">Será apresentado o tema em questão da forma mais <b>simples</b> e <b>rapida</b> possível:</li>
+
+					<br>
+
+					<img class="interactive_study" src="{{ url_for('static', filename='images/Interactive_Example_1.png') }}" alt="" height="400" width="1100">
+
+					<br><br>
+
+					<li style="text-align: left;">Será exibido alguns itens para se realizar.</li>					
+
+					<br>
+
+					<img class="interactive_study" src="{{ url_for('static', filename='images/Interactive_Example_2.png') }}" alt="" height="400" width="1100">
+
+					<br><br>
+
+					<li style="text-align: left;">Será exibido algumas dicas para resolução.</li>
+
+					<br>
+
+					<img class="interactive_study" src="{{ url_for('static', filename='images/Interactive_Example_3.png') }}" alt="" height="400" width="1100">
+
+					<br><br>
+
+					<li style="text-align: left;">Após entender o tema, será possível testar os conhecimentos adquiridos.</li>
+
+					<br>
+
+					<img class="interactive_study" src="{{ url_for('static', filename='images/Interactive_Example_4.png') }}" alt="" height="400" width="700">
+
+					<br>
+
+				</ol>
+
+			</div>
+
+		</div>
+
+		<br><br>
+
+		<hr class="style">
+
+		<br>
+
+		<div style="width: 100%; margin: auto; text-align: center;">
+
+			<form action="{{ url_for('interactivestudy') }}" method="GET">
+
+				<input class="button_default btnInteractiveStudySubmit" type="submit" value="Avançar">
+
+			</form>
+
+		</div>
+
+		<br>
+
+	</body>
+
+{% endblock %}

@@ -1,0 +1,102 @@
+{% extends 'base_studies.html' %}
+
+{% block title %}Estudo Interativo{% endblock %}
+
+{% block head %}
+
+	{{ super() }}
+
+{% endblock %}
+
+{% block content %}
+
+	<body class="questions interactiveStudy">
+
+		<br>
+
+		<div style="text-align: center;">
+
+			<div style="display: inline-flex;">
+
+				<div style="padding-right: 100px;">
+
+		        	<img src="{{ url_for('static', filename='images/main.png') }}" alt="Smiley face" width="75" height="75">
+			    
+		      	</div>
+
+		      	<strong><p style="font-size: 42px;"><i>{{ current_user.name.title() }}</i>, Bem vindo ao seu Plano de Estudo!</p></strong>
+
+				<div style="padding-left: 100px;">
+			 
+		        	<img src="{{ url_for('static', filename='images/main.png') }}" alt="Smiley face" width="75" height="75">
+			    
+		      	</div>
+
+	  		</div>
+
+  		</div>
+
+		<div style="margin: auto; text-align: center;">
+
+			<br><br><br><br><br>
+
+			<div style="width: 80%; margin: auto;">
+
+				<p style="font-size: 33px;">Confira abaixo os itens que você selecionou para estudar:</p>
+
+				<hr class="style">
+
+				<br>
+
+			</div>
+
+			<br><br>
+
+			<div style="width: 50%; margin: auto; text-align: center; font-size: 30px;">
+
+				{% if study_itens %}
+
+					<table class="tableInputOutput">
+
+						<tr class="listexercises">
+
+			                <th class="name">Nome do estudo</th>
+			                <th class="name">Tipo</th>
+			                <th class="name">Status</th>
+
+			            </tr>
+
+			            {% for item in study_itens %}
+
+				            <tr class="listexercises">
+
+				            	<td class="number"><a href="{{ url_for('interactivestudy', id_study=item.id) }}">{{ item.name }}</a></td>
+
+				            	<td class="number">{{ item.type_study }}</td>
+				            	<td class="number"><img border="0" src="{{ url_for('static', filename='images/error.png') }}" width="25" height="25"></td>
+
+		            		</tr>
+
+	            		{% endfor %}
+
+					</table>
+
+				{% else %}
+
+					<p>Any Study item was found.</p>
+
+				{% endif %}
+
+			</div>
+
+			<br><br>
+
+			<hr class="style">
+
+		</div>
+
+		<br>
+
+	</body>
+
+{% endblock %}

@@ -1,0 +1,22 @@
+UPDATE studies set content = '<b>Variáveis</b> são objetos para que seja possível <b>guardar coisas</b> na memória do computador para que ele possa trabalhar com. Se comparado ao nosso corpo, <b>variável</b> é um <b>lugar</b> que reservamos em nosso cérebro para guardar informações.' where id = 4;
+
+UPDATE studies set exercises = 'Vamos começar criando algumas <b>variáveis</b> para guardar alguns dados:
+
+1. Variável para guardar o <b>Nome</b> de alguém;
+2. Variável para guardar o <b>E-mail</b> de alguém;
+3. Variável para guardar o <b>Idade</b> de alguém;
+4. Variável para guardar o <b>Número de Celular</b> de alguém;
+5. Variável para guardar o <b>CPF</b> de alguém;' where id = 4;
+
+UPDATE studies set helper = '1. char nome[20];
+2. char email[20];
+3. int idade;
+4. char celular[20];
+5. char cpf[20];' where id = 4;
+
+UPDATE studies set regex = '
+(char [\\w]+\\[[\\d]+\\];)
+(char [\\w]+\\[[\\d]+\\];)
+(int [\\w]+;)
+(char [\\w]+\\[[\\d]+\\];)
+(char [\\w]+\\[[\\d]+\\];)' where id = 4;

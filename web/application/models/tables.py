@@ -152,11 +152,22 @@ class Study(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50))
+    type_study = db.Column(db.String(20))
+    content = db.Column(db.Text())
+    exercises = db.Column(db.Text())
+    explanation = db.Column(db.Text())
+    helper = db.Column(db.Text())
+    regex = db.Column(db.Text())
 
-    def __init__(self, name):
+    def __init__(self, name, type_study, content, exercises, explanation, helper, regex):
 
         self.name = name
-
+        self.type_study = type_study
+        self.content = content
+        self.exercises = exercises
+        self.explanation = explanation
+        self.helper = helper
+        self.regex = regex
 
 class UserPlan(db.Model):
 

@@ -1,29 +1,89 @@
 {% extends 'base_index.html' %}
-    
+
+{% block title %}Nova conta{% endblock %}
+
+{% block head %}
+
+    {{ super() }}
+
+{% endblock %}
+
 {% block content %}
-    
+
 <form action="{{ url_for('registeruser') }}" method=POST>
+
+    <p style="font-size: 40px; color: #ffffff; text-align: center;">Crie sua conta para acessar todo o conteúdo de nosso site</p>
+
+    {% if message %}
+
+        <br>
+
+        <div style="width: 50%; margin: auto; text-align: center;">
+
+            <div class="alert alert-danger alert-dismissable">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Oh no!</strong> {{ message }}
+            </div>
+
+        </div>
+
+        <br>
+
+        <div class ="divNewUser">
+
+            <br>
+
+            <input class = "textRegister" value={{ name }} type="text" name="nameField" placeholder="Nome" autofocus required><br><br>
+
+            <input class = "textRegister" value={{ lastname }}  type="text" name="lastnameField" placeholder="Sobrenome" required><br><br>
+
+            <input class = "textRegister" value={{ email }} type="text" name="emailField" placeholder="E-mail" required><br><br>
+
+            <input class = "textRegister" value={{ username }} type="text" name="usernameField" placeholder="Usuário" required><br><br>
+
+            <input class = "textRegister" type="password" placeholder="Senha" name="passwordField" required><br><br>
+
+            <input class = "textRegister" type="password" name="repasswordField" placeholder="Senha novamente" required><br><br>
+
+            <label for="gender">Gênero:</label>
+
+            <input type="radio" name="gender" value="male">Masculino
+
+            <input type="radio" name="gender" value="female">Feminino<br><br>  
+
+        </div>
+
+    {% else %}
+            
+        <div class ="divNewUser">
         
-    <div class ="divNewUser">
+            <br>
         
-        <p class="labelTitle">Crie sua conta para acessar todo o conteúdo de nosso site</p>
+            <input class = "textRegister" type="text" name="nameField" placeholder="Nome" autofocus required><br><br>
 
-        <input class = "textRegister" type="text" name="nameField" placeholder="Nome" autofocus required><br><br>
+            <input class = "textRegister" type="text" name="lastnameField" placeholder="Sobrenome" required><br><br>
 
-        <input class = "textRegister" type="text" name="lastnameField" placeholder="Sobrenome" required><br><br>
+            <input class = "textRegister" type="text" name="emailField" placeholder="E-mail" required><br><br>
 
-        <input class = "textRegister" type="text" name="emailField" placeholder="E-mail" required><br><br>
+            <input class = "textRegister" type="text" name="usernameField" placeholder="Usuário" required><br><br>
 
-        <input class = "textRegister" type="text" name="usernameField" placeholder="Usuário" required><br><br>
+            <input class = "textRegister" type="password" placeholder="Senha" name="passwordField" required><br><br>
 
-        <input class = "textRegister" type="password" placeholder="Senha" name="passwordField" required><br><br>
+            <input class = "textRegister" type="password" name="repasswordField" placeholder="Senha novamente" required><br><br>
 
-        <input class = "textRegister" type="password" name="repasswordField" placeholder="Senha novamente" required><br><br>
+            <label for="gender">Gênero:</label>
 
-        <label for="gender">Gênero:</label>
-        <input type="radio" name="gender" value="male">Masculino
+            <input type="radio" name="gender" value="male">Masculino
 
-        <input type="radio" name="gender" value="female">Feminino<br><br>  
+            <input type="radio" name="gender" value="female">Feminino<br><br>  
+
+        </div>
+
+    {% endif %}
+
+    <br><br>
+
+    <div style="width: 100%; margin: auto; text-align: center;">
 
         <input class="buttonRegister" type="submit" name="enter" value="Cadastrar"><br><br>
 

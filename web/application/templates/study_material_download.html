@@ -1,0 +1,45 @@
+{% extends 'base_studies.html' %}
+
+{% block title %}Material de Apoio{% endblock %}
+
+{% block head %}
+
+	{{ super() }}
+
+{% endblock %}
+
+{% block content %}
+
+	<br>
+
+	<p style="font-size: 34px; text-align: center;">Escolha qual arquivo você deseja baixar e <b>bons estudos!</b></p>
+
+	<br><br>
+
+	<div id="flex-container2">
+
+		<div class="flex-item2" style="background-color: #e6ecff;">
+
+			<br>
+
+			<div style="text-align: center; padding: 10px; font-size: 18px;">
+				<a href="{{ url_for('downloadfile_module_1') }}"><img class="action" src="{{ url_for('static', filename='images/pdf.png') }}" alt="" height="70" width="70"></a>
+				<p>Material de Apoio referente ao <b>Módulo 1</b>.</p>
+			</div>
+
+		</div>
+
+		<div class="flex-item2" style="background-color: #e6ecff;">
+
+			<br>
+
+			<div style="text-align: center; padding: 10px; font-size: 18px;">
+				<a href="{{ url_for('downloadfile_module_2') }}" ><img class="action" src="{{ url_for('static', filename='images/pdf.png') }}" alt="" height="70" width="70"></a>
+				<p>Material de Apoio referente ao <b>Módulo 2</b>.</p>	
+			</div>
+
+		</div>
+
+	</div>
+
+{% endblock %}

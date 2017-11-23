@@ -1,0 +1,117 @@
+{% extends 'base_studies.html' %}
+
+{% block title %}Status - Explicação{% endblock %}
+
+{% block head %}
+
+	{{ super() }}
+
+{% endblock %}
+
+{% block content %}
+
+	<br><br>
+
+	<p style="width: 90%; margin: auto; text-align: center; font-size: 34px;">Nós possuímos <b>cinco tipos de resultados </b> para os exercícios submetidos, sendo estes:</p>
+
+	<br><br>
+
+	<div style="width: 40%; margin: auto; font-size: 24px; text-align: center;">
+
+		<ul>
+
+			<li><b>Status 1</b>: Erro de sintaxe</li>
+			<li><b>Status 2</b>: Resposta incorreta</li>
+			<li><b>Status 3</b>: Tempo limite excedido</li>
+			<li><b>Status 4</b>: Erro de apresentacao</li>
+			<li><b>Status 5</b>: Codigo submetido com sucesso</li>
+
+		</ul>
+
+	</div>
+
+	<br><br>
+
+	<p style="text-align: center; font-size: 34px;">Mas, o que significa, realmente, cada status?</p>
+
+	<hr class="style">
+
+	<br>
+
+	<p style="text-align: center; font-size: 34px;">Ok. Vamos lá a explicação:</p>
+
+	<ul>
+
+		<li style="font-size: 24px;">Status 1</li>
+
+		<div style="background-color: #FFFF00;">
+
+			<hr class="style">
+
+			<p style="font-size: 20px; text-align: center;">Status mais básico entre os outros. Neste, contém os erros mais comuns de programação. Erro de sintaxe, compilação, etc.</p>
+
+			<hr class="style">
+
+		</div>
+
+		<br>
+
+		<li style="font-size: 24px;">Status 2</li>
+
+		<div style="background-color: #fc0511">
+
+			<hr class="style">
+
+			<p style="font-size: 20px; text-align: center;">Aconteçe quando o resultado enviado pelo código do usuário não está igual ao código esperado pelo nosso sistema.</p>
+
+			<hr class="style">
+
+		</div>
+
+		<br>
+
+		<li style="font-size: 24px;">Status 3</li>
+
+		<div style="background-color: #1E90FF;">
+
+			<hr class="style">
+
+			<p style="font-size: 20px; text-align: center;">Acontece quando o código do usuário ultrapassa o tempo limite definido para a compilação desse código.</p>
+
+			<hr class="style">
+
+		</div>
+
+		<br>
+
+		<li style="font-size: 24px;">Status 4</li>
+
+		<div style="background-color: #90EE90;">
+
+			<hr class="style">
+
+			<p style="font-size: 20px; text-align: center;">Aconteçe quando a resposta enviada pelo código do usuário contém formatações indevidas.</p>
+
+			<hr class="style">
+
+		</div>
+
+		<br>
+
+		<li style="font-size: 24px;">Status 5</li>
+
+		<div style="background-color: #32CD32;">
+
+			<hr class="style">
+
+			<p style="font-size: 20px; text-align: center;">Status referente ao acerto do código enviado pelo usuário para cumprimento da saída esperada.</p>
+
+			<hr class="style">
+
+		</div>
+
+		<br>
+
+	</ul>
+
+{% endblock %}

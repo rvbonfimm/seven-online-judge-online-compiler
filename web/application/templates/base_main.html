@@ -47,12 +47,12 @@
                 <img src="{{ url_for('static', filename='images/help.png') }}" alt="Smiley face" width="25" height="25">  Ajuda</a>
               <a class="dropdown-item effect" href="#">
                 <img src="{{ url_for('static', filename='images/study_go.png') }}" alt="Smiley face" width="25" height="25">   Vamos estudar!</a>
-              <a class="dropdown-item effect" href="#">
-                <img src="{{ url_for('static', filename='images/study_statistics.png') }}" alt="Smiley face" width="25" height="25">   Estatísticas</a>
+                <a class="dropdown-item effect" href="#">
+                <img src="{{ url_for('static', filename='images/plans.png') }}" alt="Smiley face" width="25" height="25">  Planos</a>
+              <!--<a class="dropdown-item effect" href="#">
+                <img src="{{ url_for('static', filename='images/study_statistics.png') }}" alt="Smiley face" width="25" height="25">   Estatísticas</a>-->
             </div>
           </li>
-
-          
 
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" id="dropdown02" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Exercícios</a>
@@ -61,8 +61,8 @@
                 <img src="{{ url_for('static', filename='images/help.png') }}" alt="Smiley face" width="25" height="25">  Ajuda</a>
               <a class="dropdown-item effect" href="#">
                 <img src="{{ url_for('static', filename='images/exercise_go.png') }}" alt="Smiley face" width="25" height="25">   Mão na massa!</a>
-              <a class="dropdown-item effect" href="#">
-              <img src="{{ url_for('static', filename='images/exercises_statistics.png') }}" alt="Smiley face" width="25" height="25">   Estatísticas</a>
+              <!--<a class="dropdown-item effect" href="#">
+              <img src="{{ url_for('static', filename='images/exercises_statistics.png') }}" alt="Smiley face" width="25" height="25">   Estatísticas</a>-->
             </div>
           </li>
 
@@ -88,11 +88,11 @@
     {% block content %}
     {% endblock %}
 
-    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+    <script src="{{ url_for('static', filename='js/jquery-3.1.1.slim.min.js') }}" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
 
     <script>window.jQuery || document.write('<script src="{{ url_for('static', filename='js/jquery.min.js') }}"><\/script>')</script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+    <script src="{{ url_for('static', filename='js/tether.min.js') }}" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
 
     <script src="{{  url_for('static', filename='js/bootstrap.min.js') }} "></script>
 

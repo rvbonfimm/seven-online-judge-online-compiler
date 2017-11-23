@@ -10,6 +10,8 @@
 
 {% block content %}
 
+<body onload="javascript:resizeTextArea()">
+
 	{% if result %}
 
 		<br><br>
@@ -23,6 +25,12 @@
 			<b><p>Tempo de submissão: </p></b>
 
 			<p>{{ time }}</p>			
+
+			<b><p>Código submetido: </p></b>
+
+			<textarea readonly rows="10" cols="30">{{ code_used }}</textarea>
+
+			<br>
 
 			<b><a href="{{ url_for('exercisegroup') }}" style="font-family: verdana; font-size: 20px; text-decoration: None; color: #186249; font-style: italic;">Voltar aos Exercícios</a></b>
 
@@ -45,5 +53,7 @@
 		<br>
 
 	{% endif %}
+
+</body>
 
 {% endblock %}

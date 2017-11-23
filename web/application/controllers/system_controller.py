@@ -1,3 +1,5 @@
+# encoding=utf8
+
 from application import app
 from flask import render_template
 from flask_login import login_required, current_user
@@ -10,7 +12,7 @@ def index():
 
     if current_user.is_authenticated:
 
-        return render_template('main_new.html', title=title)
+        return render_template('main.html', title=title)
 
     else:
 
@@ -32,7 +34,7 @@ def main():
 
     title = "Pagina principal"
 
-    return render_template('main_new.html', title=title)
+    return render_template('main.html', title=title)
 
 @app.route('/studyboard')
 @login_required

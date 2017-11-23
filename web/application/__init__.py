@@ -14,4 +14,4 @@ lm.login_view = 'login'
 lm.init_app(app)
 
 from application.models import tables
-from application.controllers import system_controller, user_controller, exercise_controller, admin_controller
+from application.controllers import system_controller, user_controller, exercise_controller, admin_controller, study_controller

@@ -12,24 +12,22 @@
 
 <form action="{{ url_for('startusernext') }}" method="POST">
 
-	<br><br>
-
 	<div class="divPresentationQuestions">
 
-		<label style="font-size: 35px;">Entre os itens abaixo, quais você deseja estudar?</label>
+		<label style="font-size: 45px;">{{ current_user.name.title() }}, entre os itens abaixo, quais você deseja estudar?</label>
 
-		<hr>
+		<hr class="style">
 
 		<br>
 
-		<div style="text-align: center;">
+		<div style="text-align: center; font-size: 24px;">
 
-			{% if allKnownItens %}
+			{% if study_itens %}
 
-				{% for item in allKnownItens %}
+				{% for item in study_itens %}
 
 					<label class="custom-control custom-checkbox">
-					<input type="checkbox" class="custom-control-input" name="knownItens" value="{{ item.name }}">
+					<input type="checkbox" class="custom-control-input" name="studyitens" value="{{ item.name }}">
 					<span class="custom-control-indicator"></span>
 					<span class="custom-control-description">{{ item.name }}</span>
 					</label><br>
@@ -40,41 +38,9 @@
 
 		</div>
 
-		<br><br>
-
-		<label style="font-size: 35px;">Em qual nível de Programação você se considera?</label>
-
-		<hr>
+		<hr class="style">
 
 		<br>
-
-		<div style="text-align: center;">
-
-			<label class="custom-control custom-radio">
-			<input name="userlevel" type="radio" class="custom-control-input">
-			<span class="custom-control-indicator"></span>
-			<span class="custom-control-description">Iniciante</span>
-			</label>
-
-			<label class="custom-control custom-radio">
-			<input name="userlevel" type="radio" class="custom-control-input">
-			<span class="custom-control-indicator"></span>
-			<span class="custom-control-description">Intermediário</span>
-			</label>
-
-			<label class="custom-control custom-radio">
-			<input name="userlevel" type="radio" class="custom-control-input">
-			<span class="custom-control-indicator"></span>
-			<span class="custom-control-description">Avançado</span>
-			</label>
-
-		</div>
-
-		<br>
-
-		<label style="font-size: 16px; font-style: italic;">(Considere responder com sinceridade)</label>
-
-		<br><br>
 
 		<input class="buttonNext" type="submit" value="Avançar">	
 

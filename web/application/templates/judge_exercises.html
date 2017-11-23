@@ -16,7 +16,7 @@
 
             <div class="judgeParams">
 
-                <label>Exercício:</label>
+                <label style="font-size: 20px;">Exercício:</label>
 
                 <select name="exercise_number" required>
                         
@@ -44,10 +44,17 @@
 
                 </select>
 
-                <label>Linguagem:</label>
+                <label style="font-size: 25px;"> | </label>
 
-                <input type="radio" name="language" value="c" checked>C
-                <input type="radio" name="language" value="py">Python
+                <label style="font-size: 20px;">Linguagem: </label>
+
+                <!--<input type="radio" name="language" value="c" checked> C (gcc 5.4.0)-->
+
+                <label class="custom-control custom-radio">
+                <input name="language" value="c" type="radio" class="custom-control-input" checked>
+                <span class="custom-control-indicator"></span>
+                <span class="custom-control-description">C (gcc 5.4.0)</span>
+                </label>
 
             </div>
 
@@ -66,9 +73,11 @@ int main(){
 
                 <input class="buttonJudge" type="submit" value="Submeter">
 
-                <br>
+                <!--<br><br>
 
-                <p>Ou, você pode importar diretamente um arquivo para Julgamento</p>
+                <p style="font-size: 18px;">Ou, você pode importar diretamente um arquivo para Julgamento</p>
+
+                -->
 
             </div>
 

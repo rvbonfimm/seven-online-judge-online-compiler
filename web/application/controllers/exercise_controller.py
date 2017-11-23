@@ -105,6 +105,8 @@ def registercode():
 
     result = usercodeout.before
 
+    print result
+
     dict_result = ast.literal_eval(result)
 
     if dict_result.has_key('Status'):
@@ -134,7 +136,7 @@ def registercode():
         increment_attempt(id_exercise, result)
 
         return render_template('exercise_result.html', \
-        result="Status 1: Erro de sintaxe", result_error=result, time=time_ran)
+        result="Status 1: Erro de sintaxe", result_error=result, time=time_ran, code_used=user_code)
 
     elif status == 'Status 2' or status == 'Status 3' or status == 'Status 4':
     
@@ -152,7 +154,7 @@ def registercode():
 
         return "Error: result " + str(status) + " not expected. Contant the admin, please."
 
-        return render_template('exercise_result.html', result_error=result, time=time_ran)
+        return render_template('exercise_result.html', result_error=result, time=time_ran, code_used=user_code)
 
     increment_exercise(id_exercise, status)
 
@@ -174,11 +176,11 @@ def registercode():
 
         error_message = "Any key was found at status exercise dictionary. Admin, fix it!\n"
 
-        return render_template('exercise_result.html', error_message=error_message, time=time_ran)
+        return render_template('exercise_result.html', error_message=error_message, time=time_ran, code_used=user_code)
 
     answerout = str(status)  + ": " + value
 
-    return render_template('exercise_result.html', result=answerout, time=time_ran)
+    return render_template('exercise_result.html', result=answerout, time=time_ran, code_used=user_code)
 
 @app.route('/exercise_statistics', methods=['GET', 'POST'])
 def exercise_statistics():
@@ -255,8 +257,7 @@ def increment_attempt(id_exercise, status):
 
         print e
 
-@app.route("/interactive_study", methods=['GET', 'POST'])
-def interactivestudy():
+@app.route("/status_explanation", methods=['GET'])
+def statusexplanation():
 
-    return render_template('interactive_study.html')
-    
+    return render_template("status_explanation.html")
