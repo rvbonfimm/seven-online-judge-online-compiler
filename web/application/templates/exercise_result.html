@@ -10,7 +10,7 @@
 
 {% block content %}
 
-<body onload="javascript:resizeTextArea()">
+<body>
 
 	{% if result %}
 
@@ -18,35 +18,71 @@
 
 		<div class="divExerciseResult">
 
-			<b><p>Resultado da submissão: </p></b>
+			<br><br>
 
-			<p>{{ result }}</p>
+			<b><p style="font-size: 24px;">Resultado da submissão: </p></b>
 
-			<b><p>Tempo de submissão: </p></b>
+			<b><p style="color: #186249; font-size: 20px;">{{ result }}</p></b>
 
-			<p>{{ time }}</p>			
+			{% if time %}
 
-			<b><p>Código submetido: </p></b>
+				<b><p style="font-size: 24px;">Tempo de submissão: </p></b>
 
-			<textarea readonly rows="10" cols="30">{{ code_used }}</textarea>
+				<b><p style="color: #186249; font-size: 20px;">{{ time }}</p></b>		
 
-			<br>
+			{% endif %}
 
-			<b><a href="{{ url_for('exercisegroup') }}" style="font-family: verdana; font-size: 20px; text-decoration: None; color: #186249; font-style: italic;">Voltar aos Exercícios</a></b>
+			<b><p style="font-size: 24px;">Código submetido: </p></b>
 
-		</div>
+			<textarea readonly rows="15" cols="40">{{ code_used }}</textarea>
 
-		<br>
+			{% if data %}
 
-	{% endif %}
+				<br><br>
 
-	{% if result_error %}
+				<b><p style="font-size: 24px;">Saída: </p></b>
 
-		<div class="divExerciseResult">
+				<table style="font-size: 17px;" class="tableExercisePreview">
 
-			<p>Saída do programa: </p>
+		            <th style="font-size: 20px; color: #111111; text-align: center;">Itens validados</th> 
 
-			<p>{{ result_error }}</p>
+		            {% if status == 'Status 5' %}
+
+			            {% for row in data %}
+
+			                <tr>
+
+			                    <td class="output">{{ row }}</td>
+
+			                </tr>
+
+			            {% endfor %}
+
+		            {% elif status == 'Status 4' %}
+
+		            	<tr>
+
+		                    <td class="output">{{ data }}</td>
+
+		                </tr>
+
+	                {% elif status == 'Status 2' %}
+
+		            	<tr>
+
+		                    <td class="output">{{ data }}</td>
+
+		                </tr>
+
+	                {% endif %}
+
+		        </table>
+
+			{% endif %}
+
+			<br><br>
+
+			<b><a href="{{ url_for('exercisegroup') }}" style="font-family: verdana; font-size: 20px; text-decoration: none; color: #186249; font-style: italic;">Voltar aos Exercícios</a></b>
 
 		</div>
 

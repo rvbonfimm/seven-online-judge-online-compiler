@@ -12,157 +12,175 @@
 
 	<body class="questions interactiveStudy">
 
-		<br>
+  		{% if study_item %}
 
-		<div style="text-align: center;">
+  			<br>
 
-			<div style="display: inline-flex;">
+			<div style="text-align: center;">
 
-				<div style="padding-right: 100px;">
+				<div style="display: inline-flex;">
 
-		        	<img src="{{ url_for('static', filename='images/main.png') }}" alt="Smiley face" width="75" height="75">
-			    
-		      	</div>
+					<div style="padding-right: 100px;">
 
-		      	<strong><p style="font-size: 42px;"><i>{{ current_user.name.title() }}</i>, Bem vindo aos Estudos Interativos!</p></strong>
+			        	<img src="{{ url_for('static', filename='images/main.png') }}" alt="Smiley face" width="75" height="75">
+				    
+			      	</div>
 
-				<div style="padding-left: 100px;">
-			 
-		        	<img src="{{ url_for('static', filename='images/main.png') }}" alt="Smiley face" width="75" height="75">
-			    
-		      	</div>
+			      	<strong><p style="font-size: 42px;"><i>{{ current_user.name.title() }}</i>, Bem vindo aos Estudos Interativos!</p></strong>
+
+					<div style="padding-left: 100px;">
+				 
+			        	<img src="{{ url_for('static', filename='images/main.png') }}" alt="Smiley face" width="75" height="75">
+				    
+			      	</div>
+
+		  		</div>
 
 	  		</div>
 
-  		</div>
+  			<div style="width: 90%; margin: auto; font-size: 24px;">
 
-		<div style="width: 90%; margin: auto; font-size: 24px;">
+				<br><br>
 
-			<br><br>
+				<li style="font-size: 30px;">Tópico: <b><i>"{{ study_item.name }}"</i></b></li>
 
-			<li>Iniciando: <b><i>"{{ study_item.name }}"</i></b></li>
+				<br>
 
-			<br>
+				<div style="width: 5%; text-align: right; font-size: 24px; padding-bottom: 8px;">
 
-			<div style="width: 5%; text-align: right; font-size: 24px; padding-bottom: 8px;">
-
-				<img src="{{ url_for('static', filename='images/books.png') }}" alt="" height="60" width="60">
-
-			</div>
-
-			<div class="divStudyItensDescription">
-
-				<p>{{ study_item.content }}</p>
-
-			</div>
-
-			<br>
-
-			<hr class="style">
-
-			<div style="width: 3%; text-align: right; font-size: 24px; padding-bottom: 15px;">
-
-				<img src="{{ url_for('static', filename='images/idea.png') }}" alt="" height="50" width="50">
-
-			</div>
-
-			<div class="divStudyItensExample">
-
-				<p>{{ study_item.explanation }}</p>
-
-			</div>
-
-			<br>
-
-			<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="	#collapse1" aria-expanded="false" aria-controls="collapse1">
-				Ver as <b>Dicas de Resolução</b>
-			</button>
-
-			<div class="collapse" id="collapse1">
-
-				<div class="card card-body">
-
-					<br>
-				
-					<p>{{ study_item.helper }}</p>
-
-					<br>
+					<img src="{{ url_for('static', filename='images/books.png') }}" alt="" height="60" width="60">
 
 				</div>
 
-			</div>
+				<div class="divStudyItensDescription">
 
-		</div>
+					<p>{{ study_item.content|safe }}</p>
 
-		<br>
+				</div>
 
-		<div style="width: 30%; text-align: right; font-size: 25px;">
+				<br>
 
-			<img src="{{ url_for('static', filename='images/code_area.png') }}" alt="" height="60" width="60">
+				<hr class="style">
 
-		</div>
+				<div style="width: 3%; text-align: right; font-size: 24px; padding-bottom: 15px;">
 
-		<form action="{{ url_for('interactivestudy') }}" method="POST">
+					<img src="{{ url_for('static', filename='images/idea.png') }}" alt="" height="50" width="50">
 
-			{% if result %}
+				</div>
 
-				<button onclick="highlight({{ item }}) class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapse2" aria-expanded="false" aria-controls="collapse2">
-				Veja os resultados
+				<div class="divStudyItensExample">
+
+					<p>{{ study_item.exercises|safe }}</p>
+
+				</div>
+
+				<br>
+
+				<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="	#collapse1" aria-expanded="false" aria-controls="collapse1">
+					Ver as <b>Dicas de Resolução</b>
 				</button>
 
-				<div class="collapse" id="collapse2">
+				<div class="collapse" id="collapse1">
 
 					<div class="card card-body">
 
-						{% for item in result %}
+						<br>
+					
+						<p>{{ study_item.helper|safe }}</p>
 
-							<p>{{ item }}</p>
-
-						{% endfor %}
+						<br>
 
 					</div>
 
 				</div>
 
-			{% endif %}
+			</div>
 
-			<div class="divStudyItensTryIt">
+			<br>
 
-				<textarea name="user_code" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); font-size: 20px;" rows="5" cols="50" required="">Essa é a sua área! Teste aqui seus conhecimentos adquiridos.</textarea>
+			<div style="width: 30%; text-align: right; font-size: 25px;">
 
-				<br><br><br>
-
-				<input class="button_default btnInteractiveStudySubmit" type="submit" value="Enviar">
+				<img src="{{ url_for('static', filename='images/code_area.png') }}" alt="" height="60" width="60">
 
 			</div>
 
-		</form>
+			<div class="divStudyItensTryIt">
+
+				<form action="{{ url_for('interactivestudy', id_study=study_item.id) }}" method="POST">
+
+					<textarea name="user_code" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); font-size: 20px;" rows="5" cols="50" required="">Essa é a sua área! Teste aqui seus conhecimentos adquiridos.</textarea>
+
+					<br><br><br>
+
+					<input class="button_default btnInteractiveStudySubmit" type="submit" value="Enviar">
+
+				</form>
+
+			</div>
+
+  		{% elif indexes %}
+
+  			<br>
+
+  			{% if warning_message %}
+
+  				<div style="width: 90%; margin: auto; text-align: center; font-size: 20px;">
+
+					<div class="alert alert-info alert-dismissable">
+					<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+					<strong>Oh No!!!</strong> {{ warning_message }}
+					</div>
+
+				</body>
+
+			{% elif info_message %}
+
+  				<div style="width: 90%; margin: auto; text-align: center; font-size: 20px;">
+
+					<div class="alert alert-info alert-dismissable">
+					<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+					<strong>Very Well!!!</strong> {{ info_message }}
+					</div>
+
+				</body>
+
+  			{% endif %}
+
+			<div class="divStudyItensTryIt">
+
+				<br>
+
+	            <table style="margin-left: 20px; font-size: 24px;" class="tableExercisePreview">
+
+	                <th style="font-size: 25px; color: #111111; text-align: center;">Itens validados</th> 
+
+	                {% for row in user_data %}
+
+	                    <tr>
+
+	                        <td class="output">{{ row }}</td>
+
+	                    </tr>
+
+	                {% endfor %}
+
+	                <td><b>Resultado:</b> {{ validated_itens }} / {{ validation_itens }}</td>
+
+	            </table>
+
+				<br><br><br>
+
+				<form action="{{ url_for('studyplan') }}">
+
+					<input class="button_default btnInteractiveStudySubmit" type="submit" value="Avançar">
+
+				</form>
+
+			</div>
+
+  		{% endif %}
 
 		<br><br>
-
-	<script>
-
-		function highlight(pairs)
-		{
-		    inputText = document.getElementById("user_code");
-
-		    splitter = pairs.split(";")
-
-		    index_begin = splitter[0]
-
-		    index_end = splitter[1]
-
-		    window.alert(index_begin)
-
-		    window.alert(index_end)
-
-		    var innerHTML = inputText.innerHTML;
-
-	        innerHTML = innerHTML.substring(index_begin, index_end) + "<span class='highlight'>" + innerHTML.substring(index_begin, index_end) + "</span>" + innerHTML.substring(index_begin + index_end);
-	        inputText.innerHTML = innerHTML;
-		}
-
-	</script>
 
 	</body>
 

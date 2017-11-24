@@ -28,6 +28,10 @@ def login():
 
             login_user(user)
 
+            print(current_user.name)
+
+            print(current_user.id)
+
             message = "Logado com sucesso."
 
             return render_template('main.html', message=message)

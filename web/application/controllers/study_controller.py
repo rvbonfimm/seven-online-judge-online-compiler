@@ -1,10 +1,11 @@
 # encoding=utf8
 import re
+import json
 
 from application import app, db
-from flask import render_template, request, send_file
+from flask import render_template, request, send_file, redirect, url_for
 from flask_login import login_user, login_required, current_user
-from application.models.tables import Exercise, Study, UserPlan
+from application.models.tables import Exercise, Study, UserPlan, Study_Statistic
 
 
 @app.route("/study_material_download", methods=['GET'])
@@ -43,9 +44,19 @@ def interactivestudy(id_study=None):
 
         user_data = request.form.get('user_code')
 
-        user_code_status = validate_user_data(user_data)
+        user_code_status = validate_user_data(user_data, id_study)
 
-        return render_template('interactive_study.html', result=user_code_status)
+        if  user_code_status[2] != user_code_status[3]:
+
+            warning_message = "Alguns itens não foram validados."
+
+            return render_template('interactive_study.html', indexes=user_code_status[0], user_data=user_code_status[1], validation_itens=user_code_status[2], validated_itens=user_code_status[3], warning_message=warning_message)
+
+        else:
+
+            info_message = "Todos os itens foram validados."
+
+            return render_template('interactive_study.html', indexes=user_code_status[0], user_data=user_code_status[1], validation_itens=user_code_status[2], validated_itens=user_code_status[3], info_message=info_message)
 
 @app.route("/interactive_study_explanation", methods=['GET'])
 def interactivestudyexplanation():
@@ -62,37 +73,37 @@ def startuser():
 
         user_experience = request.form['programming_experience']
 
-        unknownItens = Study.query.all()
+        study_itens = Study.query.all()
 
         checkRegisteredPlan = db.session.query(UserPlan.id_user).filter_by(id_user=current_user.id).first() is not None
 
         if user_experience == "no":
 
-            if (checkRegisteredPlan):
+            if not(checkRegisteredPlan):
 
-                return render_template('study_plan.html')                
+                for item in study_itens:
 
-            else:
-
-                for item in unknownItens:
-
-                    new_plan = UserPlan(id_user=current_user.id, id_study=item.id, status="0")
+                    new_plan = UserPlan(id_user=current_user.id, id_study=item.id)
 
                     db.session.add(new_plan)
 
                 db.session.commit()
 
-                return render_template('study_plan.html', study_itens=unknownItens)
-
-        elif user_experience == "yes":
-
-            if (checkRegisteredPlan):
-
-                return render_template('study_plan.html')
+                return render_template('interactive_study_explanation.html', study_itens=study_itens)
 
             else:
 
-                return render_template('presentation_next.html', study_itens=unknownItens)
+                return redirect(url_for('studyplan'))
+                
+        elif user_experience == "yes":
+
+            if not(checkRegisteredPlan):
+
+                return render_template('presentation_next.html', study_itens=study_itens)
+
+            else:
+
+                return redirect(url_for('studyplan'))
 
     elif request.method == 'GET':
 
@@ -114,66 +125,103 @@ def startusernext():
 
             for item in unknownItens:
 
-                new_plan = UserPlan(id_user=current_user.id, id_study=item.id, status="0")
+                new_plan = UserPlan(id_user=current_user.id, id_study=item.id)
 
                 db.session.add(new_plan)
 
             db.session.commit()
 
-            return render_template('study_plan.html', study_itens=unknownItens)
+            #return redirect(url_for('studyplan'))
+
+            return render_template('interactive_study_explanation.html', study_itens=unknownItens)
 
         else:
 
-            #message = "Você já possui um Plano de Estudos definido. Para alterá-lo, vá até a Guia de Estudos/Planos."
-
-            return render_template('study_plan.html')
+            return redirect(url_for('studyplan'))
 
     elif request.method == 'GET':
 
         return render_template('presentation_next.html')
 
-@app.route('/studies', methods=['GET','POST'])
-@login_required
-def studies():
+@app.route("/study_plan")
+def studyplan():
 
-    if request.method == 'GET':
+    list_out = []
 
-        itensToDo = 0
-        itensDone = 0
-        itensToStudy = []
-        itensStudied = []
+    # study_itens = db.session.query(Study.id, Study.name, Study.type_study, \
+    #     Study.content, Study.exercises, Study.explanation, Study.helper, Study.regex, \
+    #     UserPlan.id_study).\
+    #     join(UserPlan, Study.id == UserPlan.id_study). \
+    #     filter(UserPlan.id_user == current_user.id). \
+    #     group_by(UserPlan.id_study). \
+    #     order_by(Study.id).all()
 
-        planInfo = UserPlan.query.filter_by(id_user=current_user.id)
+    study_itens = db.session.query(Study.id, Study.name, Study.type_study, \
+        Study.content, Study.exercises, Study.explanation, Study.helper, Study.regex). \
+        join(UserPlan, Study.id == UserPlan.id_study). \
+        filter(UserPlan.id_user == current_user.id). \
+        group_by(UserPlan.id_study). \
+        order_by(Study.id).all()
 
-        for item in planInfo:
+    for item in study_itens:
 
-            study = Study.query.filter_by(id=item.id_study).first()
+        aux = db.session.query(Study_Statistic.accepts, Study_Statistic.errors).\
+        filter(Study_Statistic.id_study == item.id, Study_Statistic.id_user == current_user.id).\
+        group_by(Study_Statistic.accepts, Study_Statistic.errors).all()
 
-            if(item.status == 0):
+        flag_accept = False
+        flag_error = False
 
-                itensToDo += 1
+        if aux:
 
-                itensToStudy.append(study.name)
+            for statistic in aux:
 
-            elif(item.status == 1):
+                if statistic.accepts == 1:
 
-                itensDone +=1
+                    flag_accept = True
 
-                itensStudied.append(study.name)
+                if statistic.errors == 1:
 
-        return render_template('studies.html', itensToStudy=itensToStudy, itensStudied=itensStudied, itensToDo=itensToDo, itensDone=itensDone)
+                    flag_error = True
 
-def validate_user_data(data):
+        if flag_accept:
 
-    regex_to_validade = '(char [\w]+\[[\d]+\];)\n(char [\w]+\[[\d]+\];)\n(int [\w]+;)\n(char [\w]+\[[\d]+\];)\n(char [\w]+\[[\d]+\];)'
+            output = "accepted"
 
-    #regex = db.session.query(Study.regex).filter(Study.id)
+        elif flag_error:
 
-    splitted_regex = regex_to_validade.split('\n')
+            output = "error"
+
+        else:
+
+            output = "null"
+
+        data = {
+            'id_study': item.id,
+            'name': item.name,
+            'type_study': item.type_study,
+            'status': output
+        }
+
+        list_out.append(data)
+
+    return render_template('study_plan.html', list_data=list_out)
+
+def validate_user_data(data, id_study):
+
+    regex_to_validate = db.session.query(Study.regex).filter(Study.id == id_study).one()
+
+    regex_out = []
+
+    index_output = []
+
+    matched_objects = []
+
+    splitted_regex = str(regex_to_validate.regex).split('\n')
 
     splitted_data = data.split('\r\n')
 
-    index_output = []
+    quantity_itens_validation = len(splitted_regex)
 
     for data, regex in zip(splitted_data, splitted_regex):
 
@@ -183,8 +231,32 @@ def validate_user_data(data):
 
             index_output.append(str(match.start()) + ";" + str(match.end()))
 
+            matched_objects.append(match.group(0))
+
         else:
 
             index_output.append('')
 
-    return index_output
+    quantity_itens_validated = len(matched_objects)
+
+    if quantity_itens_validation != quantity_itens_validated:
+
+        #Specify that the study was not completed
+        accepts = "0"
+
+        errors = "1"
+
+    else:
+
+        #Specify that the study was completed
+        accepts = "1"
+
+        errors = "0"
+
+    new_statistic = Study_Statistic(tries="1", accepts=accepts, errors=errors, id_study=id_study, id_user=current_user.id)
+
+    db.session.add(new_statistic)
+
+    db.session.commit()
+
+    return [index_output, matched_objects, quantity_itens_validation, quantity_itens_validated]

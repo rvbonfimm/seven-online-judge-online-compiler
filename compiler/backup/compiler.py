@@ -76,10 +76,7 @@ def main():
 
     if status:
 
-        #return "Status 1"
-        return {
-            'Status': 'Status 1'
-        }
+        return "Status 1"
 
     log.info("Starting 'Status 2, 3 and 4' treatment")
 
@@ -160,8 +157,6 @@ def testUserCode(language, exercise_in, exercise_out, compiledFile, fileUserAnsw
 
             cmd = ('python ' + compiledFile)
 
-        list_out = []
-
         #Each line is a case to test with the user code
         for lineIn, lineOut in zip(fileInRows, fileOutRows):
 
@@ -199,9 +194,7 @@ def testUserCode(language, exercise_in, exercise_out, compiledFile, fileUserAnsw
 
                 if checkexpectout == 1:
 
-                    return {
-                        'Status': 'Status 3'
-                    }
+                    return "Status 3"
 
                 pexpectout = []
 
@@ -230,10 +223,7 @@ def testUserCode(language, exercise_in, exercise_out, compiledFile, fileUserAnsw
 
                 if searchnewline != "":
 
-                    return {
-                        'Status': 'Status 4',
-                        'Data': searchnewline
-                    }
+                    return "Status 4"
 
                 finalout = pexpectout[len(pexpectout)-2].replace('\r', '')
 
@@ -247,26 +237,13 @@ def testUserCode(language, exercise_in, exercise_out, compiledFile, fileUserAnsw
 
                     if clearPexpectOut != pout:
 
-                        return {
-                            'Status': 'Status 2',
-                            'Data': finalout
-                        }
+                        return "Status 2"
 
                     else:
 
-                        return {
-                            'Status': 'Status 4',
-                            'Data': finalout
-                        }
+                        return "Status 4"
 
-                else:
-
-                    list_out.append(str(finalout))
-
-        return {
-            'Status': 'Status 5',
-            'Data': list_out
-        }        
+        return "Status 5"
 
     except Exception, e:
 
@@ -319,44 +296,14 @@ if __name__ == '__main__':
 
     result = main()
 
-    log.info(result)
-
-    if result.has_key('Status'):
-
-        status = result['Status']
-
-        log.info("Status: " + str(status))
-
-    else:
-
-        status = ""
-
-    if result.has_key('Data'):
-
-        data = result['Data']
-
-        log.info("Data: " + str(data))
-
-    else:
-
-        data = ""
+    log.info("Status: " + str(result))
 
     end_time = str((time.time() - start_time))[0:5]
 
-    if status and data:
-
-        dict_result = {
-            'Status': status,
-            'Data': data,
-            'Time': end_time
-        }
-
-    elif status:
-
-        dict_result = {
-            'Status': status,
-            'Time': end_time
-        }        
+    dict_result = {
+        'Status': result,
+        'Time': end_time
+    }
 
     print dict_result
 

@@ -45,10 +45,12 @@
             <div class="dropdown-menu" aria-labelledby="dropdown01">
               <a class="dropdown-item effect" href="#">
                 <img src="{{ url_for('static', filename='images/help.png') }}" alt="Smiley face" width="25" height="25">  Ajuda</a>
-              <a class="dropdown-item effect" href="#">
+              <a class="dropdown-item effect" href="{{ url_for('studyplan') }}">
                 <img src="{{ url_for('static', filename='images/study_go.png') }}" alt="Smiley face" width="25" height="25">   Vamos estudar!</a>
-              <!-- <a class="dropdown-item effect" href="#">
-                <img src="{{ url_for('static', filename='images/study_statistics.png') }}" alt="Smiley face" width="25" height="25">   Estatísticas</a> -->
+              <a class="dropdown-item effect" href="{{ url_for('studyplan') }}">
+                <img src="{{ url_for('static', filename='images/plans.png') }}" alt="Smiley face" width="25" height="25">  Planos</a>
+              <a class="dropdown-item effect" href="#">
+                <img src="{{ url_for('static', filename='images/study_statistics.png') }}" alt="Smiley face" width="25" height="25">   Estatísticas</a>
             </div>
           </li>
 
@@ -57,10 +59,10 @@
             <div class="dropdown-menu" aria-labelledby="dropdown02">
               <a class="dropdown-item effect" href="#">
                 <img src="{{ url_for('static', filename='images/help.png') }}" alt="Smiley face" width="25" height="25">  Ajuda</a>
-              <a class="dropdown-item effect" href="#">
+              <a class="dropdown-item effect" href="{{ url_for('exercisegroup') }}">
                 <img src="{{ url_for('static', filename='images/exercise_go.png') }}" alt="Smiley face" width="25" height="25">   Mão na massa!</a>
-              <!--<a class="dropdown-item effect" href="#">
-              <img src="{{ url_for('static', filename='images/exercises_statistics.png') }}" alt="Smiley face" width="25" height="25">   Estatísticas</a>-->
+              <a class="dropdown-item effect" href="#">
+              <img src="{{ url_for('static', filename='images/exercises_statistics.png') }}" alt="Smiley face" width="25" height="25">   Estatísticas</a>
             </div>
           </li>
 

@@ -128,3 +128,24 @@ CREATE TABLE plans(
     FOREIGN KEY (id_study)
         REFERENCES studies(id)
 );
+
+------------------------------------------------
+
+CREATE TABLE studies_statistics(
+
+    id INT primary key auto_increment,
+    tries int(10),
+    accepts int(10),
+    errors int(10),
+    id_study INT,
+    id_user INT,
+
+    INDEX(id, id_study, id_user),
+
+    FOREIGN KEY (id_study)
+      REFERENCES studies(id),
+
+    FOREIGN KEY (id_user)
+      REFERENCES users(id)
+
+)ENGINE=INNODB;

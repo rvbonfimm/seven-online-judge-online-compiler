@@ -258,13 +258,15 @@ tr:nth-child(even) {
 
 .divExerciseResult{
 
-	background-color: #ffffff;
-	
+	width: 60%;
+
 	margin: auto;
 
 	text-align: center;
 
-	width: 60%;
+	background-color: #ffffff;
+	
+	margin: auto;
 
     border: 0px solid black;
 
@@ -495,6 +497,13 @@ img.interactive_study:hover {
 	display: inline-block;
 }
 
+.tableStudyPlan{
+	width: 100%;
+	font-family: arial, sans-serif;
+	border: 1px solid #ddd;
+	border: collapse;
+}
+
 .tableExercisePreview{
 	width: 40%;
 	font-family: arial, sans-serif;
@@ -531,6 +540,66 @@ th.level {
 
 th.judge {
 	width: 10%;
+	text-align: center;
+}
+
+th.study_name {
+	width: 40%;
+	text-align: center;
+}
+
+th.study_type {
+	width: 15%;
+	text-align: center;
+}
+
+th.study_status {
+	width: 15%;
+	text-align: center;
+}
+
+th.study_options {
+	width: 20%;
+	text-align: center;
+}
+
+th.study_id {
+	width: 10%;
+	text-align: center;
+}
+
+th.study_judge {
+	width: 10%;
+	text-align: center;
+}
+
+td.study_name {
+	width: 40%;
+	text-align: center;
+}
+
+td.study_type {
+	width: 15%;
+	text-align: center;
+}
+
+td.study_status {
+	width: 15%;
+	text-align: center;
+}
+
+td.study_options {
+	width: 20%;
+	text-align: center;
+}
+
+td.study_id {
+	width: 10%;
+	text-align: center;
+}
+
+td.study_judge{
+	width: 20%;
 	text-align: center;
 }
 

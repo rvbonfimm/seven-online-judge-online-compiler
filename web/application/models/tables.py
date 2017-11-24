@@ -176,10 +176,27 @@ class UserPlan(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     id_user = db.Column(db.Integer, db.ForeignKey('users.id'))
     id_study = db.Column(db.Integer, db.ForeignKey('studies.id'))
-    status = db.Column(db.Integer)
-
-    def __init__(self, id_user, id_study, status):
+    
+    def __init__(self, id_user, id_study):
 
         self.id_user = id_user
         self.id_study = id_study
-        self.status = status
+
+class Study_Statistic(db.Model):
+
+    __tablename__ = 'studies_statistics'
+
+    id = db.Column(db.Integer, primary_key=True)
+    id_study = db.Column(db.Integer, db.ForeignKey('studies.id'))
+    id_user = db.Column(db.Integer, db.ForeignKey('users.id'))
+    tries = db.Column(db.Integer)
+    errors = db.Column(db.Integer)
+    accepts = db.Column(db.Integer)
+
+    def __init__(self, id_study, id_user, tries, errors, accepts):
+
+        self.id_study = id_study
+        self.id_user = id_user
+        self.tries = tries
+        self.errors = errors
+        self.accepts = accepts

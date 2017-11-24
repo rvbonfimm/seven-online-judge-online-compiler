@@ -105,20 +105,6 @@ def registercode():
 
     result = usercodeout.before
 
-    print result
-
-    dict_result = ast.literal_eval(result)
-
-    if dict_result.has_key('Status'):
-
-        status = dict_result['Status']
- 
-        time_ran = dict_result['Time']
-
-    else:
-
-        return "Something went wrong at Key's dictionary result. Contact the Admin, please."
-
     if result.find('Status 1') != -1:
 
         result = "Status 1"
@@ -136,9 +122,25 @@ def registercode():
         increment_attempt(id_exercise, result)
 
         return render_template('exercise_result.html', \
-        result="Status 1: Erro de sintaxe", result_error=result, time=time_ran, code_used=user_code)
+        result="Status 1: Erro de sintaxe", result_error=result, code_used=user_code)
 
-    elif status == 'Status 2' or status == 'Status 3' or status == 'Status 4':
+    print "Result: %s\n" % result
+
+    dict_result = ast.literal_eval(result)
+
+    status = dict_result['Status']
+
+    if dict_result.has_key('Data'):
+
+        data = dict_result['Data']   
+
+    else:
+
+        data = ""
+
+    time_ran = dict_result['Time']
+
+    if status == 'Status 2' or status == 'Status 3' or status == 'Status 4':
     
         #Insert the new tries and the user status (error or accept)
         new_statistic = Exercise_Statistic(id_exercise=id_exercise, id_user=id_user, \
@@ -168,19 +170,11 @@ def registercode():
     'Status 3':'Tempo limite excedido', 'Status 4':'Erro de apresentacao', \
     'Status 5':'Codigo submetido com sucesso'}
 
-    if additional_status.has_key(status):
-
-        value = additional_status[status]
-
-    else:
-
-        error_message = "Any key was found at status exercise dictionary. Admin, fix it!\n"
-
-        return render_template('exercise_result.html', error_message=error_message, time=time_ran, code_used=user_code)
+    value = additional_status[status]
 
     answerout = str(status)  + ": " + value
 
-    return render_template('exercise_result.html', result=answerout, time=time_ran, code_used=user_code)
+    return render_template('exercise_result.html', result=answerout, time=time_ran, code_used=user_code, data=data, status=status)
 
 @app.route('/exercise_statistics', methods=['GET', 'POST'])
 def exercise_statistics():

@@ -10,6 +10,19 @@
 
 {% block content %}
 
+	{% if message %}
+
+		<div style="width: 80%; margin: auto; text-align: center;">
+
+			<div class="alert alert-info alert-dismissable">
+			<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+			<strong>Hey!</strong> {{ message }}
+			</div>
+
+		</div>
+
+	{% endif %}
+
 	<body class="questions interactiveStudy">
 
 		<br>
@@ -42,7 +55,7 @@
 
 			<div style="width: 80%; margin: auto;">
 
-				<p style="font-size: 33px;">Confira abaixo os itens que você selecionou para estudar:</p>
+				<p style="font-size: 33px;">Gerencie abaixo os itens que serão estudados.</p>
 
 				<hr class="style">
 
@@ -50,34 +63,56 @@
 
 			</div>
 
-			<br><br>
+			<br>
 
-			<div style="width: 50%; margin: auto; text-align: center; font-size: 30px;">
+			<div style="width: 80%; margin: auto; text-align: center; font-size: 30px;">
 
-				{% if study_itens %}
+				{% if list_data %}
 
-					<table class="tableInputOutput">
+					<table class="tableStudyPlan">
 
 						<tr class="listexercises">
 
-			                <th class="name">Nome do estudo</th>
-			                <th class="name">Tipo</th>
-			                <th class="name">Status</th>
+							<th class="study_id">ID</th>
+			                <th class="study_name">Nome do estudo</th>
+			                <th class="study_type">Tipo</th>
+			                <th class="study_status">Status</th>
+			                <th class="study_options">Opções</th>
+			                <th class="study_judge">Realizar</th>
 
 			            </tr>
 
-			            {% for item in study_itens %}
+			            {% for item in list_data %}
 
 				            <tr class="listexercises">
 
-				            	<td class="number"><a href="{{ url_for('interactivestudy', id_study=item.id) }}">{{ item.name }}</a></td>
+				            	<td class="study_id">{{ item["id_study"] }}</td>
 
-				            	<td class="number">{{ item.type_study }}</td>
-				            	<td class="number"><img border="0" src="{{ url_for('static', filename='images/error.png') }}" width="25" height="25"></td>
+				            	<td class="study_name"><a style="color: #111111;">{{ item["name"] }}</a></td>
+
+				            	<td class="study_type">{{ item["type_study"] }}</td>
+				            	
+				            	<td class="study_status"><img src="static/images/{{ item["status"] }}.png" alt="" height="25" width="25"></td>
+
+				            	<td class="study_options">
+				            		
+				            		<select>
+
+				            			<option value="select">Selecionar</option>
+				            			<option value="remove">Remover</option>
+
+			            			</select>
+
+				            	</td>
+
+				            	<td class="study_judge">
+			                        <a href="{{ url_for('interactivestudy', id_study=item["id_study"]) }}"><img border="0" src="{{ url_for('static', filename='images/glyphicons-152-new-window.png') }}" width="20" height="20">
+			                        </a>
+			                    </td>
 
 		            		</tr>
 
-	            		{% endfor %}
+						{% endfor %}
 
 					</table>
 
@@ -90,8 +125,6 @@
 			</div>
 
 			<br><br>
-
-			<hr class="style">
 
 		</div>
 
