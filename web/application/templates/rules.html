@@ -1,19 +1,70 @@
-{% extends 'base_main.html' %}
+{% extends 'base_studies.html' %}
 
 {% block title %}Regras{% endblock %}
 
 {% block head %}
 
-    {{ super() }}
+	{{ super() }}
 
 {% endblock %}
 
 {% block content %}
 
-<div class="questions">
+<body>
 
-    <p> Hello </p>
+	<br>
 
-</div>
+	<div style="text-align: center;">
+
+		<div style="display: inline-flex;">
+
+			<div style="padding-right: 100px;">
+
+	        	<img src="{{ url_for('static', filename='images/main.png') }}" alt="Smiley face" width="75" height="75">
+		    
+	      	</div>
+
+	      	<strong><p style="font-size: 42px;"><i>{{ current_user.name.title() }}</i>, Bem vindo às Regras do Sistema!</p></strong>
+
+			<div style="padding-left: 100px;">
+		 
+	        	<img src="{{ url_for('static', filename='images/main.png') }}" alt="Smiley face" width="75" height="75">
+		    
+	      	</div>
+
+  		</div>
+
+  		<br><br><br>
+
+  		<div style="width: 90%; margin: auto; text-align: center; font-size: 36px;">
+
+	  		<p>Atualmente nós temos poucas regras para o sistema.</p>
+
+	  		<p>Dificilmente poderíamos monitorar 100% essas regras e garantir o cumprimento dessas.</p>
+
+	  		<p>Contamos com a honestidade de você, <b><i>{{ current_user.name.title() }}</i></b>!</p>
+
+	  		<br><br>
+
+	  		<ol>
+
+	  			<li>É <b>expressamente proibido</b> passar o <b>código</b> para validação de qualquer <b>Estudo</b> ou <b>Exercício</b> para outra pessoa.</li>
+
+	  			<li>É <b>expressamente proibido</b> passar o <b>Usuário e/ou Senha</b> para qualquer outra pessoa.
+	  			Essas são de uso pessoal e intransferível.</li>
+
+			</ol>
+
+			<br><br>
+
+			<p>Contamos com a sua compreensão e ajuda!</p>
+
+		</div>
+
+	</div>
+
+	<br><br>
+
+</body>
 
 {% endblock %}

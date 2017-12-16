@@ -6,6 +6,8 @@
 
       {{ super() }}
 
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='plugin/codemirror/lib/codemirror.css') }} ">
+
     {% endblock %}
 
     {% block content %}
@@ -48,8 +50,6 @@
 
                 <label style="font-size: 20px;">Linguagem: </label>
 
-                <!--<input type="radio" name="language" value="c" checked> C (gcc 5.4.0)-->
-
                 <label class="custom-control custom-radio">
                 <input name="language" value="c" type="radio" class="custom-control-input" checked>
                 <span class="custom-control-indicator"></span>
@@ -60,29 +60,33 @@
 
             <br>
 
-            <div class="divJudge">
-
-                <textarea name="codearea" rows="15" cols="50" required>
-#include <stdio.h>
+            <textarea class="codemirror-textarea"name="codearea" required>#include <stdio.h>
+#include <stdlib.h>
 
 int main(){
 
-    return 0;
+    exit(0);
 
 }</textarea><br><br>
 
+            <div class="divJudge">
+
                 <input class="buttonJudge" type="submit" value="Submeter">
-
-                <!--<br><br>
-
+<!-- 
                 <p style="font-size: 18px;">Ou, você pode importar diretamente um arquivo para Julgamento</p>
-
-                -->
-
+ -->
             </div>
 
         </form>
 
     </div>
+
+	<script type="text/javascript" src="js/<!-- jquery.min.js"></script>
+	<script type="text/javascript" src="js/codemirror_default.js"></script>
+	<script type="text/javascript" src="plu -->gin/codemirror/lib/codemirror.js"></script>
+
+    <script type="text/javascript" src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/codemirror_default.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='plugin/codemirror/lib/codemirror.js') }}"></script>
 
 {% endblock %}

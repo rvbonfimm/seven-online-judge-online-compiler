@@ -65,3 +65,8 @@ def functionality():
 def rules():
 
     return render_template('rules.html')
+
+@app.route('/why_svoj', methods=['GET', 'POST'])
+def why_svoj():
+
+    return render_template('why_svoj.html')

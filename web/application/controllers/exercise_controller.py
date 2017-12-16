@@ -121,8 +121,10 @@ def registercode():
 
         increment_attempt(id_exercise, result)
 
-        return render_template('exercise_result.html', \
-        result="Status 1: Erro de sintaxe", result_error=result, code_used=user_code)
+        tips = "Procure por parênteses, colchetes, chaves, aspas a menos/mais;Procure por falta de ponto e vírgula no fim de cada linha"
+
+        return render_template('judge_result.html', \
+        result="Status 1: Erro de sintaxe", result_error=result, code_used=user_code, tips = tips)
 
     print "Result: %s\n" % result
 
@@ -140,15 +142,32 @@ def registercode():
 
     time_ran = dict_result['Time']
 
-    if status == 'Status 2' or status == 'Status 3' or status == 'Status 4':
-    
-        #Insert the new tries and the user status (error or accept)
+    #Insert the new tries and the user status (error or accept)
+    if status == 'Status 2':
+
+        new_statistic = Exercise_Statistic(id_exercise=id_exercise, id_user=id_user, \
+        tries=1, errors=1, accepts=0, status=status)
+
+        tips = "Verifique a lógica utiliza para montar as expressões necessárias;Verifique o texto solicitado como entrada;Verifique o tipo de dado utilizado para as variáveis"
+
+    elif status == 'Status 3':
+
+        tips = "Verifique se existem estruturas longas de repetição desnecessárias;Verifique se não existem nenhum Loop Infinito no Código;Verifique se é possível colocar variáveis, calculos, testes para fora de Estruturas de Repetição"
+
+        new_statistic = Exercise_Statistic(id_exercise=id_exercise, id_user=id_user, \
+        tries=1, errors=1, accepts=0, status=status)
+
+    elif status == 'Status 4':
+
+        tips = "Verifique a formatação da resposta;Verifique o caracter terminador de linha no final;Verifique espaços a mais, ou a menos"
+
         new_statistic = Exercise_Statistic(id_exercise=id_exercise, id_user=id_user, \
         tries=1, errors=1, accepts=0, status=status)
 
     elif status == 'Status 5':
 
-        #Insert the new tries and the user status (error or accept)
+        tips = ""
+
         new_statistic = Exercise_Statistic(id_exercise=id_exercise, id_user=id_user, \
         tries=1, errors=0, accepts=1, status=status)
 
@@ -156,7 +175,7 @@ def registercode():
 
         return "Error: result " + str(status) + " not expected. Contant the admin, please."
 
-        return render_template('exercise_result.html', result_error=result, time=time_ran, code_used=user_code)
+        return render_template('judge_result.html', result_error=result, time=time_ran, code_used=user_code)
 
     increment_exercise(id_exercise, status)
 
@@ -174,7 +193,13 @@ def registercode():
 
     answerout = str(status)  + ": " + value
 
-    return render_template('exercise_result.html', result=answerout, time=time_ran, code_used=user_code, data=data, status=status)
+    if tips:
+
+        return render_template('judge_result.html', result=answerout, time=time_ran, code_used=user_code, data=data, status=status, tips = tips)
+
+    else:
+
+        return render_template('judge_result.html', result=answerout, time=time_ran, code_used=user_code, data=data, status=status)
 
 @app.route('/exercise_statistics', methods=['GET', 'POST'])
 def exercise_statistics():

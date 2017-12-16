@@ -89,7 +89,7 @@ def startuser():
 
                 db.session.commit()
 
-                return render_template('interactive_study_explanation.html', study_itens=study_itens)
+                return render_template('study_explanation.html')
 
             else:
 
@@ -131,9 +131,7 @@ def startusernext():
 
             db.session.commit()
 
-            #return redirect(url_for('studyplan'))
-
-            return render_template('interactive_study_explanation.html', study_itens=unknownItens)
+            return render_template('study_explanation.html')
 
         else:
 
@@ -147,14 +145,6 @@ def startusernext():
 def studyplan():
 
     list_out = []
-
-    # study_itens = db.session.query(Study.id, Study.name, Study.type_study, \
-    #     Study.content, Study.exercises, Study.explanation, Study.helper, Study.regex, \
-    #     UserPlan.id_study).\
-    #     join(UserPlan, Study.id == UserPlan.id_study). \
-    #     filter(UserPlan.id_user == current_user.id). \
-    #     group_by(UserPlan.id_study). \
-    #     order_by(Study.id).all()
 
     study_itens = db.session.query(Study.id, Study.name, Study.type_study, \
         Study.content, Study.exercises, Study.explanation, Study.helper, Study.regex). \
