@@ -1,0 +1,83 @@
+{% extends 'base_studies.html' %}
+
+{% block title %}Why SVOJ{% endblock %}
+
+{% block head %}
+
+	{{ super() }}
+
+{% endblock %}
+
+{% block content %}
+
+<body>
+
+	<br>
+
+	<div style="text-align: center;">
+
+		<div style="display: inline-flex;">
+
+			<div style="padding-right: 100px;">
+
+	        	<img src="{{ url_for('static', filename='images/main.png') }}" alt="Smiley face" width="75" height="75">
+		    
+	      	</div>
+
+	      	<strong><p style="font-size: 42px;"><i>{{ current_user.name.title() }}</i>, Bem vindo à explicação do Projeto S.V.O.J!</p></strong>
+
+			<div style="padding-left: 100px;">
+		 
+	        	<img src="{{ url_for('static', filename='images/main.png') }}" alt="Smiley face" width="75" height="75">
+		    
+	      	</div>
+
+  		</div>
+
+  		<br><br><br>
+
+  		<div style="width: 90%; margin: auto; text-align: center; font-size: 36px;">
+
+	  		<p>A ideia nasceu, aproximadamente, no 2º ano do curso de Engenharia da Computação, na Universidade de Taubaté.</p>
+
+	  		<p>Estava eu <i>(Admin),</i> um tanto quanto incomodado com a dificuldade em entender alguns tópicos da matéria <b>Linguagem de Programação I</b>, então nasceu a primeira dica para se criar um <b><i>Judge Helper System</i></b>.</p>
+
+	  		<br>
+
+	  		<p>Não apenas um <b><i>Judge System</i></b> (Compiladores), mas sim um <b><i>Judge Helper System</i></b>, ajudando o aluno em seus passos iniciais através de <b>Materiais</b>, <b>Métodos</b>, <b>Funcionalidades Sistêmicas</b> que o pudesse <b>auxiliar</b> para entrar ao <b>Incrível Mundo da Programação</b>.
+
+	  		<br><br>
+
+	  		<p style="font-size: 45px;">Nosso sistema é fundamentado em dois pilares:
+
+  			<div style="width: 20%; margin: auto;">
+
+		  		<ol>
+
+		  			<li>Estudos.</li>
+
+		  			<li>Práticas.</li>
+
+				</ol>
+
+			</div>
+
+			<br>
+
+			<p style="font-size: 45px;">Todos precisamos, primeiramente, <b>Estudar</b> para então, <b>Praticar</b>.</p>
+
+			<br>
+
+			<p>Bom, é isso! Esperamos que vocês façam um bom proveito da nossa ideia e implementação. Totalmente gratuito, sem taxas, open-source, livre para qualquer um que deseja <b>Estudar</b> e <b>Praticar</b>.
+
+			<p style="font-size: 100px;">Seven Online Judge!</p>
+
+		</div>
+
+	</div>
+
+	<br><br>
+
+</body>
+
+{% endblock %}
