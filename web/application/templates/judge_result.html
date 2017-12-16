@@ -1,0 +1,146 @@
+{% extends 'base_main.html' %}
+
+{% block title %}Julgamentos{% endblock %}
+
+{% block head %}
+
+	{{ super() }}
+
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='plugin/codemirror/lib/codemirror.css') }} ">
+
+{% endblock %}
+
+{% block content %}
+
+<body>
+
+	{% if result %}
+
+		<br><br>
+
+		<div class="divExerciseResult">
+
+			<br><br>
+
+			<b><p style="font-size: 24px;">Resultado da submissão: </p></b>
+
+			<b><p style="color: #186249; font-size: 20px;">{{ result }}</p></b>
+
+			{% if time %}
+
+				<b><p style="font-size: 24px;">Tempo de submissão: </p></b>
+
+				<b><p style="color: #186249; font-size: 20px;">{{ time }}</p></b>
+
+			{% endif %}
+
+			<b><p style="font-size: 24px;">Código submetido: </p></b>
+
+			<div style="width: 60%; margin: auto; text-align: left;">
+
+				<textarea class="codemirror-textarea"name="codearea">{{ code_used }}</textarea>
+
+			</div>
+
+			{% if data %}
+
+				<br><br>
+
+				<b><p style="font-size: 24px;">Saída: </p></b>
+
+				<table style="font-size: 17px;" class="tableExercisePreview">
+
+		            <th style="font-size: 20px; color: #111111; text-align: center;">Itens validados</th> 
+
+		            {% if status == 'Status 5' %}
+
+			            {% for row in data %}
+
+			                <tr>
+
+			                    <td class="output">{{ row }}</td>
+
+			                </tr>
+
+			            {% endfor %}
+
+		            {% elif status == 'Status 4' %}
+
+		            	<tr>
+
+		                    <td class="output">{{ data }}</td>
+
+		                </tr>
+
+	                {% elif status == 'Status 2' %}
+
+		            	<tr>
+
+		                    <td class="output">{{ data }}</td>
+
+		                </tr>
+
+	                {% endif %}
+
+		        </table>
+
+			{% endif %}
+
+			<br><br><br>
+
+			{% if  tips %}
+
+				<div style="width: 60%; background-color: #ffffff; margin: auto; text-align: center;">
+
+					<div class="panel-group">
+					  <div class="panel panel-default">
+					    <div class="panel-heading">
+					      <h4 class="panel-title">
+					        <a data-toggle="collapse" href="#collapse1">Dicas</a>
+					      </h4>
+					    </div>
+					    <div id="collapse1" class="panel-collapse collapse">
+					      <div class="panel-body" style="font-size: 20px;">
+
+					      		{% set delimiter = tips.split(';') %}
+
+					      		<ol>
+
+						      		{% for item in delimiter %}
+
+						      			<li>{{ item }};</li>
+
+						      		{% endfor %}
+
+					      		</ol>
+
+					      </div>
+					    </div>
+					  </div>
+					</div>
+
+				</div>
+
+				<br><br>
+
+			{% endif %}
+
+			<b><a href="{{ url_for('exercisegroup') }}" style="font-family: verdana; font-size: 20px; text-decoration: none; color: #186249; font-style: italic;">Voltar aos Exercícios</a></b>
+
+		</div>
+
+		<br><br>
+
+	{% endif %}
+
+	<script type="text/javascript" src="js/<!-- jquery.min.js"></script>
+	<script type="text/javascript" src="js/codemirror_default.js"></script>
+	<script type="text/javascript" src="plu -->gin/codemirror/lib/codemirror.js"></script>
+
+    <script type="text/javascript" src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/codemirror_default.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='plugin/codemirror/lib/codemirror.js') }}"></script>
+
+</body>
+
+{% endblock %}
