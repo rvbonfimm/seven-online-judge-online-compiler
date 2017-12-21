@@ -185,9 +185,13 @@ def registercode():
 
     db.session.commit()
 
-    additional_status = {'Status 1':'Erro de sintaxe', 'Status 2':'Resposta incorreta', \
-    'Status 3':'Tempo limite excedido', 'Status 4':'Erro de apresentacao', \
-    'Status 5':'Codigo submetido com sucesso'}
+    additional_status = {
+        'Status 1':'Erro de sintaxe',
+        'Status 2':'Resposta incorreta',
+        'Status 3':'Tempo limite excedido',
+        'Status 4':'Erro de apresentacao',
+        'Status 5':'Codigo submetido com sucesso'
+    }
 
     value = additional_status[status]
 
