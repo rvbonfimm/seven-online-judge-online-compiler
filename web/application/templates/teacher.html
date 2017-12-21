@@ -1,0 +1,41 @@
+{% extends 'base_studies.html' %}
+
+{% block title %}Grupo de Exercícios{% endblock %}
+
+{% block head %}
+
+  	{{ super() }}
+
+{% endblock %}
+
+{% block content %}
+		
+	<div style="margin: 0 auto; text-align: center; font-size: 40px;">
+
+		<br><br>
+
+		<p>Teacher, be welcome!</p>
+
+		<p>You need an invitation for this area.</p>
+
+		<p>Send for us your e-mail below and wait for our contact.</p>
+
+		<form method="POST" action="#">
+
+			{% if email %}
+
+				<input type="textbox" value="{{ email }}" placeholder="E-mail address" name="textbox_email" required disabled>
+
+			{% else %}
+
+				<input type="textbox" placeholder="E-mail address" name="textbox_email" required autofocus>
+
+			{% endif %}
+
+			<input type="submit" value="Send">
+
+		</form>
+
+	</div>
+
+{% endblock %}
