@@ -1,15 +1,15 @@
-# SevenOnlineJudge
+# SevenOnlineJudge :gem: 
 
 ## What is This :question:
-  :small_blue_diamond: A Final Paper about an Online Helper to teach people the Programming World.
+  :gem:  A Final Paper about an Online Helper to teach people the Programming World.
 
 ## Languages actually supported:
-  :small_blue_diamond: C;
+  :gem: C;
   
-  :small_blue_diamond: Python; :snake:
+  :gem: Python; :snake:
   
 ## System Specifications:
-  :small_blue_diamond: Developed at a Linux SO, Debian Ubuntu distro, version 16.04;
+  :gem: Developed at a Linux SO, Debian Ubuntu distro, version 16.04;
 
 ## Project Dependencies (tool name: version):
   - backports.functools-lru-cache: 1.4
