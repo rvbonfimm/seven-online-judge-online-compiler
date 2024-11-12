@@ -92,13 +92,13 @@ def firstStatus(language, fileInput, fileCompiled):
     try:
         subprocess.check_call(cmd)
         return False
-    except subprocess.CalledProcessError, c:
+    except subprocess.CalledProcessError as c:
         log.info("[EXCEPTION] " + str(c))
         return True
-    except py_compile.PyCompileError, p:
+    except py_compile.PyCompileError as p:
         log.info("[EXCEPTION] " + str(p))
         return True
-    except Exception, e:
+    except Exception as e:
         log.error("[EXCEPTION] " + str(e))
         return True
 
@@ -204,7 +204,7 @@ def testUserCode(language, exercise_in, exercise_out, compiledFile, fileUserAnsw
             'Data': list_out
         }
 
-    except Exception, e:
+    except Exception as e:
         log.error("[EXCEPTION] " + str(e))
         return False
 
@@ -216,7 +216,7 @@ def deleteFile(fileInput):
         subprocess.Popen(cmd, shell=False)
         log.info("Deleted successfully.")
         return True
-    except Exception, e:
+    except Exception as e:
         log.error("[EXCEPTION] " + str(e))
         return False
 
@@ -228,7 +228,7 @@ def moveFile(fileInput, destiny):
         subprocess.Popen(cmd, shell=False)
         log.info("Moved successfully.")
         return True
-    except Exception, e:
+    except Exception as e:
         log.error("[EXCEPTION] " + str(e))
         return False
 
@@ -263,7 +263,7 @@ if __name__ == '__main__':
             'Time': end_time
         }
 
-    print dict_result
+    print(dict_result)
 
     log.info(dict_result)
     log.info("Execution time: %s\n" % end_time)
