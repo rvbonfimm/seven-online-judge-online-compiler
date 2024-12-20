@@ -11,6 +11,8 @@
 ## System Specifications:
   :gem: Developed at a Linux SO, Debian Ubuntu distro, version 16.04;
 
+## Designed in python 2.6 with the Flask framework to the API
+
 ## Project Dependencies (tool name: version):
   - backports.functools-lru-cache: 1.4
   - click: 6.7
